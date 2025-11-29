@@ -49,6 +49,28 @@
   background: var(--color-background);
 }
 
+/* Shared hover animation for all work images */
+.work-block img {
+  transition: 
+    transform 0.45s cubic-bezier(.25,.46,.45,.94),
+    filter 0.45s ease;
+  will-change: transform, filter;
+}
+
+/* Hover effect — subtle upscale & saturation */
+.work-block img:hover {
+  transform: scale(1.03);
+  filter: saturate(1.15);
+}
+
+/* Mobile: disable hover zoom to prevent layout jumps */
+@media (max-width: 900px) {
+  .work-block img:hover {
+    transform: none;
+    filter: none;
+  }
+}
+
 .two-img-row {
   display: flex;
   gap: 20px;
@@ -85,6 +107,8 @@
   line-height: 1.4;
   color: var(--color-primary-dark);
 }
+
+
 
 
 /* -------------------------------------------------- */
@@ -143,4 +167,42 @@
   .two-img-row img {
     width: 100%;
   }
+}
+
+
+#project-nav.align-left {
+    text-align: left;
+}
+
+#project-nav.align-right {
+    text-align: right;
+}
+
+#project-nav.align-left a {
+    justify-content: flex-start;
+}
+
+#project-nav.align-right a {
+    justify-content: flex-end;
+}
+
+.drag-tip {
+    position: absolute;
+    top: -28px;
+    left: 50%;
+    transform: translateX(-50%);
+    background: rgba(0,0,0,0.7);
+    color: white;
+    padding: 4px 10px;
+    border-radius: 6px;
+    font-size: 12px;
+    opacity: 0;
+    pointer-events: none;
+    white-space: nowrap;
+    transition: opacity 0.3s ease;
+    font-weight: 300;
+}
+
+.project-nav.show-tip .drag-tip {
+    opacity: 1;
 }

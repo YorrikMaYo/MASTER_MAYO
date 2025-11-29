@@ -14,6 +14,110 @@ const observer = new IntersectionObserver(entries => {
 inAnimations.forEach(el => observer.observe(el));
 
 
+(function() {
+    const nav = document.getElementById("project-nav");
+    if (!nav) return;
+
+    let isDragging = false;
+    let offsetX = 0;
+    let offsetY = 0;
+
+    nav.addEventListener("mousedown", startDrag);
+    nav.addEventListener("touchstart", startDrag, { passive: false });
+
+    function startDrag(e) {
+        isDragging = true;
+
+        const rect = nav.getBoundingClientRect();
+        const clientX = e.touches ? e.touches[0].clientX : e.clientX;
+        const clientY = e.touches ? e.touches[0].clientY : e.clientY;
+
+        offsetX = clientX - rect.left;
+        offsetY = clientY - rect.top;
+
+        document.addEventListener("mousemove", drag);
+        document.addEventListener("mouseup", endDrag);
+
+        document.addEventListener("touchmove", drag, { passive: false });
+        document.addEventListener("touchend", endDrag);
+    }
+
+    function drag(e) {
+        if (!isDragging) return;
+        e.preventDefault();
+
+        const clientX = e.touches ? e.touches[0].clientX : e.clientX;
+        const clientY = e.touches ? e.touches[0].clientY : e.clientY;
+
+        const x = clientX - offsetX;
+        const y = clientY - offsetY;
+
+        const maxX = window.innerWidth - nav.offsetWidth;
+        const maxY = window.innerHeight - nav.offsetHeight;
+
+        nav.style.left = Math.min(Math.max(0, x), maxX) + "px";
+        nav.style.top = Math.min(Math.max(0, y), maxY) + "px";
+
+        updateAlignment(); // 🔥 NEW
+    }
+
+    function endDrag() {
+        isDragging = false;
+    }
+
+    // 🔥 NEW: Auto-align text based on which side it's on
+    function updateAlignment() {
+        const rect = nav.getBoundingClientRect();
+        const centerX = rect.left + rect.width / 2;
+
+        if (centerX < window.innerWidth / 2) {
+            nav.classList.add("align-left");
+            nav.classList.remove("align-right");
+        } else {
+            nav.classList.add("align-right");
+            nav.classList.remove("align-left");
+        }
+    }
+
+    // initial check when page loads
+    updateAlignment();
+})();
+
+// TOOLTIP LOGIC
+(function() {
+    const nav = document.getElementById("project-nav");
+    const tip = document.getElementById("drag-tip");
+
+    let tipShown = false;
+    let hoverTimeout = null;
+
+    if (!nav || !tip) return;
+
+    nav.addEventListener("mouseenter", () => {
+        if (tipShown) return;
+
+        // delay so tooltip doesn’t flash too fast
+        hoverTimeout = setTimeout(() => {
+            nav.classList.add("show-tip");
+        }, 300);
+    });
+
+    nav.addEventListener("mouseleave", () => {
+        clearTimeout(hoverTimeout);
+        nav.classList.remove("show-tip");
+    });
+
+    // hide tooltip when dragging starts
+    nav.addEventListener("mousedown", () => {
+        tipShown = true;
+        nav.classList.remove("show-tip");
+    });
+
+    nav.addEventListener("touchstart", () => {
+        tipShown = true;
+        nav.classList.remove("show-tip");
+    });
+})();
 
 
 // -----------------------------
