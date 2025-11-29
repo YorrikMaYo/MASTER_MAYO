@@ -1,3 +1,8 @@
+/* --- MERGED CURSOR (final, clean, keeps all your properties) --- */
+body{
+    overflow-x: hidden;
+}
+
 .cursor {
     position: fixed;
     width: 28px;
@@ -13,25 +18,26 @@
     justify-content: center;
     mix-blend-mode: difference;
     overflow: hidden;
+    transition: transform 0.2s ease;
 }
 
-/* pupil stays centered */
 .pupil {
     width: 6px;
     height: 6px;
     background: var(--color-background);
     border-radius: 50%;
     position: absolute;
+    transition: transform 0.04s ease-in-out;
 }
 
-/* eyelid halves */
+/* Eyelids */
 .eyelid-top,
 .eyelid-bottom {
     position: absolute;
     width: 100%;
     height: 50%;
     left: 0;
-    background: var(--color-primary-dark); /* same as cursor background */
+    background: var(--color-primary-dark);
 }
 
 /* top slides down */
@@ -46,7 +52,7 @@
     transform: translateY(100%);
 }
 
-/* Blink animation triggers on .blink */
+/* Blink animation triggers */
 .cursor.blink .eyelid-top {
     animation: blinkTop 0.3s ease forwards;
 }
@@ -56,20 +62,17 @@
 
 @keyframes blinkTop {
     0% { transform: translateY(-100%); }
-    50% { transform: translateY(0); }   /* closes eyelid */
-    100% { transform: translateY(-100%); } /* opens again */
+    50% { transform: translateY(0); }
+    100% { transform: translateY(-100%); }
 }
 
 @keyframes blinkBottom {
     0% { transform: translateY(100%); }
-    50% { transform: translateY(0); }   /* closes eyelid */
-    100% { transform: translateY(100%); } /* opens again */
+    50% { transform: translateY(0); }
+    100% { transform: translateY(100%); }
 }
 
-
-
-
-/* Blink animation */
+/* Classic blink fallback */
 .cursor.blink .eyelid {
     animation: blinkAnim 0.3s ease forwards;
 }
@@ -79,6 +82,15 @@
     50% { transform: scaleY(1); }
     100% { transform: scaleY(0); }
 }
+
+
+
+/* Hover grow */
+.cursor.hover {
+    width: 40px;
+    height: 40px;
+}
+
 
 
  /* GRID */
@@ -96,6 +108,38 @@
     z-index: 9999;
     pointer-events: none;
 } */
+
+
+/* Keyframes for floating */
+@keyframes float {
+  0% { transform: translateY(0px); }
+  50% { transform: translateY(-5px); }
+  100% { transform: translateY(0px); }
+}
+
+/* Base floating class */
+.floating {
+  display: inline-block; /* or block depending on element */
+  animation-name: float;
+  animation-duration: 5s; /* adjust speed */
+  animation-iteration-count: infinite;
+  animation-timing-function: ease-in-out;
+}
+
+.floating:nth-child(1) { animation-delay: 0s; }
+.floating:nth-child(2) { animation-delay: 0.4s; }
+.floating:nth-child(3) { animation-delay: 0.9s; }
+.floating:nth-child(4) { animation-delay: 0s; }
+.floating:nth-child(5) { animation-delay: 0.4s; }
+.floating:nth-child(6) { animation-delay: 0.9s; }
+.floating:nth-child(7) { animation-delay: 0s; }
+.floating:nth-child(8) { animation-delay: 0.4s; }
+.floating:nth-child(9) { animation-delay: 0.9s; }
+.floating:nth-child(10) { animation-delay: 0s; }
+.floating:nth-child(11) { animation-delay: 0.4s; }
+.floating:nth-child(12) { animation-delay: 0.9s; }
+
+
 
 
 /* ROOT SECTION */
@@ -258,6 +302,7 @@ nav {
   position:absolute;
   bottom: 40px;
   right: 40px;
+  cursor: pointer;
 }
 
 .letter {
@@ -434,8 +479,32 @@ section:not(.hero) {
     height: 94vh;
     background-color: var(--color-background);
     font-size: 3rem;
-    padding-left: 40px;
+
 }
+
+.service-flex {
+    display: flex;
+    flex-direction: row;
+    flex-wrap: wrap;
+    width: 100%;
+    padding-left: 40px;
+    padding-right: 40px;
+}
+
+.service-flex h2 {
+    flex: 2 1 calc(50% - 4px);    /* <---- the fix */
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+
+    color: var(--color-primary-dark);
+    font-weight: 200;
+    line-height: 1.2;
+    font-size: 8vh;  /* optional: reduce for better boxes */
+}
+
+
+
 
 
 
@@ -514,7 +583,7 @@ p {
 
   /* magnification */
   transform-origin: 0 0;
-  transform: scale(2); /* magnification power */
+  transform: scale(5); /* magnification power */
 
   /* This ensures it visually mirrors your real page */
   backdrop-filter: none; /* fallback protection */
@@ -522,3 +591,21 @@ p {
 
 
 
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+/* 
+* {
+    outline: 2px solid red !important;
+} */

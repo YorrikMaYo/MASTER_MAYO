@@ -1,3 +1,6 @@
+
+
+
 // -----------------------------
 // CUSTOM CURSOR
 // -----------------------------
@@ -20,6 +23,34 @@ let currentScale = 1, targetScale = 1;
 
 
 
+const hamburger = document.getElementById("hamburger");
+const navLinks = document.getElementById("navLinks");
+const nav = document.getElementById("nav");
+
+function updateMenuPosition() {
+    const navTop = nav.getBoundingClientRect().top;
+
+    navLinks.classList.remove("from-top", "from-bottom");
+
+    if (navTop > 50) {
+        navLinks.classList.add("from-bottom");  // nav at bottom → menu slides UP
+    } else {
+        navLinks.classList.add("from-top");     // nav at top → menu slides DOWN
+    }
+}
+
+hamburger.addEventListener("click", () => {
+    updateMenuPosition();
+    navLinks.classList.toggle("open");
+
+    const expanded = hamburger.getAttribute("aria-expanded") === "true";
+    hamburger.setAttribute("aria-expanded", !expanded);
+    navLinks.setAttribute("aria-hidden", expanded);
+});
+
+window.addEventListener("scroll", updateMenuPosition);
+
+
 
 // -----------------------------
 // MOUSE MOVE
@@ -33,8 +64,8 @@ document.addEventListener('mousemove', e => {
 // HOVER EFFECTS
 // -----------------------------
 hoverTargets.forEach(el => {
-  el.addEventListener('mouseenter', () => targetScale = 1.5);
-  el.addEventListener('mouseleave', () => targetScale = 1);
+  el.addEventListener('mouseenter', () => targetScale = 1);
+  el.addEventListener('mouseleave', () => targetScale = 1.5);
 });
 
 
