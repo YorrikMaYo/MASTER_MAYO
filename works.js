@@ -1,3 +1,18 @@
+// -----------------------------------------------
+// BASIC IN-VIEW ANIMATIONS (match homepage)
+// -----------------------------------------------
+const inAnimations = document.querySelectorAll(".in-animation");
+
+const observer = new IntersectionObserver(entries => {
+  entries.forEach(entry => {
+    if (entry.isIntersecting) {
+      entry.target.classList.add("show");
+    }
+  });
+}, { threshold: 0.3 });
+
+inAnimations.forEach(el => observer.observe(el));
+
 
 
 
@@ -156,135 +171,4 @@ function animate() {
 
 animate();
 
-
-
-
-
-// -----------------------------
-// INTERSECTION OBSERVER
-// -----------------------------
-const inElements = document.querySelectorAll('.in-animation');
-inElements.forEach((el,i) => el.style.transitionDelay = `${i*0.05}s`);
-
-const observer = new IntersectionObserver(entries => {
-  entries.forEach(entry => {
-    if(entry.isIntersecting) {
-      entry.target.classList.add('show');   // trigger animation once
-    }
-  });
-}, { threshold: 0.1 });
-
-inElements.forEach(el => observer.observe(el));
-
-
-
-
-
-
-
-// -----------------------------
-// LETTER ANIMATION
-// -----------------------------
-const letters = Array.from(document.querySelectorAll('#logo-MAYO polygon, #logo-MAYO path'))
-  .filter(el => el.id !== 'eye-left' && el.id !== 'eye-right'); // exclude eyes
-
-// Initialize state for each letter
-const letterState = letters.map(letter => {
-  const bbox = letter.getBBox();
-  return {
-    el: letter,
-    cx: bbox.x + bbox.width / 2,
-    cy: bbox.y + bbox.height / 2,
-    amplitude: 0,
-    targetAmplitude: 0,
-    phase: Math.random() * Math.PI * 1
-  };
-});
-
-// Hover triggers
-letters.forEach((letter, i) => {
-  letter.addEventListener('mouseenter', () => letterState[i].targetAmplitude = 1.3); // subtle
-  letter.addEventListener('mouseleave', () => letterState[i].targetAmplitude = 0);
-});
-
-let time = 0;
-
-function animateLetters() {
-  time += 0.05; // slower for subtle motion
-
-  letterState.forEach(state => {
-    // Smooth easing towards target amplitude
-    state.amplitude += (state.targetAmplitude - state.amplitude) * 0.08;
-
-    // Small translations
-    const moveX = Math.sin(time + state.phase) * state.amplitude;
-    const moveY = Math.cos(time + state.phase) * state.amplitude;
-
-    // Subtle rotation
-    const rotate = Math.sin(time * 0.5 + state.phase) * state.amplitude * 1.7; // smaller multiplier for subtlety
-
-    state.el.setAttribute('transform', `translate(${moveX},${moveY}) rotate(${rotate},${state.cx},${state.cy})`);
-  });
-
-  requestAnimationFrame(animateLetters);
-}
-
-animateLetters();
-
-
-
-
- 
-
-// ------------------------------------------------------
-// BIG EYE + SECTION INTERACTION (for #break section)
-// ------------------------------------------------------
-
-const breakSection = document.querySelector('#break');
-const bigEye = document.querySelector('.big-eye');
-const bigPupil = document.querySelector('.big-eye-ball');
-
-let inBreakSection = false;
-
-if (breakSection) {
-    breakSection.addEventListener('mouseenter', () => {
-        inBreakSection = true;
-    });
-
-    breakSection.addEventListener('mouseleave', () => {
-        inBreakSection = false;
-        pupilX = 0;
-        pupilY = 0;
-        pupil.style.transform = 'translate(0,0)';
-    });
-}
-
-document.addEventListener('mousemove', (e) => {
-    if (!bigEye || !bigPupil) return;
-
-    const mouseX = e.clientX;
-    const mouseY = e.clientY;
-
-    // Big eye tracking
-    const rect = bigEye.getBoundingClientRect();
-    const cx = rect.left + rect.width / 2;
-    const cy = rect.top + rect.height / 2;
-
-    const angle = Math.atan2(mouseY - cy, mouseX - cx);
-    const maxMove = 75;
-
-    const moveX = Math.cos(angle) * maxMove;
-    const moveY = Math.sin(angle) * maxMove;
-
-    bigPupil.style.transform = `translate(${moveX}px, ${moveY}px)`;
-
-    // Cursor pupil looks back only inside section
-    if (inBreakSection) {
-        const angleToBig = Math.atan2(cy - mouseY, cx - mouseX);
-        const lookX = Math.cos(angleToBig) * 8;
-        const lookY = Math.sin(angleToBig) * 8;
-
-        pupil.style.transform = `translate(${lookX}px, ${lookY}px)`;
-    }
-});
 
