@@ -561,16 +561,17 @@ section:not(.hero) {
 }
 
 
-
+.mission h1 {
+    font-weight: 200;
+}
 
 
 .mission{
     background-color: var(--color-background);
     height: 94vh;
     font-size: 3rem;
-     padding-left: 40px;
-
-
+    padding-left: 40px;
+    font-weight: 100;
 }
 
 .missionParagraph{
