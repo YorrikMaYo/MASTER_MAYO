@@ -1,291 +1,314 @@
+/* ====== script.js — final responsive-friendly build ====== */
+/* Keeps your original visuals, adds resize safety and mobile guards */
 
+/* ----------------------
+   Helpers
+   ---------------------- */
+const $ = sel => document.querySelector(sel);
+const $$ = sel => Array.from(document.querySelectorAll(sel));
 
+function isTouchDevice() {
+  return ('ontouchstart' in window) || navigator.maxTouchPoints > 0;
+}
 
-// -----------------------------
-// CUSTOM CURSOR
-// -----------------------------
-const cursor = document.querySelector('.cursor');
-const pupil = document.querySelector('.pupil');
-const hoverTargets = document.querySelectorAll('a, button, .hover-target');
+function debounce(fn, wait = 100) {
+  let t;
+  return (...args) => {
+    clearTimeout(t);
+    t = setTimeout(() => fn(...args), wait);
+  };
+}
 
+/* ----------------------
+   DOM references
+   ---------------------- */
+const body = document.body;
+const cursor = $('.cursor');
+const pupil = $('.pupil');
+const cursorMagnifier = $('.cursor-magnifier');
 
-// -----------------------------
-// LOGO EYES
-// -----------------------------
-const eyeLeft = document.querySelector('#eye-left');
-const eyeRight = document.querySelector('#eye-right');
-const logo = document.querySelector('#logo-MAYO');
+const hoverTargets = $$('a, button, .hover-target');
+
+const logo = $('#logo-MAYO');                // SVG root
+const eyeLeft = $('#eye-left');
+const eyeRight = $('#eye-right');
+
+const letters = $$('#logo-MAYO polygon, #logo-MAYO path').filter(el => el.id !== 'eye-left' && el.id !== 'eye-right');
+
+const hamburger = document.getElementById('hamburger');
+const navLinks = document.getElementById('navLinks');
+
+/* ----------------------
+   Feature flags & state
+   ---------------------- */
+let enableCursor = !isTouchDevice(); // disable on touch by default
+if (!enableCursor) {
+  // don't show cursor/magnifier on touch
+  if (cursor) cursor.style.display = 'none';
+  if (cursorMagnifier) cursorMagnifier.style.display = 'none';
+} else {
+  // ensure body class exists for CSS hooks if desired
+  body.classList.remove('no-cursor');
+}
 
 let mouseX = 0, mouseY = 0;
 let eyeX = 0, eyeY = 0;
 let pupilX = 0, pupilY = 0;
 let currentScale = 1, targetScale = 1;
 
+/* ----------------------
+   SVG + letter state (computed & recomputed on resize)
+   ---------------------- */
+let letterState = []; // { el, cx, cy, amplitude, targetAmplitude, phase }
+let eyeBoxes = { left: null, right: null }; // cached bboxes
 
+function computeSvgMetrics() {
+  if (!logo) return;
 
-const hamburger = document.getElementById("hamburger");
-const navLinks = document.getElementById("navLinks");
-const nav = document.getElementById("nav");
+  // Rebuild letterState (recalculate centers for transforms)
+  letterState = letters.map(l => {
+    const b = l.getBBox();
+    return {
+      el: l,
+      cx: b.x + b.width / 2,
+      cy: b.y + b.height / 2,
+      amplitude: 0,
+      targetAmplitude: 0,
+      phase: Math.random() * Math.PI * 1.6
+    };
+  });
 
-let isTop = true;
-
-function updateNavDirection() {
-    isTop = window.scrollY <= 5;
-
-    if (isTop) {
-        navLinks.classList.add("top-open");
-    } else {
-        navLinks.classList.remove("top-open");
-    }
+  // cache eye bounding boxes (used for center calc)
+  if (eyeLeft) eyeBoxes.left = eyeLeft.getBBox();
+  if (eyeRight) eyeBoxes.right = eyeRight.getBBox();
 }
 
-updateNavDirection();
+// run once on load
+computeSvgMetrics();
 
-window.addEventListener("scroll", updateNavDirection);
+/* Recompute on resize — debounced */
+window.addEventListener('resize', debounce(() => {
+  computeSvgMetrics();
 
-hamburger.addEventListener("click", () => {
-    hamburger.classList.toggle("active");
-    navLinks.classList.toggle("open");
-});
+  // if cursor disabled flag is based on width thresholds in your CSS,
+  // keep enableCursor in sync (optional)
+  const shouldDisable = window.innerWidth < 900 || isTouchDevice();
+  if (shouldDisable && enableCursor) {
+    enableCursor = false;
+    body.classList.add('no-cursor');
+    if (cursor) cursor.style.display = 'none';
+    if (cursorMagnifier) cursorMagnifier.style.display = 'none';
+  } else if (!shouldDisable && !enableCursor && !isTouchDevice()) {
+    enableCursor = true;
+    body.classList.remove('no-cursor');
+    if (cursor) cursor.style.display = '';
+    if (cursorMagnifier) cursorMagnifier.style.display = '';
+  }
+}, 120));
 
+/* ----------------------
+   Mouse events & hover
+   ---------------------- */
+if (enableCursor) {
+  document.addEventListener('mousemove', e => {
+    mouseX = e.clientX;
+    mouseY = e.clientY;
+  });
 
+  hoverTargets.forEach(el => {
+    el.addEventListener('mouseenter', () => targetScale = 1);
+    el.addEventListener('mouseleave', () => targetScale = 1.5);
+  });
 
+  document.addEventListener('click', () => {
+    if (!cursor) return;
+    cursor.classList.add('blink');
+    setTimeout(() => cursor.classList.remove('blink'), 300);
+  });
 
-// -----------------------------
-// MOUSE MOVE
-// -----------------------------
-document.addEventListener('mousemove', e => {
-  mouseX = e.clientX;
-  mouseY = e.clientY;
-});
-
-// -----------------------------
-// HOVER EFFECTS
-// -----------------------------
-hoverTargets.forEach(el => {
-  el.addEventListener('mouseenter', () => targetScale = 1);
-  el.addEventListener('mouseleave', () => targetScale = 1.5);
-});
-
-
-// -----------------------------
-// CLICK BLINK
-// -----------------------------
-document.addEventListener('click', () => {
-  cursor.classList.add('blink');
-  setTimeout(() => cursor.classList.remove('blink'), 300);
-});
-
-// -----------------------------
-// RANDOM BLINK
-// -----------------------------
-function randomBlink() {
-  cursor.classList.add('blink');
-  setTimeout(() => cursor.classList.remove('blink'), 200);
-  const nextBlink = 2000 + Math.random() * 3000;
-  setTimeout(randomBlink, nextBlink);
+  // random blink loop (non-blocking)
+  (function randomBlink() {
+    if (!cursor) return;
+    cursor.classList.add('blink');
+    setTimeout(() => cursor.classList.remove('blink'), 200);
+    setTimeout(randomBlink, 2000 + Math.random() * 3000);
+  })();
 }
-randomBlink();
 
-// -----------------------------
-// ANIMATE CURSOR, PUPIL & EYES
-// -----------------------------
+/* ----------------------
+   Nav / hamburger behavior
+   ---------------------- */
+if (hamburger) {
+  hamburger.addEventListener('click', () => {
+    hamburger.classList.toggle('active');
+    if (navLinks) navLinks.classList.toggle('open');
+  });
+}
+
+// close mobile menu when clicking a nav link (helpful on small screens)
+if (navLinks) {
+  navLinks.querySelectorAll('a').forEach(a => {
+    a.addEventListener('click', () => {
+      if (navLinks.classList.contains('open')) {
+        navLinks.classList.remove('open');
+        if (hamburger) hamburger.classList.remove('active');
+      }
+    });
+  });
+}
+
+/* ----------------------
+   Big-eye (break section)
+   ---------------------- */
+const breakSection = $('#break');
+const bigEye = $('.big-eye');
+const bigPupil = $('.big-eye-ball');
+let inBreakSection = false;
+
+if (breakSection) {
+  breakSection.addEventListener('mouseenter', () => inBreakSection = true);
+  breakSection.addEventListener('mouseleave', () => {
+    inBreakSection = false;
+    if (pupil) pupil.style.transform = 'translate(0,0)';
+  });
+}
+
+document.addEventListener('mousemove', (e) => {
+  if (!bigEye || !bigPupil) return;
+
+  const rect = bigEye.getBoundingClientRect();
+  const cx = rect.left + rect.width / 2;
+  const cy = rect.top + rect.height / 2;
+  const angle = Math.atan2(e.clientY - cy, e.clientX - cx);
+
+  const maxMove = 75;
+  const moveX = Math.cos(angle) * maxMove;
+  const moveY = Math.sin(angle) * maxMove;
+  bigPupil.style.transform = `translate(${moveX}px, ${moveY}px)`;
+
+  if (inBreakSection && enableCursor && pupil) {
+    const angleToBig = Math.atan2(cy - e.clientY, cx - e.clientX);
+    pupil.style.transform = `translate(${Math.cos(angleToBig)*8}px, ${Math.sin(angleToBig)*8}px)`;
+  }
+});
+
+/* ----------------------
+   Letter animation (subtle float)
+   ---------------------- */
+letterState.forEach(s => {
+  // attach hover handlers to letters (rebuild also sets new states)
+  s.el.addEventListener('mouseenter', () => s.targetAmplitude = 1.3);
+  s.el.addEventListener('mouseleave', () => s.targetAmplitude = 0);
+});
+
+let letterTime = 0;
+function animateLetters() {
+  letterTime += 0.05;
+  letterState.forEach(s => {
+    s.amplitude += (s.targetAmplitude - s.amplitude) * 0.08;
+    const moveX = Math.sin(letterTime + s.phase) * s.amplitude;
+    const moveY = Math.cos(letterTime + s.phase) * s.amplitude;
+    const rotate = Math.sin(letterTime * 0.5 + s.phase) * s.amplitude * 1.7;
+    s.el.setAttribute('transform', `translate(${moveX},${moveY}) rotate(${rotate},${s.cx},${s.cy})`);
+  });
+  requestAnimationFrame(animateLetters);
+}
+requestAnimationFrame(animateLetters);
+
+/* ----------------------
+   Logo eyes: convert SVG viewBox -> screen pixels
+   ---------------------- */
+function svgPointToScreen(svgEl, x, y) {
+  if (!svgEl || !svgEl.viewBox || !svgEl.viewBox.baseVal) {
+    // fallback: use getBoundingClientRect center
+    const r = svgEl.getBoundingClientRect();
+    return { x: r.left + r.width / 2, y: r.top + r.height / 2 };
+  }
+  const rect = svgEl.getBoundingClientRect();
+  const vb = svgEl.viewBox.baseVal;
+  return {
+    x: rect.left + (x * rect.width / vb.width),
+    y: rect.top + (y * rect.height / vb.height)
+  };
+}
+
+/* ----------------------
+   Main animate loop: cursor, pupil, eyes
+   ---------------------- */
 let currentAngleLeft = 0;
 let currentAngleRight = 0;
 
 function animate() {
-  // Smooth cursor movement
-  eyeX += (mouseX - eyeX) * 0.15;
-  eyeY += (mouseY - eyeY) * 0.15;
-  currentScale += (targetScale - currentScale) * 0.15;
+  // cursor + pupil (only when enabled)
+  if (enableCursor && cursor) {
+    eyeX += (mouseX - eyeX) * 0.15;
+    eyeY += (mouseY - eyeY) * 0.15;
+    currentScale += (targetScale - currentScale) * 0.15;
+    cursor.style.left = `${eyeX}px`;
+    cursor.style.top = `${eyeY}px`;
+    cursor.style.transform = `translate(-50%, -50%) scale(${currentScale})`;
 
-  cursor.style.left = `${eyeX}px`;
-  cursor.style.top = `${eyeY}px`;
-  cursor.style.transform = `translate(-50%, -50%) scale(${currentScale})`;
-
-  // Pupil follows cursor
-  const dx = mouseX - eyeX;
-  const dy = mouseY - eyeY;
-  const dist = Math.sqrt(dx*dx + dy*dy);
-  const maxDist = 8;
-  let targetX = 0, targetY = 0;
-  if(dist > 0.1){
-    const scale = Math.min(dist, maxDist)/dist;
-    targetX = dx*scale;
-    targetY = dy*scale;
+    const dx = mouseX - eyeX;
+    const dy = mouseY - eyeY;
+    const dist = Math.hypot(dx, dy);
+    const maxPupil = 8;
+    let tx = 0, ty = 0;
+    if (dist > 0.1) {
+      const scale = Math.min(dist, maxPupil) / dist;
+      tx = dx * scale; ty = dy * scale;
+    }
+    pupilX += (tx - pupilX) * 0.3;
+    pupilY += (ty - pupilY) * 0.3;
+    if (pupil) pupil.style.transform = `translate(${pupilX}px, ${pupilY}px)`;
   }
-  pupilX += (targetX - pupilX)*0.3;
-  pupilY += (targetY - pupilY)*0.3;
-  pupil.style.transform = `translate(${pupilX}px, ${pupilY}px)`;
 
-  // Logo eyes rotation around their geometric centers
-  const eyes = [
-    {el: eyeLeft, current: () => currentAngleLeft, set: v => currentAngleLeft = v},
-    {el: eyeRight, current: () => currentAngleRight, set: v => currentAngleRight = v}
-  ];
+  // logo eyes — work even if cursor disabled (use last mouse pos)
+  if (logo && (eyeLeft || eyeRight)) {
+    const eyes = [];
+    if (eyeLeft) eyes.push({ el: eyeLeft, cache: eyeBoxes.left, angleState: 'left' });
+    if (eyeRight) eyes.push({ el: eyeRight, cache: eyeBoxes.right, angleState: 'right' });
 
-  eyes.forEach(eyeObj => {
-    const eye = eyeObj.el;
-    if(!eye || !logo) return;
+    eyes.forEach((eyeObj, idx) => {
+      const el = eyeObj.el;
+      const bbox = eyeObj.cache || el.getBBox();
+      const cx = bbox.x + bbox.width / 2;
+      const cy = bbox.y + bbox.height / 2;
+      const screen = svgPointToScreen(logo, cx, cy);
 
-    const bbox = eye.getBBox();
-    const cx = bbox.x + bbox.width/2;  // geometric center
-    const cy = bbox.y + bbox.height/2;
+      // compute angle towards mouse
+      const dxEye = mouseX - screen.x;
+      const dyEye = mouseY - screen.y;
+      const targetAngle = Math.atan2(dyEye, dxEye) * (180 / Math.PI);
 
-    const svgRect = logo.getBoundingClientRect();
-    const centerScreenX = svgRect.left + cx * (svgRect.width / logo.viewBox.baseVal.width);
-    const centerScreenY = svgRect.top + cy * (svgRect.height / logo.viewBox.baseVal.height);
+      if (idx === 0) {
+        currentAngleLeft += (targetAngle - currentAngleLeft) * 0.03;
+      } else {
+        currentAngleRight += (targetAngle - currentAngleRight) * 0.03;
+      }
 
-    const dxEye = mouseX - centerScreenX;
-    const dyEye = mouseY - centerScreenY;
+      const currentAngle = idx === 0 ? currentAngleLeft : currentAngleRight;
+      const maxMove = 10;
+      const moveX = Math.max(Math.min(dxEye * 0.03, maxMove), -maxMove);
+      const moveY = Math.max(Math.min(dyEye * 0.03, maxMove), -maxMove);
 
-    const targetAngle = Math.atan2(dyEye, dxEye) * (180/Math.PI);
-    const easedAngle = eyeObj.current() + (targetAngle - eyeObj.current()) * 0.03 // easing
-    eyeObj.set(easedAngle);
-
-    const maxMove = 10;
-    const moveX = Math.max(Math.min(dxEye*0.03, maxMove), -maxMove);
-    const moveY = Math.max(Math.min(dyEye*0.03, maxMove), -maxMove);
-
-    eye.setAttribute('transform', `translate(${moveX},${moveY}) rotate(${easedAngle} ${cx} ${cy})`);
-  });
+      el.setAttribute('transform', `translate(${moveX},${moveY}) rotate(${currentAngle} ${cx} ${cy})`);
+    });
+  }
 
   requestAnimationFrame(animate);
 }
+requestAnimationFrame(animate);
 
-animate();
-
-
-
-
-
-// -----------------------------
-// INTERSECTION OBSERVER
-// -----------------------------
-const inElements = document.querySelectorAll('.in-animation');
-inElements.forEach((el,i) => el.style.transitionDelay = `${i*0.05}s`);
-
+/* ----------------------
+   Intersection observer for .in-animation (unchanged behavior)
+   ---------------------- */
+const inElements = $$('.in-animation');
+inElements.forEach((el, i) => el.style.transitionDelay = `${i * 0.05}s`);
 const observer = new IntersectionObserver(entries => {
   entries.forEach(entry => {
-    if(entry.isIntersecting) {
-      entry.target.classList.add('show');   // trigger animation once
-    }
+    if (entry.isIntersecting) entry.target.classList.add('show');
   });
 }, { threshold: 0.1 });
-
 inElements.forEach(el => observer.observe(el));
 
-
-
-
-
-
-
-// -----------------------------
-// LETTER ANIMATION
-// -----------------------------
-const letters = Array.from(document.querySelectorAll('#logo-MAYO polygon, #logo-MAYO path'))
-  .filter(el => el.id !== 'eye-left' && el.id !== 'eye-right'); // exclude eyes
-
-// Initialize state for each letter
-const letterState = letters.map(letter => {
-  const bbox = letter.getBBox();
-  return {
-    el: letter,
-    cx: bbox.x + bbox.width / 2,
-    cy: bbox.y + bbox.height / 2,
-    amplitude: 0,
-    targetAmplitude: 0,
-    phase: Math.random() * Math.PI * 1
-  };
-});
-
-// Hover triggers
-letters.forEach((letter, i) => {
-  letter.addEventListener('mouseenter', () => letterState[i].targetAmplitude = 1.3); // subtle
-  letter.addEventListener('mouseleave', () => letterState[i].targetAmplitude = 0);
-});
-
-let time = 0;
-
-function animateLetters() {
-  time += 0.05; // slower for subtle motion
-
-  letterState.forEach(state => {
-    // Smooth easing towards target amplitude
-    state.amplitude += (state.targetAmplitude - state.amplitude) * 0.08;
-
-    // Small translations
-    const moveX = Math.sin(time + state.phase) * state.amplitude;
-    const moveY = Math.cos(time + state.phase) * state.amplitude;
-
-    // Subtle rotation
-    const rotate = Math.sin(time * 0.5 + state.phase) * state.amplitude * 1.7; // smaller multiplier for subtlety
-
-    state.el.setAttribute('transform', `translate(${moveX},${moveY}) rotate(${rotate},${state.cx},${state.cy})`);
-  });
-
-  requestAnimationFrame(animateLetters);
-}
-
-animateLetters();
-
-
-
-
- 
-
-// ------------------------------------------------------
-// BIG EYE + SECTION INTERACTION (for #break section)
-// ------------------------------------------------------
-
-const breakSection = document.querySelector('#break');
-const bigEye = document.querySelector('.big-eye');
-const bigPupil = document.querySelector('.big-eye-ball');
-
-let inBreakSection = false;
-
-if (breakSection) {
-    breakSection.addEventListener('mouseenter', () => {
-        inBreakSection = true;
-    });
-
-    breakSection.addEventListener('mouseleave', () => {
-        inBreakSection = false;
-        pupilX = 0;
-        pupilY = 0;
-        pupil.style.transform = 'translate(0,0)';
-    });
-}
-
-document.addEventListener('mousemove', (e) => {
-    if (!bigEye || !bigPupil) return;
-
-    const mouseX = e.clientX;
-    const mouseY = e.clientY;
-
-    // Big eye tracking
-    const rect = bigEye.getBoundingClientRect();
-    const cx = rect.left + rect.width / 2;
-    const cy = rect.top + rect.height / 2;
-
-    const angle = Math.atan2(mouseY - cy, mouseX - cx);
-    const maxMove = 75;
-
-    const moveX = Math.cos(angle) * maxMove;
-    const moveY = Math.sin(angle) * maxMove;
-
-    bigPupil.style.transform = `translate(${moveX}px, ${moveY}px)`;
-
-    // Cursor pupil looks back only inside section
-    if (inBreakSection) {
-        const angleToBig = Math.atan2(cy - mouseY, cx - mouseX);
-        const lookX = Math.cos(angleToBig) * 8;
-        const lookY = Math.sin(angleToBig) * 8;
-
-        pupil.style.transform = `translate(${lookX}px, ${lookY}px)`;
-    }
-});
-
-
-
+/* END of script.js */
