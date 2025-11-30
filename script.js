@@ -27,28 +27,27 @@ const hamburger = document.getElementById("hamburger");
 const navLinks = document.getElementById("navLinks");
 const nav = document.getElementById("nav");
 
-function updateMenuPosition() {
-    const navTop = nav.getBoundingClientRect().top;
+let isTop = true;
 
-    navLinks.classList.remove("from-top", "from-bottom");
+function updateNavDirection() {
+    isTop = window.scrollY <= 5;
 
-    if (navTop > 50) {
-        navLinks.classList.add("from-bottom");  // nav at bottom → menu slides UP
+    if (isTop) {
+        navLinks.classList.add("top-open");
     } else {
-        navLinks.classList.add("from-top");     // nav at top → menu slides DOWN
+        navLinks.classList.remove("top-open");
     }
 }
 
-hamburger.addEventListener("click", () => {
-    updateMenuPosition();
-    navLinks.classList.toggle("open");
+updateNavDirection();
 
-    const expanded = hamburger.getAttribute("aria-expanded") === "true";
-    hamburger.setAttribute("aria-expanded", !expanded);
-    navLinks.setAttribute("aria-hidden", expanded);
+window.addEventListener("scroll", updateNavDirection);
+
+hamburger.addEventListener("click", () => {
+    hamburger.classList.toggle("active");
+    navLinks.classList.toggle("open");
 });
 
-window.addEventListener("scroll", updateMenuPosition);
 
 
 
@@ -287,4 +286,6 @@ document.addEventListener('mousemove', (e) => {
         pupil.style.transform = `translate(${lookX}px, ${lookY}px)`;
     }
 });
+
+
 
