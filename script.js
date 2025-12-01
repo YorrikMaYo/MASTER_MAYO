@@ -299,6 +299,8 @@ function animate() {
 }
 requestAnimationFrame(animate);
 
+
+
 /* ----------------------
    Intersection observer for .in-animation (unchanged behavior)
    ---------------------- */

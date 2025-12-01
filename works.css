@@ -28,9 +28,15 @@
   position: absolute;
   top: 20px;      /* distance from top */
   right: 20px;    /* distance from right */
-  width: 71vh;   /* adjust as needed */
+  width: 41vw;   /* adjust as needed */
   height: auto;
   z-index: 10;
+}
+
+@media (max-width: 900px) {
+  .works-logo-wrapper {
+    width: 82vw;
+  }
 }
 
 .works-logo-wrapper img {
@@ -220,7 +226,7 @@
 /* -------------------------------------------------- */
 /* RESPONSIVE */
 /* -------------------------------------------------- */
-@media (max-width: 1000px) {
+@media (max-width: 768px) {
   .project-nav {
     display: none;
   }
@@ -232,6 +238,45 @@
     width: 100%;
   }
 }
+
+/* MOBILE PROJECT MENU */
+@media (max-width: 768px) {
+  .nav-links {
+    display: none; /* hide default links on mobile */
+  }
+
+  .mobile-project-nav {
+    display: none;
+    position: fixed;
+    top: 0;
+    right: 0;
+    width: 80%;
+    max-width: 300px;
+    height: 100vh;
+    background: var(--color-background);
+    z-index: 1000;
+    padding: 60px 20px 20px 20px;
+    overflow-y: auto;
+    flex-direction: column;
+  }
+
+  .mobile-project-nav ul {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+  }
+
+  .mobile-project-nav li {
+    margin-bottom: 20px;
+  }
+
+  .mobile-project-nav a {
+    text-decoration: none;
+    font-size: 1.2rem;
+    color: var(--color-primary-dark);
+  }
+}
+
 
 
 #project-nav.align-left {
@@ -293,3 +338,26 @@
     background: #caff39;                   /* marker color */
 }
 
+
+
+/* MOBILE HAMBURGER NAV */
+@media (max-width: 768px) {
+  #navLinks {
+    display: none;           /* hidden by default */
+    flex-direction: column;
+    max-height: 80vh;        /* limit height to viewport */
+    overflow-y: auto;        /* enable vertical scroll if too long */
+    padding: 10px 20px;
+    background-color: var(--color-background);
+    position: absolute;
+    top: 100%;
+    right: 0;
+    left: 0;
+    z-index: 100;
+  }
+
+  #navLinks a {
+    padding: 12px 0;
+    border-bottom: 1px solid rgba(255,255,255,0.1);
+  }
+}

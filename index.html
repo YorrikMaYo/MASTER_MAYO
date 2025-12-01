@@ -27,20 +27,21 @@
           A creative design studio by <br />Marcel Van Ranst & <br /> Yorrik Oyen.
         </h2>
 
+
+      <!-- Studio text above logo (hidden on small screens) -->
+
+      <div class="scg-wrap">
         <div class="cta-wrapper">
           <button class="cta-prime in-animation floating">let's chat!</button>
           <button class="cta-sec in-animation floating">@studioMaYo</button>
         </div>
       </div>
 
-      <!-- Studio text above logo (hidden on small screens) -->
-      <h1 class="studio-text in-animation floating">Studio</h1>
+    <h1 class="studio-text in-animation floating">Studio</h1>
 
-      <div class="scg-wrap">
-        <!-- Inline SVG for MAYO logo -->
-        <svg id="logo-MAYO" viewBox="0 0 4180.37 1243.56" class="logo-svg in-animation floating" aria-hidden="true">
-          <!-- (SVG content kept as provided) -->
-          <g class="letter" id="letter-1">
+    <!-- Desktop inline SVG -->
+    <svg id="logo-MAYO" class="logo-svg in-animation floating deskopSVG" viewBox="0 0 4180.37 1243.56" aria-hidden="true">
+<g class="letter" id="letter-1">
             <polygon points="2217.11 1243.07 2813.13 1243.07 2812.86 1243.56 2217.11 1243.56 2217.11 1243.07" fill="#eefdff"/>
           </g>
           <g class="letter" id="letter-2">
@@ -57,8 +58,12 @@
           </g>
 
           <polygon id="eye-left" points="1592.14 980.01 1430.66 818.53 1580.25 621.47 1955.62 792.04 1592.14 980.01" fill="#010203"/>
-          <polygon id="eye-right" points="3415.78 776.89 3559.75 601.25 3922.21 790.44 3571.83 941.72 3415.78 776.89" fill="#010203"/>
-        </svg>
+          <polygon id="eye-right" points="3415.78 776.89 3559.75 601.25 3922.21 790.44 3571.83 941.72 3415.78 776.89" fill="#010203"/>    </svg>
+
+              
+
+        <!-- Inline SVG for MAYO logo -->
+        
       </div>
     </section>
   </div>
@@ -92,7 +97,7 @@
     <section class="services" id="services">
       <div class="service-header in-animation">
         <h1>Services</h1>
-        <a href="works.html" class="cta-sec">View Portfolio</a>
+        <a href="works.html" class="cta-prime">View Portfolio</a>
       </div>
 
       <p class="service-intro in-animation">
@@ -111,9 +116,7 @@
     <section class="mission" id="mission">
       <h1 class="in-animation">MISSION</h1>
       <div class="missionParagraph in-animation">
-        <p>We create work that feels — not just looks — intentional.
-          In a world crowded with noise, we aim for clarity, character, and the kind of visual rhythm that stays in your head long after you scroll past.
-          <!-- truncated for brevity -->
+        <p>“At Studio MaYo, we believe design is more than aesthetics — it’s a language that shapes perception, evokes emotion, and connects people. We specialize in crafting identity, motion, and visual experiences that tell a story and leave a lasting impression. Every project we take on blends creativity, strategy, and precision, ensuring that each idea is transformed into a meaningful, engaging, and unforgettable visual journey. Our mission is to help brands and projects find their voice, resonate with their audience, and stand out in a world overflowing with visuals.”
         </p>
       </div>
     </section>
@@ -171,5 +174,35 @@
   </main>
 
   <script src="script.js"></script>
+<!-- HTML above ... -->
+
+<script>
+document.addEventListener('DOMContentLoaded', function() {
+    if (window.innerWidth <= 768) {
+
+        // Get the wrapper
+        const scgWrap = document.querySelector('.scg-wrap');
+        if (!scgWrap) return;
+
+        // Remove the desktop SVG
+        const desktopSVG = scgWrap.querySelector('.logo-svg');
+        if (desktopSVG) desktopSVG.remove();
+
+        // Create mobile PNG
+        const mobileImg = document.createElement('img');
+        mobileImg.src = "/img/mayologo3.png"; // use correct public path
+        mobileImg.alt = "MAYO Logo Mobile";
+        mobileImg.classList.add('logo-img');
+
+        // Insert PNG after the studio text
+        const studioText = document.querySelector('.studio-text');
+        studioText.insertAdjacentElement('afterend', mobileImg);
+    }
+});
+</script>
+
+</body>
+
+  
 </body>
 </html>

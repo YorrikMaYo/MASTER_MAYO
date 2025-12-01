@@ -408,7 +408,7 @@ nav {
   letter-spacing: 1px;
   color: var(--color-primary-dark);
   background: var(--color-background);
-  border: 1px solid var(--color-inverse);
+  border: 1px solid var(--color-primary-dark);
   text-decoration: none;
   cursor: pointer;
   transition: all 0.3s ease;
@@ -417,6 +417,8 @@ nav {
   max-width: 200px;
   border-radius: 15px;
 }
+
+
 
 .cta-prime .black {
 background-color: #eaff2e;
@@ -542,7 +544,25 @@ section:not(.hero) {
     font-weight: 200;
 }
 
-/* SECTION SIZING */
+
+
+/* SECTION  */
+
+@media (max-width: 768px) {
+    .service-previews {
+        flex-direction: column;  /* stack images vertically */
+        gap: 20px;               /* spacing between images */
+        align-items: center;     /* center images horizontally */
+    }
+
+    .service-img {
+        width: 90%;              /* almost full width */
+        max-width: 400px;        /* optional: cap width for very large screens */
+        height: auto;            /* maintain aspect ratio */
+        margin: 0 auto;          /* center image */
+    }
+}
+
 
 .services {
     background: var(--color-background);
@@ -558,6 +578,35 @@ section:not(.hero) {
     justify-content: space-between;
     align-items: center;
 }
+
+@media (max-width: 768px) {
+    .service-header {
+        flex-direction: column;       /* stack title + button */
+        align-items: flex-start;      /* align to left (or center if you prefer) */
+        gap: 12px;                    /* spacing between title and button */
+        margin: 0 20px;               /* smaller horizontal margin */
+    }
+
+    .service-header h1 {
+        font-size: 6vw;               /* responsive title */
+    }
+
+    .service-header .cta-prime {
+        white-space: nowrap;          /* prevent wrapping */
+        font-size: 4vw;               /* scale font */
+        padding: 6px 14px;            /* smaller padding for mobile */
+    }
+}
+
+@media (max-width: 768px) {
+    .service-intro {
+        margin: 20px;
+        font-size: 4vw;       /* responsive font */
+        max-width: 95%;       /* almost full width */
+    }
+}
+
+
 
 .service-header h1 {
     font-size: 8vh;
@@ -592,66 +641,66 @@ section:not(.hero) {
     border-radius: 12px;
 }
 
-/* RESPONSIVE */
-@media (max-width: 900px) {
-    .service-previews {
-        flex-wrap: wrap;
+@media (max-width: 768px) {
+    .service-previews img:nth-child(n+2) {
+        display: none; /* hide all except the first image */
     }
-    .service-img {
-        width: 48%;
-    }
-}
 
-@media (max-width: 600px) {
-    .service-previews {
-        flex-direction: column;
-    }
-    .service-img {
+    .service-previews img:first-child {
         width: 90%;
+        max-width: 400px;
+        height: auto;
         margin: 0 auto;
+        display: block;
     }
 }
 
 
+/* Desktop: optional fixed height */
+.mission {
+    height: 100vh;           /* full viewport height on desktop */
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: flex-start;
+    padding: 40px;
+    background-color: var(--color-background-2);
+}
+
+/* Mission title */
 .mission h1 {
-    font-weight: 200;
-    padding-top: 40px;
+    margin-bottom: 20px;
+    font-size: 6vw;          /* responsive */
+    text-align: center;
 }
 
-
-.mission{
-    background-color: var(--color-background);
-    height: 94vh;
-    font-size: 3rem;
-    padding-left: 40px;
-}
-
-.missionParagraph{
-    column-count: 2;
-    padding: 240px 40px 50px 40px;
-    
-}
-
-/* MISSION RESPONSIVE */
-@media (max-width: 900px) {
-  .mission {
-    padding-left: 20px;
-    font-size: 2.2rem;
-  }
-
-  .missionParagraph {
-    column-count: 1;
-    padding: 120px 20px 40px 20px;
+/* Paragraph container */
+.missionParagraph {
+    width: 80%;
+    max-width: 800px;
     font-size: 1.4rem;
-  }
+    line-height: 1.5;
 }
 
-@media (max-width: 600px) {
-  .missionParagraph {
-    padding-top: 80px;
-    font-size: 1.2rem;
-  }
+/* ------------------ MOBILE ------------------ */
+@media (max-width: 768px) {
+    .mission {
+        height: auto;        /* let section expand with text */
+        padding: 20px;
+    }
+
+    .mission h1 {
+        font-size: 8vw;
+        margin-bottom: 15px;
+    }
+
+    .missionParagraph {
+        width: 95%;
+        font-size: 4vw;
+        line-height: 1.6;
+    }
 }
+
 
 
 /* ABOUT SECTION BASE */
@@ -820,7 +869,7 @@ section:not(.hero) {
 
 .breakcontent{
     background-color: var(--color-primary-dark);
-    height: 94vh;
+    height: 92vh;
     font-size: 3rem;
     padding-left: 40px;
     display: flex;
@@ -829,13 +878,17 @@ section:not(.hero) {
     justify-content: space-between;
 }
 
-/* BREAK SECTION & BIG EYE RESPONSIVE */
 @media (max-width: 900px) {
-  .breakcontent {
-    padding-left: 20px;
-    padding-right: 20px;
-    font-size: 2rem;
-  }
+    .breakcontent h2 {
+        font-size: 2.6rem !important;
+    }
+
+    .breakcontent {
+        margin-left: -40px;
+
+    }
+
+
 
   .big-eye {
     width: 140px;
@@ -851,6 +904,8 @@ section:not(.hero) {
     height: 100px;
     right: 10px;
     top: 25vh;
+        display: none;
+
   }
 }
 
@@ -1090,4 +1145,92 @@ p {
         overflow-x: hidden;
     }
 }
+
+
+
+/* ----------------------------------------
+   MOBILE HERO FIX (Left-aligned, clean)
+   ---------------------------------------- */
+@media (max-width: 768px) {
+
+  .hero {
+      position: relative;
+      z-index: 3; 
+      font-size: 4vw;
+      text-align: left;
+      margin-bottom: 0; /* remove negative margin */
+      padding-left: 20px;
+  }
+
+  /* STUDIO TEXT OVER LOGO */
+.studio-text {
+    position: absolute;       /* relative to .scg-wrap */
+    bottom: 100%;             /* top of logo */
+    right: 0;                 /* align to logo right edge */
+    margin-bottom: -20px;      /* optional spacing above logo */
+    z-index: 3;               /* above logo */
+    font-size: 7vw;           /* adjust to fit mobile */
+    text-align: right;
+    color: #fff;
+}
+
+/* Mobile logo sizing */
+.logo-img {
+    width: 100%;          /* adjust as needed */
+    max-width: 85vw;    /* optional: prevents it from getting too big */
+    height: auto;
+    display: block;
+    margin-left: 20px;
+    margin-right: auto;
+}
+
+
+
+
+  .hero-wrapper h2 {
+    font-size: 8vw;
+    line-height: 1.1;
+    margin-bottom: 24px;
+    padding-left: 0;
+  }
+
+.cta-wrapper {
+    display: flex;
+    flex-direction: row;   /* place buttons side by side */
+    gap: 12px;             /* spacing between buttons */
+    flex-wrap: nowrap;     /* prevent buttons from wrapping */
+    justify-content: flex-start; /* optional: align left */
+    align-items: center;
+    margin-bottom: 10px;
+}
+
+
+
+.scg-wrap {
+    position: absolute !important; /* already absolute */
+    bottom: 20px !important;       /* margin from bottom */
+    left: 20px !important;
+    right: 20px !important;
+    width: auto !important;
+    height: auto !important;
+    display: block !important;
+    z-index: 2 !important;         /* logo behind text */
+}
+
+
+
+  .cta-prime {margin: 0; white-space: nowrap;} .cta-sec {margin: 0; white-space: nowrap;}
+  
+
+}
+@media (max-width: 768px) {
+    .logo-svg {
+        display: none !important;
+    }
+}
+
+
+
+
+
 

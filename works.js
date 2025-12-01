@@ -196,6 +196,36 @@ hamburger.addEventListener("click", () => {
 
 window.addEventListener("scroll", updateMenuPosition);
 
+// -----------------------------------------------
+// MOBILE PORTFOLIO NAV (NEW)
+// -----------------------------------------------
+if (window.innerWidth <= 768) { // only on mobile
+  // Clear default nav links
+  navLinks.innerHTML = '';
+
+  // Grab project links from desktop project nav
+  const projectItems = document.querySelectorAll('.project-nav ul li a');
+  projectItems.forEach(link => {
+    const a = document.createElement('a');
+    a.href = link.href;
+    a.textContent = link.textContent;
+    navLinks.appendChild(a);
+  });
+
+  // Ensure mobile nav hidden initially
+  navLinks.style.display = 'none';
+  navLinks.style.flexDirection = 'column';
+
+  // Hamburger toggle for mobile menu
+  hamburger.addEventListener('click', () => {
+    if (navLinks.style.display === 'flex') {
+      navLinks.style.display = 'none';
+    } else {
+      navLinks.style.display = 'flex';
+    }
+  });
+}
+
 
 // -----------------------------------------------
 // MOUSE MOVE
