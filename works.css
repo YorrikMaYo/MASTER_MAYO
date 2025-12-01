@@ -20,6 +20,26 @@
   background: #000;
 }
 
+.works-hero {
+  position: relative; /* container for absolute positioning */
+}
+
+.works-logo-wrapper {
+  position: absolute;
+  top: 20px;      /* distance from top */
+  right: 20px;    /* distance from right */
+  width: 71vh;   /* adjust as needed */
+  height: auto;
+  z-index: 10;
+}
+
+.works-logo-wrapper img {
+  width: 100%;
+  height: auto;
+  display: block;
+}
+
+
 .works-title {
   font-size: 8vh;
   font-weight: 200;
@@ -32,6 +52,8 @@
   max-width: 60ch;
   color: white;
 }
+
+
 
 
 /* -------------------------------------------------- */
@@ -48,6 +70,8 @@
   gap: 40px;
   background: var(--color-background);
 }
+
+
 
 /* Shared hover animation for all work images */
 .work-block img {
@@ -71,6 +95,7 @@
   }
 }
 
+
 .two-img-row {
   display: flex;
   gap: 20px;
@@ -80,14 +105,14 @@
 .two-img-row img {
   width: 50%;
   height: 70vh;
-  object-fit: cover;
+  object-fit: contain;
   border-radius: 16px;
 }
 
 .full-image img {
   width: 100%;
   height: 80vh;
-  object-fit: cover;
+  object-fit: contain;
   border-radius: 16px;
 }
 
@@ -108,13 +133,31 @@
   color: var(--color-primary-dark);
 }
 
+.works-hero {
+  position: relative; /* allows absolute positioning inside */
+}
+
+#logo-MAYO-works {
+  position: absolute;
+  top: 20px;       /* distance from top of section */
+  right: 20px;     /* distance from right edge */
+  width: 70vw;    /* adjust to match homepage logo visually */
+  height: auto;
+  z-index: 10;
+  opacity: 0;      /* start hidden */
+  transform: translateY(-10px); /* slight upward offset for animation */
+  transition: opacity 0.6s ease, transform 0.6s ease;
+}
+
+/* Floating / fade-in effect triggered by "show" class */
+#logo-MAYO-works.show {
+  opacity: 1;
+  transform: translateY(0);
+}
 
 
 
-/* -------------------------------------------------- */
 /* PROJECT PAGE NAVIGATION */
-/* -------------------------------------------------- */
-
 .project-nav {
   position: fixed;
   left: 20px;
@@ -125,6 +168,13 @@
   border-radius: 16px;
   color: white;
   z-index: 9000;
+  transition: height 0.3s ease, padding 0.3s ease;
+  overflow: hidden;
+}
+
+.project-nav.minimized {
+  height: 40px; /* only show header/button */
+  padding: 5px 10px;
 }
 
 .project-nav h4 {
@@ -151,6 +201,20 @@
 .project-nav li a:hover {
   opacity: 1;
 }
+
+/* Minimize button */
+#nav-minimize {
+  position: absolute;
+  top: 5px;
+  right: 5px;
+  background: transparent;
+  border: none;
+  color: white;
+  font-size: 1.2rem;
+  cursor: pointer;
+  z-index: 9100;
+}
+
 
 
 /* -------------------------------------------------- */
@@ -205,5 +269,27 @@
 
 .project-nav.show-tip .drag-tip {
     opacity: 1;
+}
+
+
+
+/* ACTIVE LINK */
+.project-nav li a.active {
+    opacity: 1;                       /* fully visible */
+    font-weight: 600;                 /* make it stand out */
+    color: #caff39;                       /* or another highlight color */
+    position: relative;
+}
+
+.project-nav li a.active::before {
+    content: '';
+    position: absolute;
+    left: -8px;                        /* small marker on left */
+    top: 50%;
+    transform: translateY(-50%);
+    width: 6px;
+    height: 6px;
+    border-radius: 50%;
+    background: #caff39;                   /* marker color */
 }
 

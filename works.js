@@ -14,9 +14,15 @@ const observer = new IntersectionObserver(entries => {
 inAnimations.forEach(el => observer.observe(el));
 
 
+// -----------------------------------------------
+// DRAGGABLE PORTFOLIO NAV
+// -----------------------------------------------
 (function() {
     const nav = document.getElementById("project-nav");
     if (!nav) return;
+
+    const links = nav.querySelectorAll("ul li a");
+    const sections = Array.from(links).map(link => document.querySelector(link.getAttribute("href")));
 
     let isDragging = false;
     let offsetX = 0;
@@ -58,14 +64,14 @@ inAnimations.forEach(el => observer.observe(el));
         nav.style.left = Math.min(Math.max(0, x), maxX) + "px";
         nav.style.top = Math.min(Math.max(0, y), maxY) + "px";
 
-        updateAlignment(); // 🔥 NEW
+        updateAlignment();
     }
 
     function endDrag() {
         isDragging = false;
     }
 
-    // 🔥 NEW: Auto-align text based on which side it's on
+    // Auto-align text based on which side it's on
     function updateAlignment() {
         const rect = nav.getBoundingClientRect();
         const centerX = rect.left + rect.width / 2;
@@ -79,11 +85,34 @@ inAnimations.forEach(el => observer.observe(el));
         }
     }
 
-    // initial check when page loads
+    // Active link logic (stays active until next section)
+    function updateActiveLink() {
+        const scrollPos = window.scrollY + window.innerHeight / 3; // trigger a bit before section top
+
+        let current = sections[0]; // default to first section
+        for (let i = 0; i < sections.length; i++) {
+            if (scrollPos >= sections[i].offsetTop) {
+                current = sections[i];
+            }
+        }
+
+        links.forEach(link => link.classList.remove("active"));
+        const activeLink = nav.querySelector(`ul li a[href="#${current.id}"]`);
+        if (activeLink) activeLink.classList.add("active");
+    }
+
+    window.addEventListener("scroll", updateActiveLink);
+    window.addEventListener("resize", updateActiveLink);
+
+    // Initial checks
     updateAlignment();
+    updateActiveLink();
 })();
 
+
+// -----------------------------------------------
 // TOOLTIP LOGIC
+// -----------------------------------------------
 (function() {
     const nav = document.getElementById("project-nav");
     const tip = document.getElementById("drag-tip");
@@ -95,8 +124,6 @@ inAnimations.forEach(el => observer.observe(el));
 
     nav.addEventListener("mouseenter", () => {
         if (tipShown) return;
-
-        // delay so tooltip doesn’t flash too fast
         hoverTimeout = setTimeout(() => {
             nav.classList.add("show-tip");
         }, 300);
@@ -107,7 +134,6 @@ inAnimations.forEach(el => observer.observe(el));
         nav.classList.remove("show-tip");
     });
 
-    // hide tooltip when dragging starts
     nav.addEventListener("mousedown", () => {
         tipShown = true;
         nav.classList.remove("show-tip");
@@ -120,17 +146,17 @@ inAnimations.forEach(el => observer.observe(el));
 })();
 
 
-// -----------------------------
+// -----------------------------------------------
 // CUSTOM CURSOR
-// -----------------------------
+// -----------------------------------------------
 const cursor = document.querySelector('.cursor');
 const pupil = document.querySelector('.pupil');
 const hoverTargets = document.querySelectorAll('a, button, .hover-target');
 
 
-// -----------------------------
+// -----------------------------------------------
 // LOGO EYES
-// -----------------------------
+// -----------------------------------------------
 const eyeLeft = document.querySelector('#eye-left');
 const eyeRight = document.querySelector('#eye-right');
 const logo = document.querySelector('#logo-MAYO');
@@ -141,20 +167,21 @@ let pupilX = 0, pupilY = 0;
 let currentScale = 1, targetScale = 1;
 
 
-
+// -----------------------------------------------
+// MAIN NAVIGATION
+// -----------------------------------------------
 const hamburger = document.getElementById("hamburger");
 const navLinks = document.getElementById("navLinks");
-const nav = document.getElementById("nav");
+const navMain = document.getElementById("nav");
 
 function updateMenuPosition() {
-    const navTop = nav.getBoundingClientRect().top;
-
+    const navTop = navMain.getBoundingClientRect().top;
     navLinks.classList.remove("from-top", "from-bottom");
 
     if (navTop > 50) {
-        navLinks.classList.add("from-bottom");  // nav at bottom → menu slides UP
+        navLinks.classList.add("from-bottom");
     } else {
-        navLinks.classList.add("from-top");     // nav at top → menu slides DOWN
+        navLinks.classList.add("from-top");
     }
 }
 
@@ -170,35 +197,32 @@ hamburger.addEventListener("click", () => {
 window.addEventListener("scroll", updateMenuPosition);
 
 
-
-// -----------------------------
+// -----------------------------------------------
 // MOUSE MOVE
-// -----------------------------
+// -----------------------------------------------
 document.addEventListener('mousemove', e => {
   mouseX = e.clientX;
   mouseY = e.clientY;
 });
 
-// -----------------------------
+
+// -----------------------------------------------
 // HOVER EFFECTS
-// -----------------------------
+// -----------------------------------------------
 hoverTargets.forEach(el => {
   el.addEventListener('mouseenter', () => targetScale = 1);
   el.addEventListener('mouseleave', () => targetScale = 1.5);
 });
 
 
-// -----------------------------
-// CLICK BLINK
-// -----------------------------
+// -----------------------------------------------
+// CLICK & RANDOM BLINK
+// -----------------------------------------------
 document.addEventListener('click', () => {
   cursor.classList.add('blink');
   setTimeout(() => cursor.classList.remove('blink'), 300);
 });
 
-// -----------------------------
-// RANDOM BLINK
-// -----------------------------
 function randomBlink() {
   cursor.classList.add('blink');
   setTimeout(() => cursor.classList.remove('blink'), 200);
@@ -207,14 +231,14 @@ function randomBlink() {
 }
 randomBlink();
 
-// -----------------------------
+
+// -----------------------------------------------
 // ANIMATE CURSOR, PUPIL & EYES
-// -----------------------------
+// -----------------------------------------------
 let currentAngleLeft = 0;
 let currentAngleRight = 0;
 
 function animate() {
-  // Smooth cursor movement
   eyeX += (mouseX - eyeX) * 0.15;
   eyeY += (mouseY - eyeY) * 0.15;
   currentScale += (targetScale - currentScale) * 0.15;
@@ -223,7 +247,6 @@ function animate() {
   cursor.style.top = `${eyeY}px`;
   cursor.style.transform = `translate(-50%, -50%) scale(${currentScale})`;
 
-  // Pupil follows cursor
   const dx = mouseX - eyeX;
   const dy = mouseY - eyeY;
   const dist = Math.sqrt(dx*dx + dy*dy);
@@ -238,7 +261,6 @@ function animate() {
   pupilY += (targetY - pupilY)*0.3;
   pupil.style.transform = `translate(${pupilX}px, ${pupilY}px)`;
 
-  // Logo eyes rotation around their geometric centers
   const eyes = [
     {el: eyeLeft, current: () => currentAngleLeft, set: v => currentAngleLeft = v},
     {el: eyeRight, current: () => currentAngleRight, set: v => currentAngleRight = v}
@@ -249,7 +271,7 @@ function animate() {
     if(!eye || !logo) return;
 
     const bbox = eye.getBBox();
-    const cx = bbox.x + bbox.width/2;  // geometric center
+    const cx = bbox.x + bbox.width/2;
     const cy = bbox.y + bbox.height/2;
 
     const svgRect = logo.getBoundingClientRect();
@@ -260,7 +282,7 @@ function animate() {
     const dyEye = mouseY - centerScreenY;
 
     const targetAngle = Math.atan2(dyEye, dxEye) * (180/Math.PI);
-    const easedAngle = eyeObj.current() + (targetAngle - eyeObj.current()) * 0.03 // easing
+    const easedAngle = eyeObj.current() + (targetAngle - eyeObj.current()) * 0.03;
     eyeObj.set(easedAngle);
 
     const maxMove = 10;

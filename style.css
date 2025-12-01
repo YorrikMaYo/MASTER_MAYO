@@ -97,19 +97,7 @@ body{
 
  /* GRID */
  
- body::before {
-  content: "";
-  position: fixed;
-  top: 0;
-  left: 0;
-  width: 100%;
-  height: 100%;
-  background-image: linear-gradient(to right, rgba(0, 0, 0, 0.2) 1px, transparent 1px),
-                    linear-gradient(to bottom, rgba(0, 0, 0, 0.2) 1px, transparent 1px);
-  background-size: calc(100vw / 8) calc(100vh / 14); 
-    z-index: 9999;
-    pointer-events: none;
-}
+
 
 
 /* Keyframes for floating */
@@ -167,7 +155,7 @@ body{
 
     --color-primary: #0033ff;
     --color-secondary: #ff6600;
-    --color-accent: #eaff2e;
+    --color-accent: #caff39;
     --color-primary-dark: #010203;
     --color-background: #eefdff;
     --color-background-2: #ecfdfd;
