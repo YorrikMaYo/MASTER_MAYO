@@ -28,27 +28,30 @@
   <ul id="mobile-project-list"></ul>
 </nav>
 
-<!-- NAVBAR (same as homepage) -->
-<nav class="navbar" id="nav">
-  <div class="navFlex">
-    <a href="index.html" class="title">
-      <img src="img/mayoLogo.png" alt="logo" />
-    </a>
+  <nav class="navbar" id="nav">
+    <div class="navFlex">
+      <a href="index.html" class="title in-animation">
+        <img src="img/logoMayoWhiteRounded.png" alt="studio-logo" />
+      </a>
 
-    <div class="spacer"></div>
+      <div class="spacer" aria-hidden="true">&nbsp;</div>
 
-    <div class="hamburger" id="hamburger">
-      <span></span><span></span><span></span>
+      <div class="hamburger" id="hamburger" aria-label="Toggle menu" aria-expanded="false" role="button" tabindex="0">
+        <span></span>
+        <span></span>
+        <span></span>
+      </div>
+
+      <div class="nav-links" id="navLinks" role="menu" aria-hidden="true">
+        <a href="#index.htmlportfolio" class="link in-animation" role="menuitem">Portfolio</a>
+        <a href="#index.htmlabout" class="link in-animation" role="menuitem">About</a>
+        <a href="#index.htmlmanifesto" class="link in-animation" role="menuitem">POV</a>
+        <a href="#index.htmlcontact" class="link in-animation" role="menuitem">Contact</a>
+      </div>
     </div>
+  </nav>
 
-    <div class="nav-links" id="navLinks">
-      <a href="index.html#services">Services</a>
-      <a href="index.html#mission">Mission</a>
-      <a href="index.html#about">About</a>
-      <a href="index.html#contact">Contact</a>
-    </div>
-  </div>
-</nav>
+
 
 
 <!-- RIGHT-SIDE PROJECT NAVIGATION -->

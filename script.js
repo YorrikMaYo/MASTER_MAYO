@@ -116,8 +116,8 @@ if (enableCursor) {
   });
 
   hoverTargets.forEach(el => {
-    el.addEventListener('mouseenter', () => targetScale = 1);
-    el.addEventListener('mouseleave', () => targetScale = 1.5);
+    el.addEventListener('mouseenter', () => targetScale = 1.5);
+    el.addEventListener('mouseleave', () => targetScale = 1);
   });
 
   document.addEventListener('click', () => {
@@ -299,18 +299,46 @@ function animate() {
 }
 requestAnimationFrame(animate);
 
+// Animate NAV + HERO on load
+window.addEventListener("DOMContentLoaded", () => {
+    const immediate = document.querySelectorAll(
+        "nav .in-animation, .hero .in-animation, .nav-logo" // adjust hero selector if needed
+    );
+
+    immediate.forEach(el => {
+        el.classList.add("show");
+    });
+});
 
 
-/* ----------------------
-   Intersection observer for .in-animation (unchanged behavior)
-   ---------------------- */
-const inElements = $$('.in-animation');
-inElements.forEach((el, i) => el.style.transitionDelay = `${i * 0.05}s`);
-const observer = new IntersectionObserver(entries => {
-  entries.forEach(entry => {
-    if (entry.isIntersecting) entry.target.classList.add('show');
-  });
-}, { threshold: 0.1 });
-inElements.forEach(el => observer.observe(el));
+// Animate everything else on scroll using IntersectionObserver
+const observer = new IntersectionObserver((entries) => {
+    entries.forEach(entry => {
+        if (entry.isIntersecting) {
+            entry.target.classList.add('show');
+            observer.unobserve(entry.target); // prevents re-triggers
+        }
+    });
+}, { 
+    threshold: 0.2 // forgiving threshold to catch things early
+});
 
-/* END of script.js */
+
+// Observe all .in-animation EXCEPT nav + hero
+document.addEventListener("DOMContentLoaded", () => {
+    const animatedItems = document.querySelectorAll(".in-animation");
+
+    animatedItems.forEach((item) => {
+        // Skip nav + hero items (they animate on load)
+        if (
+            item.closest("nav") ||
+            item.closest(".hero") ||
+            item.classList.contains("nav-logo")
+        ) return;
+
+        observer.observe(item);
+    });
+});
+
+
+

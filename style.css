@@ -29,8 +29,10 @@ body{
     background: var(--color-background);
     border-radius: 50%;
     position: absolute;
-    transition: transform 0.04s ease-in-out;
+    transition: transform 0.15s ease-in-out; /* smooth growth */
+    transform: translate(-50%, -50%) scale(1); /* default scale 1 */
 }
+
 
 /* Eyelids */
 .eyelid-top,
@@ -155,7 +157,7 @@ body{
 
     --color-primary: #0033ff;
     --color-secondary: #ff6600;
-    --color-accent: #caff39;
+    --color-accent: #8cf71a;
     --color-primary-dark: #010203;
     --color-background: #eefdff;
     --color-background-2: #ecfdfd;
@@ -252,63 +254,127 @@ section {
 
 /* NAVBAR */
 
-.nav-links {
-    display: flex;
-    align-items: center;
-    gap: 20px;
-}
-
 nav {
-    position: sticky;   
-    top: 0;            
+    position: sticky;
+    top: 0;
     height: 60px;
     background-color: var(--color-background-2);
-    z-index: 1000;       
+    z-index: 1000;
     border-bottom: #0b0b0b solid 1px;
+    display: flex;
     align-items: center;
-}
-
-
-.spacer{
-    width: 20vw
-}
-
-.title img {
-    height: 6vh;
-    justify-content: center;
-    padding-top: 5px;
-
 }
 
 .navFlex {
     display: flex;
-    justify-content:space-between;
+    justify-content: space-between;
     align-items: center;
+    width: 100%;
     height: 100%;
 }
 
-.navFlex a {
-        margin-right: 20px;
-        margin-left: 20px;
-        text-decoration: none;
-        font-size: 2rem;
-        color: var(--color-primary-dark);
-
+.title img {
+    height: 40px;
+    padding-top: 5px;
+    padding-left: 40px;
 }
+
+.spacer {
+    width: 20vw;
+}
+
+/* NAV LINKS */
+.nav-links {
+    display: flex;
+    align-items: center;
+    gap: 20px;
+    padding-right: 40px;
+}
+
+/* Only apply to nav links, not logo */
+.navFlex .link {
+    position: relative;
+    text-decoration: none;
+    font-size: 2rem;
+    color: var(--color-primary-dark);
+    padding: 2px 12px;
+    border-radius: 12px;
+    overflow: visible;
+}
+
+/* Hover outline */
+.navFlex .link::before {
+    content: '';
+    position: absolute;
+    top: -2px;
+    left: -2px;
+    right: -2px;
+    bottom: -2px;
+    border: 2px solid var(--color-accent);
+    border-radius: 12px;
+    transform: scale(0);
+    transform-origin: center;
+    transition: transform 0.3s ease;
+    pointer-events: none;
+}
+
+.navFlex .link:hover::before {
+    transform: scale(1);
+}
+
+/* Active fill */
+.navFlex .link::after {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-color: var(--color-accent);
+    border-radius: 12px;
+    z-index: -1;
+    transform: scale(0);
+    transform-origin: center;
+    transition: transform 0.3s ease;
+}
+
+/* Active class to persist fill */
+.navFlex .link.active::after {
+    transform: scale(1);
+}
+
+
 
 
 
 /* HERO */
 
 .logo-svg {
-  width: 93vw;       /* or 600px max */
-  max-width: 1200px; 
+  max-width: 95vw; 
   height: auto;
   display: block;
-  position:absolute;
+  position: absolute;
   bottom: 40px;
   right: 40px;
+  left: 40px;
   cursor: pointer;
+}
+
+.studio-text {
+    position: absolute;       /* relative to .scg-wrap */
+    bottom: 100%;             /* top of logo */
+    right: 20px;                 /* align to logo right edge */
+    margin-bottom: 20px;      /* optional spacing above logo */
+    z-index: 3;               /* above logo */
+    font-size: 7vw;           /* adjust to fit mobile */
+    text-align: right;
+    color: #fff;
+}
+
+@media (min-width: 1400px) {
+    .studio-text {
+    margin-bottom: 40px;
+  }
 }
 
 .letter {
@@ -318,7 +384,6 @@ nav {
 
 .letter:hover {/* highlight color */
   transform: translateY(-4px);
-  filter: blur(50); /* subtle motion */
 }
 
 
@@ -399,7 +464,6 @@ nav {
 
 
 .cta-prime{
-    margin: 40px 40px 0px 0px ;
   display: inline-block;
   padding: 0.9em 2em;
   font-size: .8rem;
@@ -514,7 +578,7 @@ background-color: #eaff2e;
     font-size: 4rem;
     right: 40px;
     bottom: 58%;
-    font-weight: 200;
+    font-weight: 300;
 }
 
 
@@ -541,7 +605,7 @@ section:not(.hero) {
 .hero h2 {
     padding: 40px;
     font-size: 3rem;
-    font-weight: 200;
+    font-weight: 300;
 }
 
 
@@ -610,7 +674,7 @@ section:not(.hero) {
 
 .service-header h1 {
     font-size: 8vh;
-    font-weight: 200;
+    font-weight: 300;
     color: var(--color-primary-dark);
 }
 
@@ -639,6 +703,14 @@ section:not(.hero) {
     flex: 1;
     object-fit: cover;  /* crop, not stretch */
     border-radius: 12px;
+
+        box-shadow: 0 15px 30px rgba(0,0,0,0.05);
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
+}
+
+.service-img:hover {
+    transform: translateY(-10px);
+    box-shadow: 0 25px 50px rgba(0,0,0,0.1);
 }
 
 @media (max-width: 768px) {
@@ -656,116 +728,110 @@ section:not(.hero) {
 }
 
 
-/* Desktop: optional fixed height */
 .mission {
-    height: 100vh;           /* full viewport height on desktop */
+    padding: 80px 60px;
+    background: var(--color-background-2);
     display: flex;
     flex-direction: column;
-    align-items: center;
-    justify-content: flex-start;
-    padding: 40px;
-    background-color: var(--color-background-2);
+    align-items: left;
 }
 
-/* Mission title */
-.mission h1 {
-    margin-bottom: 20px;
-    font-size: 6vw;          /* responsive */
-    text-align: center;
+.mission-title {
+    font-size: 8vh;
+    font-weight: 300;
+    margin-bottom: 60px;
+    color: var(--color-primary-dark);
+    text-align: left;
 }
 
-/* Paragraph container */
-.missionParagraph {
-    width: 80%;
-    max-width: 800px;
+/* Two-column layout for paragraphs */
+.mission-text {
+    column-count: 2;
+    column-gap: 80px;
+    max-width: 1200px;
+    width: 100%;
+}
+
+.mission-text p {
+    font-size: 1.35rem;
+    font-weight: 250;
+    line-height: 1.4;
+    color: var(--color-primary-dark);
+    hyphens: auto;
+    text-align: justify;
+}
+
+/* Optional: subtle first-line emphasis without italics */
+.mission-text p::first-line {
+    font-weight: 400; /* slightly stronger */
     font-size: 1.4rem;
-    line-height: 1.5;
 }
 
-/* ------------------ MOBILE ------------------ */
-@media (max-width: 768px) {
-    .mission {
-        height: auto;        /* let section expand with text */
-        padding: 20px;
+/* Mobile responsiveness */
+@media (max-width: 900px) {
+    .mission-text {
+        column-count: 1;
+        column-gap: 0;
     }
-
-    .mission h1 {
-        font-size: 8vw;
-        margin-bottom: 15px;
+    .mission-title {
+        font-size: 6vw;
+        margin-bottom: 40px;
     }
-
-    .missionParagraph {
-        width: 95%;
-        font-size: 4vw;
-        line-height: 1.6;
+    .mission-text p {
+        font-size: 1.2rem;
+        line-height: 1.7;
     }
 }
+
 
 
 
 /* ABOUT SECTION BASE */
 .about {
   width: 100%;
-  min-height: 100vh;
-  background: var(--color-background);
+  min-height: 92vh;
+  background: var(--color-background-2);
   padding-top: 40px;         /* your 40px rule */
   display: flex;
   flex-direction: column;
 }
 
 /* Title */
-.about h1 {
-  margin-left: 40px;
-  font-size: 8vh;
-  font-weight: 200;
-  color: var(--color-primary-dark);
+
+.email-btn {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    width: 40px;
+    height: 40px;
+    background-color: var(--color-primary-dark);
+    border: #ecfdfd solid 1px;
+    color: white;
+    border-radius: 50%;
+    text-decoration: none;
+    transition: transform 0.2s ease, background-color 0.2s ease;
+    margin-right: 0px; /* space between email button and CTAs */
+    position: relative;
+    top: -10px; /* moves it upward */
 }
 
-/* Experimental text block */
-.about-experimental {
-  max-width: 800px;
-  margin: 0 auto;
-  margin-top: 4rem;
-  padding: 0 40px;
-  display: flex;
-  flex-direction: column;
-  gap: 2rem;
+
+.email-btn:hover {
+    transform: scale(1.1);
+    background-color: var(--color-accent);
+    border: none;
 }
 
-/* Lead sentence — large, statement-like */
-.about-lead {
-  font-size: 3rem;
-  line-height: 1.1;
-  font-weight: 300;
-  max-width: 22ch;
-  color: var(--color-primary-dark);
+.email-btn svg {
+    width: 20px;
+    height: 20px;
+    pointer-events: none;
 }
 
-/* Body paragraphs — minimal editorial feeling */
-.about-body {
-  font-size: 1.2rem;
-  line-height: 1.6;
-  max-width: 60ch;
-  color: var(--color-primary-dark);
-}
+
 
 /* Bottom stamp — experimental tag / signature feel */
-.about-stamp {
-  margin-top: 1rem;
-  display: flex;
-  flex-direction: column;
-  gap: 0.3rem;
-  opacity: 0.4;
-  font-size: 0.75rem;
-  letter-spacing: 1.5px;
-  text-transform: uppercase;
-}
 
-/* OPTIONAL small hover detail */
-.about-stamp span:hover {
-  opacity: 1;
-  transition: 0.2s ease;
-}
 
 /* RESPONSIVE */
 @media (max-width: 900px) {
@@ -780,7 +846,7 @@ section:not(.hero) {
 /* CONTACT */
 .contact {
     height: 94vh;
-    background-color: var(--color-background); /* requested */
+    background-color: var(--color-background-2); /* requested */
     font-size: 3rem;
     padding-left: 40px;
     padding-top: 40px;
@@ -788,7 +854,7 @@ section:not(.hero) {
 }
 
 .contact h1 {
-    font-weight: 200;
+    font-weight: 300;
     font-size: 8vh;
     margin-bottom: 60px;
     text-transform: capitalize;
@@ -799,6 +865,7 @@ section:not(.hero) {
     flex-direction: row;
     gap: 120px; /* strong editorial spacing */
     padding-right: 40px;
+    padding-top: 100px;
 }
 
 .contact-text {
@@ -819,19 +886,18 @@ section:not(.hero) {
     text-transform: uppercase;
     letter-spacing: 1px;
     font-size: 0.9rem;
-    opacity: 0.6;
-    margin-top: 20px;
+    opacity: 1;
 }
 
 .contact-links a {
     font-size: 1.4rem;
     text-decoration: none;
     color: var(--color-primary-dark);
-    transition: opacity .2s ease;
+    transition: color .2s ease;
 }
 
 .contact-links a:hover {
-    opacity: 0.4;
+    color: var(--color-accent);
 }
 
 @media (max-width: 900px) {
@@ -866,17 +932,78 @@ section:not(.hero) {
 }
 
 
-
-.breakcontent{
-    background-color: var(--color-primary-dark);
-    height: 92vh;
-    font-size: 3rem;
-    padding-left: 40px;
+.breakcontent {
+    background: var(--color-primary-dark);
+    min-height: 92vh;
     display: flex;
     flex-direction: column;
-    justify-items: baseline;
     justify-content: space-between;
+    padding: 40px;
 }
+
+/* Subtle tagline */
+.tagline {
+    font-size: 1.2rem;
+    color: var(--color-background);
+    opacity: 1;
+    margin-top: 250px;
+    align-items: end;
+}
+
+/* Footer styling */
+.footer {
+    border-top: 1px solid var(--color-background);
+    padding-top: 20px;
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+}
+
+.footer, 
+.footer a, 
+.footer p {
+    color: var(--color-background);
+    text-decoration: none;
+    font-size: 1rem;
+}
+
+/* ----- MOBILE BREAK SECTION ----- */
+@media (max-width: 600px) {
+
+  .breakcontent {
+    padding: 30px 24px;
+    min-height: 90vh;
+    gap: 40px;
+    justify-content: space-between;
+  }
+
+  .breakcontent h2 {
+    font-size: 1.9rem;
+    line-height: 1.2;
+
+  }
+
+  .tagline {
+    font-size: 1rem;
+    margin-top: 10px;
+    margin-left: 20px;
+    opacity: 0.65;
+  }
+
+  .footer {
+    padding-top: 18px;
+    gap: 4px;
+  }
+
+  .footer p,
+  .footer a {
+    font-size: 0.9rem;
+  }
+}
+
+
+
+
 
 @media (max-width: 900px) {
     .breakcontent h2 {
@@ -917,43 +1044,14 @@ section:not(.hero) {
 h2 {
     padding: 20px;
     font-size: 4rem;
-    font-weight: 200;
+    font-weight: 300;
     color: var(--color-background);
 }
 
 p {
     font-size: 1.6rem;
 }
-.cursor-magnifier {
-  position: fixed;
-  width: 140px;
-  height: 140px;
-  border-radius: 50%;
-  pointer-events: none;
-  overflow: clip;
-  z-index: 999999; /* must be higher than your cursor */
-  transform: translate(-50%, -50%);
-}
 
-.cursor-magnifier .magnifier-content {
-  position: fixed;
-  top: 0;
-  left: 0;
-  width: 100vw;
-  height: 100vh;
-
-  /* magnification */
-  transform-origin: 0 0;
-  transform: scale(5); /* magnification power */
-
-  /* This ensures it visually mirrors your real page */
-  backdrop-filter: none; /* fallback protection */
-}
-
-.sg-wrap {
-    border-radius: 20px;
-    overflow: hidden;
-}
 
 
 /* ----------------------------- */
@@ -1158,20 +1256,13 @@ p {
       z-index: 3; 
       font-size: 4vw;
       text-align: left;
-      margin-bottom: 0; /* remove negative margin */
       padding-left: 20px;
   }
 
   /* STUDIO TEXT OVER LOGO */
 .studio-text {
-    position: absolute;       /* relative to .scg-wrap */
-    bottom: 100%;             /* top of logo */
-    right: 0;                 /* align to logo right edge */
-    margin-bottom: -20px;      /* optional spacing above logo */
-    z-index: 3;               /* above logo */
-    font-size: 7vw;           /* adjust to fit mobile */
-    text-align: right;
-    color: #fff;
+
+    display: none;
 }
 
 /* Mobile logo sizing */
@@ -1182,6 +1273,7 @@ p {
     display: block;
     margin-left: 20px;
     margin-right: auto;
+
 }
 
 
@@ -1232,5 +1324,118 @@ p {
 
 
 
+
+
+
+
+.manifesto-cards {
+    background: var(--color-background-2);
+    padding: 80px 40px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+.manifesto-title {
+    font-size: 8vh;
+    text-align: left;
+    margin-bottom: 60px;
+    font-weight: 300;
+    color: var(--color-primary-dark);
+}
+
+.manifesto-cards-wrapper {
+    display: flex;
+    gap: 40px;
+    flex-wrap: wrap;
+    justify-content: center;
+    max-width: 1200px;
+    width: 100%;
+}
+
+.manifesto-card {
+    background: var(--color-background);
+    border-radius: 20px;
+    padding: 40px;
+    flex: 1 1 300px;
+    max-width: 350px;
+    min-height: 350px;
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-start;
+    align-items: flex-start;
+    box-shadow: 0 15px 30px rgba(0,0,0,0.05);
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
+    position: relative;
+}
+
+.manifesto-card:hover {
+    transform: translateY(-10px);
+    box-shadow: 0 25px 50px rgba(0,0,0,0.1);
+}
+
+.manifesto-number {
+    font-size: 5rem;
+    font-weight: 800;
+    color: var(--color-accent);
+    margin-bottom: 20px;
+}
+
+.manifesto-card h2 {
+    font-size: 1.8rem;
+    font-weight: 700;
+    margin-bottom: 15px;
+    color: var(--color-primary-dark);
+}
+
+.manifesto-card p {
+    font-size: 1.12rem;
+    line-height: 1.6;
+    color: var(--color-primary-dark);
+}
+
+/* Floating animation for cards */
+.floating {
+    animation-name: float;
+    animation-duration: 6s;
+    animation-iteration-count: infinite;
+    animation-timing-function: ease-in-out;
+}
+
+@keyframes float {
+    0% { transform: translateY(0px); }
+    50% { transform: translateY(-8px); }
+    100% { transform: translateY(0px); }
+}
+
+/* Mobile */
+@media (max-width: 768px) {
+    .manifesto-cards-wrapper {
+        flex-direction: column;
+        gap: 30px;
+        align-items: center;
+        margin-top: 50px;
+    }
+
+
+
+    .manifesto-card {
+        max-width: 90%;
+        min-height: auto;
+        padding: 30px;
+    }
+
+    .manifesto-number {
+        font-size: 4rem;
+    }
+
+    .manifesto-card h2 {
+        font-size: 1.6rem;
+    }
+
+    .manifesto-card p {
+        font-size: 1.3rem;
+    }
+}
 
 
