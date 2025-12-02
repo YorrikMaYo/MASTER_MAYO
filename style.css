@@ -1566,6 +1566,13 @@ p {
     }
     section {
         scroll-snap-align: none !important;
+        min-height: calc(100vh - 8vh);
+
+    }
+
+    .break {
+                min-height: calc(100vh - 10vh);
+
     }
 }
 
