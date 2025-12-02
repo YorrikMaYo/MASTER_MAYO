@@ -4,20 +4,6 @@ body{
 }
 
 
- /* .hero {
-  background-color: black;
-  background-image:
-    linear-gradient(#ecfdfd 0.1px, transparent 1px),
-    linear-gradient(90deg, #ecfdfd 0.px, transparent 1px);
-  background-size: 40px 40px; 
-  background-position: center;
-} */
-
-::selection {
-  background: var(--color-accent);   /* your lime accent */
-  color: var(--color-primary-dark);           /* readable dark text */
-}
-
 
 .cursor {
     position: fixed;
@@ -111,7 +97,7 @@ body{
 
 
 
-
+ 
  
 
 
@@ -291,11 +277,6 @@ nav {
     height: 40px;
     padding-top: 5px;
     padding-left: 40px;
-}
-
-@media (max-width: 900px) {
-    .title img {
-padding-left: 0px;  }
 }
 
 .spacer {
@@ -761,7 +742,7 @@ section:not(.hero) {
 
 
 .mission {
-    padding: 40px 40px;
+    padding: 80px 60px;
     background: var(--color-background-2);
     display: flex;
     flex-direction: column;
@@ -806,28 +787,13 @@ section:not(.hero) {
         column-gap: 0;
     }
     .mission-title {
-        font-size: 10vw;
+        font-size: 6vw;
         margin-bottom: 40px;
     }
     .mission-text p {
         font-size: 1.2rem;
         line-height: 1.7;
     }
-
-
-  .mission-text p {
-    text-align: left !important;
-    text-justify: auto !important;
-  }
-
-  .mission-text {
-    text-align: left !important;
-  }
-
-  .mission {
-    padding: 20px 20px 100px 20px;
-  }
-
 }
 
 
@@ -1008,7 +974,7 @@ section:not(.hero) {
     display: flex;
     flex-direction: column;
     justify-content: space-between;
-    padding-left: 40px;
+    padding: 40px;
 }
 
 
@@ -1041,7 +1007,7 @@ section:not(.hero) {
 @media (max-width: 600px) {
 
   .breakcontent {
-    padding: 20px 20px;
+    padding: 30px 24px;
     min-height: 90vh;
     gap: 40px;
     justify-content: space-between;
@@ -1052,7 +1018,6 @@ section:not(.hero) {
     line-height: 1.2;
 
   }
-  
 
   .tagline {
     font-size: 1rem;
@@ -1081,7 +1046,10 @@ section:not(.hero) {
         font-size: 2.6rem !important;
     }
 
+    .breakcontent {
+        margin-left: -40px;
 
+    }
 
 
 
@@ -1490,9 +1458,7 @@ p {
         margin-top: 50px;
     }
 
-    .manifesto-title {
-        text-align: center;
-    }
+
 
     .manifesto-card {
         max-width: 90%;
@@ -1552,75 +1518,4 @@ p {
         align-items: center;
         justify-content: center;
     }
-}
-
-
-
-/* ----- BREAK SECTION: place CTAs UNDER title, aligned right, side-by-side ----- */
-@media (max-width: 700px) {
-
-  /* Make sure the heading takes full width so CTAs sit below it */
-  .break1 .breakcontent h2,
-  .break1 .breakcontent .in-animation.floating {
-    display: block;
-    width: 100%;
-    margin: 0 0 0px 0;   /* space under the title */
-    text-align: left;     /* keep heading left-aligned */
-  }
-
-  /* Container for CTAs: horizontal, aligned right, with inset from right edge */
-  .cta-flex-footer {
-    display: flex !important;
-    flex-direction: row !important;    /* keep buttons side-by-side */
-    gap: 12px;
-    justify-content: flex-end;         /* align to the right */
-    align-items: center;
-    width: 100%;
-    margin-top: 180px;
-    padding-right: 20px;               /* nudge away from the very edge */
-    box-sizing: border-box;
-    flex-wrap: nowrap;                 /* prevent wrapping to next line */
-  }
-
-  /* Make CTAs compact but touch-friendly */
-  .cta-flex-footer a {
-    white-space: nowrap;
-    padding: 12px 18px;
-    display: inline-flex;
-    align-items: center;
-    justify-content: center;
-    border-radius: 12px;
-    text-align: center;
-  }
-
-  /* If buttons are too wide on very small devices, allow a small shrink */
-  .cta-flex-footer a {
-    flex: 0 1 auto;   /* don't force full width, allow to shrink a bit if needed */
-    min-width: 0;
-  }
-
-  /* Tagline: keep left aligned and give breathing room above footer */
-  .break1 .tagline {
-    margin-top: 180px;
-    margin-left: 20px;
-    text-align: left;
-    width: calc(100% - 16px);
-  }
-
-  /* Footer: give more left margin so it isn't flush to the edge */
-  .break1 .footer {
-    padding-left: 18px;
-    padding-right: 18px;
-    margin-top: 18px;
-    box-sizing: border-box;
-  }
-
-  /* Ensure footer links are readable and spaced */
-  .break1 .footer p,
-  .break1 .footer a {
-    display: block;
-    margin-bottom: 6px;
-    text-align: left;
-    padding-left: 0;
-  }
 }

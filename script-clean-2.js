@@ -332,40 +332,31 @@ function animate() {
     if (eyeLeft) eyes.push({ el: eyeLeft, cache: eyeBoxes.left, angleState: 'left' });
     if (eyeRight) eyes.push({ el: eyeRight, cache: eyeBoxes.right, angleState: 'right' });
 
-eyes.forEach((eyeObj, idx) => {
-    const el = eyeObj.el;
-    const bbox = eyeObj.cache || el.getBBox();
-    const cx = bbox.x + bbox.width / 2;
-    const cy = bbox.y + bbox.height / 2;
-    const screen = svgPointToScreen(logo, cx, cy);
+    eyes.forEach((eyeObj, idx) => {
+      const el = eyeObj.el;
+      const bbox = eyeObj.cache || el.getBBox();
+      const cx = bbox.x + bbox.width / 2;
+      const cy = bbox.y + bbox.height / 2;
+      const screen = svgPointToScreen(logo, cx, cy);
 
-    const dxEye = mouseX - screen.x;
-    const dyEye = mouseY - screen.y;
-    const targetAngle = Math.atan2(dyEye, dxEye) * (180 / Math.PI);
+      // compute angle towards mouse
+      const dxEye = mouseX - screen.x;
+      const dyEye = mouseY - screen.y;
+      const targetAngle = Math.atan2(dyEye, dxEye) * (180 / Math.PI);
 
-    // === Smooth angle interpolation (NO JUMP FIX) ===
-    if (idx === 0) {
-        let diff = targetAngle - currentAngleLeft;
-        diff = ((diff + 180) % 360) - 180;  // wrap
-        currentAngleLeft += diff * 0.03;
-    } else {
-        let diff = targetAngle - currentAngleRight;
-        diff = ((diff + 180) % 360) - 180; // wrap
-        currentAngleRight += diff * 0.03;
-    }
+      if (idx === 0) {
+        currentAngleLeft += (targetAngle - currentAngleLeft) * eyeLerp;
+      } else {
+        currentAngleRight += (targetAngle - currentAngleRight) * eyeLerp;
+      }
 
-    const currentAngle = idx === 0 ? currentAngleLeft : currentAngleRight;
+      const currentAngle = idx === 0 ? currentAngleLeft : currentAngleRight;
+      const maxMove = 10;
+      const moveX = Math.max(Math.min(dxEye * 0.03, maxMove), -maxMove);
+      const moveY = Math.max(Math.min(dyEye * 0.03, maxMove), -maxMove);
 
-    const maxMove = 10;
-    const moveX = Math.max(Math.min(dxEye * 0.03, maxMove), -maxMove);
-    const moveY = Math.max(Math.min(dyEye * 0.03, maxMove), -maxMove);
-
-    el.setAttribute(
-      'transform',
-      `translate(${moveX},${moveY}) rotate(${currentAngle} ${cx} ${cy})`
-    );
-});
-
+      el.setAttribute('transform', `translate(${moveX},${moveY}) rotate(${currentAngle} ${cx} ${cy})`);
+    });
   }
 
   requestAnimationFrame(animate);
