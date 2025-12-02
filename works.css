@@ -1,10 +1,33 @@
+:root {
+
+    --nav-title-condensed: -2px;
+    --font-family-bricolage: 'Bricolage Grotesque', sans-serif;
+    
+    --font-display: var(--font-family-bricolage);
+    --font-nav: var(--font-family-bricolage);
+    --font-sans: var(--font-family-bricolage);
+
+    --color-primary: #0033ff;
+    --color-secondary: #ff6600;
+    --color-accent: #8cf71a;
+    --color-primary-dark: #010203;
+    --color-background: #eefdff;
+    --color-background-2: #ecfdfd;
+    --color-inverse: #fff;
+
+}
+
+
+
 /* -------------------------------------------------- */
 /* HERO (BLACK BG ALLOWED) */
 /* -------------------------------------------------- */
 
 .works-bg-black {
-  background: #000 !important;
+  background: var(--color-primary-dark) !important;
 }
+
+
 
 .light-text h2,
 .light-text p {
@@ -22,6 +45,10 @@
 
 .works-hero {
   position: relative; /* container for absolute positioning */
+}
+
+.img {
+  z-index: 1000;
 }
 
 .works-logo-wrapper {
@@ -149,7 +176,7 @@
   right: 20px;     /* distance from right edge */
   width: 70vw;    /* adjust to match homepage logo visually */
   height: auto;
-  z-index: 10;
+  z-index: 1000;
   opacity: 0;      /* start hidden */
   transform: translateY(-10px); /* slight upward offset for animation */
   transition: opacity 0.6s ease, transform 0.6s ease;
@@ -361,3 +388,26 @@
     border-bottom: 1px solid rgba(255,255,255,0.1);
   }
 }
+
+
+
+.page-grid {
+  position: fixed;
+  top: 0;
+  left: 0;
+
+  width: 100vw;
+  height: 100vh;
+
+  pointer-events: none;
+
+  z-index: 9999; /* visible above section backgrounds */
+
+  background-image:
+    linear-gradient(to right, rgba(195, 255, 0, 0.150) 1px, transparent 1px),
+    linear-gradient(to bottom, rgba(195, 255, 0, 0.150) 1px, transparent 1px);
+
+  background-size: 40px 40px;
+}
+
+
