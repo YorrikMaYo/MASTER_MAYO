@@ -273,7 +273,7 @@ html, body {
 section {
     scroll-snap-align: start;
     scroll-margin-top: 8vh;
-        min-height: calc(100vh - 60px);
+        min-height: calc(100vh - 8vh);
 
 }
 
@@ -813,7 +813,7 @@ section:not(.hero) {
     font-weight: 250;
     line-height: 1.4;
     color: var(--color-primary-dark);
-    hyphens: auto;
+    hyphens: none;
     text-align: justify;
 }
 
@@ -1150,10 +1150,11 @@ section:not(.hero) {
 
 .two{
     text-align: right;
+    margin: 0;
+    padding: 0;
 }
 
 h2 {
-    padding: 20px;
     font-size: 4rem;
     font-weight: 300;
     color: var(--color-background);
@@ -1446,10 +1447,11 @@ p {
 
 .manifesto-cards {
     background: var(--color-background-2);
-    padding: 80px 40px;
+    padding: 0px 40px;
     display: flex;
     flex-direction: column;
     align-items: center;
+    height: 100vh;
 }
 
 .manifesto-title {
@@ -1458,6 +1460,7 @@ p {
     margin-bottom: 60px;
     font-weight: 300;
     color: var(--color-primary-dark);
+    margin-top: 0; padding-top: 0;
 }
 
 .manifesto-cards-wrapper {
