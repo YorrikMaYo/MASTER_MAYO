@@ -273,7 +273,7 @@ html, body {
 section {
     scroll-snap-align: start;
     scroll-margin-top: 8vh;
-        min-height: calc(100vh - 8vh);
+    min-height: calc(100vh - 8vh);
 
 }
 
@@ -1200,6 +1200,9 @@ p {
     position: relative;
 }
 
+.break h2 {
+    padding: 20px;
+}
 
 
 
@@ -1447,7 +1450,7 @@ p {
 
 .manifesto-cards {
     background: var(--color-background-2);
-    padding: 0px 40px;
+    padding: 80px 40px;
     display: flex;
     flex-direction: column;
     align-items: center;
