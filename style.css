@@ -457,26 +457,7 @@ padding-left: 0px;  }
     .hero-wrapper {
     flex-direction: column;
     align-items: flex-start;
-        padding-top: 40px;
-
-
-
-
-  }
-
-  .hero h2 {
-    font-size: 2.5rem;
-    padding: 20px;
-  }
-
-  .cta-wrapper {
-    margin: 0 20px;
-  }
-
-  .logo-svg {
-    width: 80vw;
-    right: 20px;
-    bottom: 20px;
+    padding-top: 40px;
   }
 
   .studio-text {
@@ -493,11 +474,7 @@ padding-left: 0px;  }
     width: 90%;
   }
 
-  .logo-svg {
-    width: 70vw;
-    right: 10px;
-    bottom: 10px;
-  }
+
 
   .studio-text {
     font-size: 2rem !important;
@@ -545,7 +522,7 @@ background-color: #eaff2e;
 }
 
 .cta-sec {
-    margin: 40px 40px 0px 0px ;
+  margin: 40px 40px 0px 0px ;
   display: inline-block;
   padding: 0.9em 2em;
   font-size: .8rem;
@@ -1187,7 +1164,7 @@ p {
     position: absolute;
     width: 25px;               
     height: 25px;
-    background: white;
+    background: var(--color-background-2);
     border-radius: 50%;
     top: 50%;
     left: 50%;
@@ -1360,14 +1337,13 @@ p {
 
 
 
-@media (max-width: 768px) {
+@media (max-width: 900px) {
 
   .hero {
       position: relative;
       z-index: 3; 
       font-size: 4vw;
       text-align: left;
-      padding-left: 20px;
   }
 
   
@@ -1382,9 +1358,8 @@ p {
     max-width: 85vw;    
     height: auto;
     display: block;
-    margin-left: 20px;
-    margin-right: auto;
-
+    left: 50%;
+    transform: translateX(9.5%);
 }
 
 
@@ -1394,7 +1369,8 @@ p {
     font-size: 8vw;
     line-height: 1.1;
     margin-bottom: 24px;
-    padding-left: 0;
+    padding-left: 20px;
+    
   }
 
 .cta-wrapper {
@@ -1404,7 +1380,6 @@ p {
     flex-wrap: nowrap;     
     justify-content: flex-start; 
     align-items: center;
-    margin-bottom: 10px;
 }
 
 

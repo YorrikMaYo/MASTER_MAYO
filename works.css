@@ -63,6 +63,7 @@
 @media (max-width: 900px) {
   .works-logo-wrapper {
     width: 82vw;
+    top: 80px;
   }
 }
 
