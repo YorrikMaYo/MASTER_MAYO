@@ -463,9 +463,11 @@ section{
   .title-group .works-title {
     margin-bottom: 6px;
   }
-}
 
-.cursor {
+  .cursor {
   display: none;
 }
+
+}
+
 

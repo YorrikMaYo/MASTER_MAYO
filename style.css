@@ -35,17 +35,13 @@ body{
 /* Override selection ONLY inside dark sections  */
 /* --------------------------------------------- */
 
-.hero ::selection {
-  background: var(--color-primary);       /* bright blue */
-  color: var(--color-background-2);       /* light text */
+/* Dark-section selection override */
+.hero-content , .break *::selection {
+  background: blueviolet;
+  color: wheat;
 }
 
-.hero ::-moz-selection {
-  background: var(--color-primary);
-  color: var(--color-background-2);
-}
-
-.hero ::-webkit-selection {
+.hero, .break *::-moz-selection {
   background: var(--color-primary);
   color: var(--color-background-2);
 }
@@ -1074,11 +1070,12 @@ section:not(.hero) {
 
 .breakcontent {
     background: var(--color-primary-dark);
-    min-height: 92vh;
+    min-height: 100vh;
     display: flex;
     flex-direction: column;
-    justify-content: space-between;
+    min-height: 100vh;
     padding-left: 40px;
+    padding-top: 40px;
 }
 
 
@@ -1093,10 +1090,12 @@ section:not(.hero) {
 
 .footer {
     border-top: 1px solid var(--color-background);
-    padding-top: 20px;
     display: flex;
     flex-direction: column;
     gap: 8px;
+    margin-bottom: 0;
+    padding-top: 20px;
+
 }
 
 .footer, 
@@ -1105,14 +1104,14 @@ section:not(.hero) {
     color: var(--color-background);
     text-decoration: none;
     font-size: 1rem;
+    
 }
 
 
-@media (max-width: 600px) {
+@media (max-width: 900px) {
 
   .breakcontent {
     padding: 20px 20px;
-    min-height: 90vh;
     gap: 40px;
     justify-content: space-between;
   }
@@ -1151,10 +1150,6 @@ section:not(.hero) {
         font-size: 2.6rem !important;
     }
 
-
-
-
-
   .big-eye {
     width: 140px;
     height: 140px;
@@ -1165,21 +1160,23 @@ section:not(.hero) {
 
 @media (max-width: 600px) {
   .big-eye {
-    width: 100px;
-    height: 100px;
-    right: 10px;
-    top: 25vh;
+
         display: none;
 
   }
 }
 
+.breakcontent.first {
+  display: flex;
+  justify-content: space-between;
+}
 
 .two{
     text-align: right;
     margin: 0;
     padding: 0;
 }
+
 
 h2 {
     font-size: 4rem;
@@ -1613,9 +1610,7 @@ p {
     }
 }
 
-.breakcontent {
-    padding: 40px 40px 40px 40px;
-}
+
 
 /* ----- BREAK SECTION: place CTAs UNDER title, aligned right, side-by-side ----- */
 
@@ -1625,7 +1620,7 @@ p {
   .break1 .breakcontent .in-animation.floating {
     display: block;
     width: 100%;
-    margin: 0 0 0px 0;   /* space under the title */
+    margin: 40px 0 0px 0;   /* space under the title */
     text-align: left;     /* keep heading left-aligned */
   }
 
@@ -1637,7 +1632,7 @@ p {
     justify-content: flex-end;         /* align to the right */
     align-items: center;
     width: 100%;
-    margin-top: 180px;
+    margin-top: auto;
     padding-right: 20px;               /* nudge away from the very edge */
     box-sizing: border-box;
     flex-wrap: nowrap;                 /* prevent wrapping to next line */
@@ -1672,7 +1667,6 @@ p {
   .break1 .footer {
     padding-left: 18px;
     padding-right: 18px;
-    margin-top: 18px;
     box-sizing: border-box;
   }
 
@@ -1733,4 +1727,48 @@ section.hero {
     max-width: 100%; /* Make cards take full available width */
     width: 100%; /* Ensure width is flexible */
   }
+}
+
+/* In your CSS */
+
+
+@media (max-width: 768px) {
+    section#break {
+        min-height: auto;
+    }
+}
+
+footer.footer {
+  margin-top: 40px;
+  margin-bottom: 20px
+}
+
+/* Now, apply specific styles for mobile (assuming your mobile breakpoint is max-width: 768px) */
+@media (max-width: 768px) {
+  /* Override parent .breakcontent's flex property if it's causing issues */
+  .breakcontent {
+    justify-content: flex-start; /* Or initial, or unset. Prevents space-between from overriding */
+    /* If you also want to remove gap between ALL children of breakcontent, you might unset `gap` if it's applied there */
+  }
+
+  /* Style for the buttons container on mobile */
+  .cta-flex-footer {
+    flex-direction: column; /* Stack buttons vertically */
+    align-items: center;   /* Center individual buttons when stacked */
+    gap: 15px;             /* Vertical gap between stacked buttons */
+    margin-bottom: 0px;   /* Ensure this is set for the desired space */
+  }
+
+  /* Ensure footer doesn't add any extra space on mobile */
+  footer.footer {
+    margin-top: 0px;
+    padding-top: 10px;
+  }
+}
+
+#portfolio,
+#about,
+#point-of-view,
+#contact {
+  scroll-margin-top: 8vh;
 }
