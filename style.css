@@ -443,7 +443,7 @@ padding-left: 0px;  }
 /* The new anchor box */
 .logo-stack {
   position: absolute;
-  bottom: 20px;
+  bottom: 40px;
   right: 40px;
   left: 40px;
   width: auto;
@@ -454,6 +454,12 @@ padding-left: 0px;  }
   
 
 }
+
+@media (max-width: 900px) {
+    .logo-stack {
+      right: 20px;
+      left: 0px;
+  }}
 
 /* Logo inside the box */
 .logo-stack .logo-svg {
@@ -534,11 +540,10 @@ padding-left: 0px;  }
     padding-top: 40px;
   }
 }
-@media (max-width: 600px) {
+@media (max-width: 900px) {
 
   .hero h2 {
     font-size: 1.8rem;
-    padding: 20px;
     width: 90%;
   }
 
@@ -1386,6 +1391,7 @@ p {
       z-index: 3; 
       font-size: 4vw;
       text-align: left;
+      padding-left: 20px;
   }
 
   
@@ -1396,7 +1402,7 @@ p {
 
 .logo-img {
     width: 100%;          
-    max-width: 85vw;    
+    max-width: 100vw;    
     height: auto;
     display: block;
     left: 50%;
@@ -1598,7 +1604,7 @@ p {
 
     .cta-wrapper {
         position: absolute;
-        bottom: 250px;
+        bottom: 350px;
         flex-direction: row;
         align-items: flex-start;
         gap: 10px;
@@ -1931,7 +1937,7 @@ footer.footer {
 /* FIX MOBILE JUMPING */
 @media (max-width: 900px) {
   .portfolio-right {
-    height: 90vh;        /* lock height same as desktop */
+    height: 70vh;        /* lock height same as desktop */
     overflow: hidden;     /* prevent entire box from expanding */
   }
 
@@ -1969,5 +1975,4 @@ footer.footer {
     height: auto;
   }
 }
-
 
