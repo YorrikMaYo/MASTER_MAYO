@@ -414,3 +414,21 @@ document.addEventListener("DOMContentLoaded", () => {
         observer.observe(item);
     });
 });
+
+const cards = document.querySelectorAll('.carousel-card');
+let index = 0;
+
+function showCard(i) {
+  cards.forEach(card => card.classList.remove('active'));
+  cards[i].classList.add('active');
+}
+
+document.querySelector('.next').addEventListener('click', () => {
+  index = (index + 1) % cards.length;
+  showCard(index);
+});
+
+document.querySelector('.prev').addEventListener('click', () => {
+  index = (index - 1 + cards.length) % cards.length;
+  showCard(index);
+});

@@ -211,13 +211,17 @@ body{
     --font-nav: var(--font-family-bricolage);
     --font-sans: var(--font-family-bricolage);
 
-    --color-primary: #0033ff;
+    --color-primary: #0a120c;
     --color-secondary: #ff6600;
     --color-accent: #00ffa2;
-    --color-primary-dark: #010203;
+    --color-primary-dark: #05050c;
     --color-background: #eefdff;
     --color-background-2: #ecfdfd;
     --color-inverse: #fff;
+
+      --shadow-soft: 0 15px 30px rgba(0,0,0,0.05);
+
+
 
 }
 
@@ -495,7 +499,7 @@ padding-left: 0px;  }
     position: sticky;
     top: 0;
     width: 100%;
-    height: calc(100vh - 60px);
+    height: 100vh;
     background-color: var(--color-primary-dark);
     color: var(--color-background-2);
     z-index: 1;       
@@ -1773,9 +1777,167 @@ footer.footer {
   }
 }
 
-#portfolio,
+#portfolio {
+    scroll-margin-top: 0vh;
+
+}
+
+
 #about,
 #point-of-view,
 #contact {
-  scroll-margin-top: vh;
+  scroll-margin-top: 5vh;
+}
+
+
+/* Whole section */
+.portfolio-section {
+  padding: 100px 5vw;
+  background-color: var(--color-background-2);
+}
+
+/* Two-column layout */
+.portfolio-wrapper {
+  display: flex;
+  gap: 2rem;
+  height: 80vh; /* fixed height */
+}
+
+/* LEFT (1/4 width) */
+.portfolio-left {
+  flex: 1;
+  background-color: var(--color-primary) !important;
+  color: var(--color-background-2);
+  font-variation-settings: "wght" 500 "opsz"72;
+  padding: 3rem;
+  border-radius: 15px;
+  border: var(--color-background-2) solid 1px;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  box-shadow: 0 15px 30px rgba(0,0,0,0.15);
+  min-width: 250px;
+}
+
+.portfolio-btn {
+  white-space: nowrap;       /* prevents wrapping */
+  display: inline-block;     /* ensures button stays one line */
+  margin-top: 1.5rem;
+}
+
+/* RIGHT (3/4 width) */
+.portfolio-right {
+  flex: 3;
+  /* border: 1px solid var(--color-primary-dark); */
+  border-radius: 15px;
+  padding: 2.5rem;
+  overflow: hidden;
+  position: relative;
+  background-color: var(--color-accent);
+  box-shadow: 0 15px 30px rgba(0,0,0,0.15);
+
+}
+
+/* CAROUSEL */
+.carousel {
+  height: 100%;
+  position: relative;
+}
+
+/* CARD LAYOUT */
+.carousel-card {
+  display: none;
+  height: 100%;
+  animation: fadeIn 0.5s ease forwards;
+}
+
+.carousel-card.active {
+  display: block;
+}
+
+/* IMAGE fills top area proportionally */
+.carousel-card img {
+  width: 100%;
+  height: 55vh;
+  object-fit: cover;
+  border-radius: 15px;
+  margin-bottom: 1rem;
+}
+
+/* Text in cards */
+.carousel-card h3 {
+  font-weight: 600;
+  margin-bottom: 0.4rem;
+}
+
+.carousel-card p {
+  opacity: 0.8;
+  max-width: 90%;
+}
+
+/* ARROWS — clean, minimal, inline */
+.carousel-controls {
+  position: absolute;
+  bottom: 1.5rem;
+  right: 2rem;
+  display: flex;
+  gap: 1.5rem;
+}
+
+.arrow {
+  background: none;
+  border: none;
+  font-size: 2.5rem;
+  font-weight: 300;
+  cursor: pointer;
+  padding: 0;
+  line-height: 1;
+  transition: transform 0.2s ease, opacity 0.2s ease;
+}
+
+.arrow:hover {
+  transform: translateX(3px);
+  opacity: 0.6;
+}
+
+/* FIX MOBILE JUMPING */
+@media (max-width: 900px) {
+  .portfolio-right {
+    height: 90vh;        /* lock height same as desktop */
+    overflow: hidden;     /* prevent entire box from expanding */
+  }
+
+  .carousel {
+    height: 100%;
+  }
+
+  .carousel-card {
+    height: 100%;        /* card stays full height */
+    overflow-y: auto;    /* scroll inside if text overflows */
+    padding-right: 0.5rem; /* avoid clipping */
+  }
+
+  .carousel-card img {
+    height: 45vh;        /* slightly smaller image for mobile */
+    object-fit: cover;
+  }
+}
+
+
+/* Fade animation */
+@keyframes fadeIn {
+  from { opacity: 0; transform: translateY(10px); }
+  to   { opacity: 1; transform: translateY(0); }
+}
+
+/* MOBILE */
+@media (max-width: 900px) {
+  .portfolio-wrapper {
+    flex-direction: column;
+    height: auto;
+  }
+
+  .carousel-card img {
+    height: auto;
+  }
 }
