@@ -519,7 +519,7 @@ padding-left: 0px;  }
     position: sticky;
     top: 0;
     width: 100%;
-    min-height: 92vh;
+    height: 92vh;
     background-color: var(--color-primary-dark);
     color: var(--color-background-2);
     z-index: 1;       
