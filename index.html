@@ -232,6 +232,9 @@ const links = document.querySelectorAll('.nav-links .link');
 const sections = document.querySelectorAll('section');
 const nav = document.getElementById('nav');
 
+// Match your CSS scroll-margin-top: 8vh
+const SCROLL_MARGIN = window.innerHeight * 0.08;
+
 // Function to remove all active classes
 function clearActive() {
   links.forEach(link => link.classList.remove('active'));
@@ -247,7 +250,8 @@ links.forEach(link => {
 
 // Scroll → highlight section
 function updateActiveOnScroll() {
-  const scrollPos = window.scrollY + nav.offsetHeight + 10;
+  // compensate for scroll-margin-top (8vh)
+  const scrollPos = window.scrollY + nav.offsetHeight + 10 + SCROLL_MARGIN;
   let activeFound = false;
 
   sections.forEach(section => {
@@ -277,8 +281,8 @@ window.addEventListener('scroll', updateActiveOnScroll);
 
 // Initial call on page load
 updateActiveOnScroll();
-
 </script>
+
 </body>
 
 <!-- HTML above ... -->
