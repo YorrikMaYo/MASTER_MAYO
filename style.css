@@ -265,9 +265,11 @@ body::-webkit-scrollbar {
 }
 
 html, body {
-    font-family: var(--font-family-bricolage);
+  font-family: 'Bricolage Grotesque', sans-serif;
     scroll-behavior: smooth;
     scroll-snap-type: y mandatory;
+    font-variation-settings: 
+    "wght" 300, "opsz" 30 ;
 }
 
 section {
@@ -276,6 +278,8 @@ section {
     min-height: calc(100vh - 8vh);
 
 }
+
+
 
 
 .in-animation {
@@ -397,22 +401,56 @@ padding-left: 0px;  }
   height: auto;
   display: block;
   position: absolute;
-  bottom: 40px;
   right: 40px;
   left: 40px;
   cursor: pointer;
 }
+/* The new anchor box */
+.logo-stack {
+  position: absolute;
+  bottom: 20px;
+  right: 40px;
+  left: 40px;
+  width: auto;
+  height: auto;
+  pointer-events: none; /* → Clicking still goes to the SVG */
+  margin-right: 40px;
+  max-height: 60vh;
+  
+
+}
+
+/* Logo inside the box */
+.logo-stack .logo-svg {
+  position: relative; /* not absolute */
+  display: block;
+  margin: 0 auto;
+  max-width: 95vw;
+  height: auto;
+  pointer-events: auto;
+  z-index: 1;
+}
+
+
+
+
+/* Studio text positioned relative to the logo */
+.logo-stack .studio-text {
+  position: absolute;
+  right: 0;
+  bottom: calc(100% + 0px); /* ← ALWAYS 20px above logo */
+  margin: 0;
+  font-size: 5rem;
+  font-weight: 300;
+  z-index: 2;
+}
 
 .studio-text {
-    position: absolute;       
-    bottom: 100%;             
-    right: 20px;                 
-    margin-bottom: 20px;      
-    z-index: 3;               
-    font-size: 7vw;           
-    text-align: right;
-    color: #fff;
+    right: -40px !important;
+
 }
+
+
 
 @media (min-width: 1400px) {
     .studio-text {
@@ -459,12 +497,6 @@ padding-left: 0px;  }
     align-items: flex-start;
     padding-top: 40px;
   }
-
-  .studio-text {
-    font-size: 2.5rem !important;
-    right: 20px !important;
-    bottom: 65% !important;
-  }
 }
 @media (max-width: 600px) {
 
@@ -475,11 +507,6 @@ padding-left: 0px;  }
   }
 
 
-
-  .studio-text {
-    font-size: 2rem !important;
-    right: 10px !important;
-  }
 
   .email-btn {
   display: flex;
@@ -497,10 +524,11 @@ padding-left: 0px;  }
 
 
 .cta-prime{
+  margin: 40px 10px 0px 0px ;
+  height: 40px;
   display: inline-block;
   padding: 0.9em 2em;
   font-size: .8rem;
-  font-weight: 700;
   text-transform: uppercase;
   letter-spacing: 1px;
   color: var(--color-primary-dark);
@@ -513,16 +541,20 @@ padding-left: 0px;  }
   overflow: hidden;
   max-width: 200px;
   border-radius: 15px;
+font-family: "Bricolage Grotesque", sans-serif;
+font-variation-settings: "wght" 400 "opsz" 30; 
+}
+
+.cta-prime .works-btn {
+    margin: 0px 0px 0px 0px !important;
 }
 
 
 
-.cta-prime .black {
-background-color: #eaff2e;
-}
+
 
 .cta-sec {
-  margin: 40px 40px 0px 0px ;
+  margin: 40px 20px 0px 0px ;
   display: inline-block;
   padding: 0.9em 2em;
   font-size: .8rem;
@@ -572,9 +604,9 @@ background-color: #eaff2e;
 }
 
 .cta-wrapper{
-    display: block;
-    flex-direction: column;
-    flex-flow: column;
+    display: flex;
+    justify-content: end;
+    
 }
 
 .cta-prime::after {
@@ -601,25 +633,21 @@ background-color: #eaff2e;
   transform: translate(-50%, -50%) scale(1);
 }
 
-.hero h1, .logo {
-    position: absolute;
-    z-index: 0;
 
+
+.hero h1 {
+  font-family: 'Bricolage Grotesque', sans-serif;
+  font-size: 4rem;
+  right: 40px;
+  bottom: 58%;
+  font-weight: 200; /* still works as a fallback */
+
+  /* Now we use variable font controls */
+  font-variation-settings: 
+    "wght" 300,   /* custom fine-tuned weight */
+    "opsz" 72;    /* sharper or smoother at size */
 }
 
-.hero h1{
-    font-size: 4rem;
-    right: 40px;
-    bottom: 58%;
-    font-weight: 300;
-}
-
-
-.logo {
-    max-height: 50%;
-    right: 40px;
-    bottom: 30px;
-}
 
 
 section:not(.hero) {
@@ -638,14 +666,16 @@ section:not(.hero) {
 .hero h2 {
     padding: 40px;
     font-size: 3rem;
-    font-weight: 300;
+    font-variation-settings: 
+    "wght" 200,   /* custom fine-tuned weight —— 200 — 800 */
+    "opsz" 72;    /* sharper or smoother at size —— 12 — 72 */
 }
 
 
 
 
 
-@media (max-width: 768px) {
+@media (max-width: 900px) {
     .service-previews {
         flex-direction: column;  
         gap: 20px;               
@@ -676,7 +706,7 @@ section:not(.hero) {
     align-items: center;
 }
 
-@media (max-width: 768px) {
+@media (max-width: 900px) {
     .service-header {
         flex-direction: column;       
         align-items: flex-start;      
@@ -695,7 +725,7 @@ section:not(.hero) {
     }
 }
 
-@media (max-width: 768px) {
+@media (max-width: 900px) {
     .service-intro {
         margin: 20px;
         font-size: 4vw;       
@@ -847,6 +877,7 @@ section:not(.hero) {
 
 
 .email-btn {
+    margin: 40px 40px 0px 0px ;
     display: inline-flex;
     align-items: center;
     justify-content: center;
@@ -858,15 +889,14 @@ section:not(.hero) {
     border-radius: 50%;
     text-decoration: none;
     transition: transform 0.3s ease, background-color 0.3s ease;
-    margin-right: 0px; 
+    margin-right: 10px; 
     position: relative;
-    top: -10px; 
 }
 
- .lang-switch {
+ /* .lang-switch {
     position: relative;
     top: -13px;
-}
+} */
 
 
 .email-btn:hover {
@@ -883,15 +913,16 @@ section:not(.hero) {
 }
 
 
-@media (max-width: 600px) {
+@media (max-width: 900px) {
 
     .email-btn {
+        margin: 0px 0px 0px 0px ;
         display: flex; 
         align-items: center;
         justify-content: center;
         width: 42px;
         height: 42px;
-        margin-right: 10px;     
+        margin-right: 0px;     
         position: static;        
         flex-shrink: 0;          
         border-radius: 50%;
@@ -1185,16 +1216,13 @@ p {
 
 
 
-.work-btn {
-    margin: 0px 40px 0 0;
+.cta-prime .work-btn {
     padding: 1rem 2.8rem;
-
+    margin-top: 0px ;
     font-size: 0.9rem;
-    font-weight: 700;
     text-transform: uppercase;
     letter-spacing: 1px;
-    font-family: inherit;
-
+    font-family: 'Bricolage Grotesque', sans-serif;
     color: var(--color-background);
     background-color: var(--color-primary-dark);
     border: 1px solid var(--color-inverse);
@@ -1212,27 +1240,6 @@ p {
         background .3s ease;
 }
 
-
-.work-btn::after {
-    content: "";
-    position: absolute;
-    top: 0;
-    left: -100%;
-    width: 100%;
-    height: 100%;
-    background: var(--color-accent);
-    opacity: 0.15;
-    transition: left .4s ease;
-}
-
-.work-btn:hover::after {
-    left: 0;
-}
-
-.work-btn:hover {
-    border-color: var(--color-accent);
-    color: var(--color-accent);
-}
 
 
 
@@ -1348,7 +1355,6 @@ p {
 
   
 .studio-text {
-
     display: none;
 }
 
@@ -1369,8 +1375,7 @@ p {
     font-size: 8vw;
     line-height: 1.1;
     margin-bottom: 24px;
-    padding-left: 20px;
-    
+    padding-left: 0;
   }
 
 .cta-wrapper {
@@ -1395,7 +1400,7 @@ p {
     z-index: 2 !important;         
 }
 
-@media (max-width: 768px) {
+@media (max-width: 900px) {
     .scg-wrap {
         bottom: 120px !important; 
         left: 20px !important;
@@ -1410,7 +1415,7 @@ p {
   
 
 }
-@media (max-width: 768px) {
+@media (max-width: 900px) {
     .logo-svg {
         display: none !important;
     }
@@ -1655,3 +1660,36 @@ p {
     padding-left: 0;
   }
 }
+
+
+/* OUTLINE */
+/* * {
+    border: #0033ff solid 1px;
+} */
+
+
+
+section.hero {
+  padding-bottom: 80px; /* maintains gap below logo */
+}
+
+/* override to visually lift the works button 40px without breaking its transform animation */
+.works-btn {
+    width: 200px;
+    height: 50px;
+    align-content: center;
+    justify-content: center;
+  position: relative !important; /* required so `top` works, and to override other rules */
+  top: -20px !important;         /* raises the element 40px */
+  z-index: 5 !important;         /* keep it above overlays if needed */
+}
+
+.cta-prime,
+.cta-sec,
+.email-btn,
+.works-btn {
+  display: inline-flex !important;
+  align-items: center;
+  justify-content: center;
+}
+
