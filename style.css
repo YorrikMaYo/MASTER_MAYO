@@ -900,6 +900,7 @@ section:not(.hero) {
     padding: 20px 20px 100px 20px;
   }
 
+
 }
 
 
@@ -953,6 +954,11 @@ section:not(.hero) {
 
 
 @media (max-width: 900px) {
+
+
+  .manifesto-cards-wrapper {
+    padding: 0;
+  }
 
     .email-btn {
         margin: 0px 0px 0px 0px ;
