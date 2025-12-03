@@ -19,53 +19,66 @@
 
 
 
-/* -------------------------------------------------- */
-/* HERO (BLACK BG ALLOWED) */
-/* -------------------------------------------------- */
-
 .works-bg-black {
   background: var(--color-primary-dark) !important;
 }
-
-
 
 .light-text h2,
 .light-text p {
   color: white !important;
 }
 
+.img {
+  z-index: 1000;
+}
+
+/* Main container */
 .works-hero {
-  height: calc(100vh - 60px);
+  height: 100vh;
   padding: 40px;
   display: flex;
   flex-direction: column;
   justify-content: flex-end;
   background: #000;
+  position: relative; /* anchor for absolute children */
+  overflow: hidden;   /* prevents overflow on ultrawide screens */
 }
 
-.works-hero {
-  position: relative; /* container for absolute positioning */
-}
-
-.img {
-  z-index: 1000;
-}
-
+/* THE IMPORTANT PART */
 .works-logo-wrapper {
   position: absolute;
-  top: 20px;      /* distance from top */
-  right: 20px;    /* distance from right */
-  width: 41vw;   /* adjust as needed */
+  top: 20px;          /* fixed distance from header */
+  right: 20px;
+  bottom: 20px;       /* fixed distance from bottom */
+  width: 41vw;        /* scales sideways */
+  max-height: calc(100vh - 40px - 40px - 60px);
+  /* 40px top padding (hero)
+     40px bottom padding (hero)
+     60px header height
+  */
   height: auto;
   z-index: 10;
+  display: flex;
+  align-items: flex-end; /* keeps logo aligned at bottom of wrapping box */
 }
 
+.works-logo-wrapper img {
+  max-height: 100%;
+  width: auto;
+  height: auto;
+  display: block;
+}
+
+/* Mobile override */
 @media (max-width: 900px) {
   .works-logo-wrapper {
     width: 82vw;
-    top: 80px;
+    top: 0px;
+    bottom: 20px;   /* keep same bottom spacing */
+    max-height: calc(100vh - 40px - 20px);
   }
 }
+
 
 .works-logo-wrapper img {
   width: 100%;
@@ -78,6 +91,8 @@
   font-size: 8vh;
   font-weight: 200;
   color: white;
+  margin-bottom: 20px;
+  line-height: 1;
 }
 
 .works-subtitle {
@@ -384,10 +399,20 @@
     z-index: 100;
   }
 
+@media (max-width: 768px) {
   #navLinks a {
-    padding: 12px 0;
-    border-bottom: 1px solid rgba(255,255,255,0.1);
+    color: var(--color-primary-dark);
+    font-family: var(--font-family-bricolage);
+    font-variation-settings: "wght" 500;
+    text-decoration: none;
+    font-size: 1.5rem;
+    letter-spacing: 0.5px;
+    display: block;
+    padding: 8px 0;
+    border-bottom: 1.2px solid var(--color-accent);
   }
+}
+
 }
 
 
@@ -411,4 +436,36 @@
   background-size: 40px 40px;
 }
 
+
+section{ 
+    scroll-snap-align: start;
+    scroll-margin-top: 8vh;
+    min-height: calc(100vh - 8vh);
+
+}
+
+/* Create a wrapper for mobile transforms without touching the animations */
+@media (max-width: 900px) {
+
+  .works-hero {
+    position: relative;   /* ensure absolute children stay inside */
+  }
+
+  .title-group {
+    position: absolute;
+    top: 80px;      /* distance from top/nav */
+    left: 20px;     /* distance from left */
+    z-index: 2000;  /* above background, below nav */
+    width: calc(100% - 40px); /* keeps it from going offscreen */
+  }
+
+  /* optional: make mobile spacing cleaner */
+  .title-group .works-title {
+    margin-bottom: 6px;
+  }
+}
+
+.cursor {
+  display: none;
+}
 

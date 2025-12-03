@@ -86,10 +86,9 @@
 <!-- HERO SECTION (BLACK) -->
 <section class="works-hero works-bg-black in-animation">
   <div class="page-grid"></div>
-
+<div class="title-group">
   <h1 class="works-title floating">Portfolio Page</h1>
-  <p class="works-subtitle floating">collection of projects from the past</p>
-
+</div>
   <!-- Top-right logo -->
   <div class="works-logo-wrapper">
     <img src="img/logoMayo.svg" alt="Studio MaYo Logo" />
@@ -526,6 +525,14 @@
 </main>
 
 <script src="works.js"></script>
+<script>
+  // highlight active nav link
+  document.querySelectorAll('#navLinks a').forEach(link => {
+    if (link.href === window.location.href) {
+      link.classList.add('active');
+    }
+  });
+</script>
 
 </body>
 </html>

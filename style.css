@@ -13,21 +13,43 @@ body{
   background-position: center;
 } */
 
-/* FULL SAFE VERSION */
+/* Global selection (light background sections) */
 ::selection {
   background: var(--color-accent);
   color: var(--color-primary-dark);
 }
 
+/* Firefox */
 ::-moz-selection {
   background: var(--color-accent);
   color: var(--color-primary-dark);
 }
 
+/* WebKit */
 ::-webkit-selection {
   background: var(--color-accent);
   color: var(--color-primary-dark);
 }
+
+/* --------------------------------------------- */
+/* Override selection ONLY inside dark sections  */
+/* --------------------------------------------- */
+
+.hero ::selection {
+  background: var(--color-primary);       /* bright blue */
+  color: var(--color-background-2);       /* light text */
+}
+
+.hero ::-moz-selection {
+  background: var(--color-primary);
+  color: var(--color-background-2);
+}
+
+.hero ::-webkit-selection {
+  background: var(--color-primary);
+  color: var(--color-background-2);
+}
+
 
 
 
@@ -195,7 +217,7 @@ body{
 
     --color-primary: #0033ff;
     --color-secondary: #ff6600;
-    --color-accent: #8cf71a;
+    --color-accent: #00ffa2;
     --color-primary-dark: #010203;
     --color-background: #eefdff;
     --color-background-2: #ecfdfd;
@@ -274,7 +296,6 @@ html, body {
 
 section {
     scroll-snap-align: start;
-    scroll-margin-top: 8vh;
     min-height: calc(100vh - 8vh);
 
 }
@@ -862,19 +883,17 @@ section:not(.hero) {
 }
 
 
-
-
-
 .about {
   width: 100%;
-  min-height: 92vh;
+  min-height: 100vh;
   background: var(--color-background-2);
-  padding-top: 40px;         
   display: flex;
   flex-direction: column;
 }
 
-
+.manifesto-cards-wrapper {
+    padding: 40px 40px 40px 40px;
+} 
 
 .email-btn {
     margin: 40px 40px 0px 0px ;
@@ -1219,7 +1238,7 @@ p {
 .cta-prime .work-btn {
     padding: 1rem 2.8rem;
     margin-top: 0px ;
-    font-size: 0.9rem;
+    font-size: 0rem;
     text-transform: uppercase;
     letter-spacing: 1px;
     font-family: 'Bricolage Grotesque', sans-serif;
@@ -1516,7 +1535,6 @@ p {
         flex-direction: column;
         gap: 30px;
         align-items: center;
-        margin-top: 50px;
     }
 
     .manifesto-title {
@@ -1538,7 +1556,7 @@ p {
     }
 
     .manifesto-card p {
-        font-size: 1.3rem;
+        font-size: 1.1rem;
     }
 }
 
@@ -1554,20 +1572,25 @@ p {
     }
 
     .break {
-                min-height: calc(100vh - 10vh);
+                min-height: calc(100vh - 0vh);
 
     }
 }
 
 
-@media (max-width: 600px) {
+@media (max-width: 900px) {
 
     .cta-wrapper {
+        position: absolute;
+        bottom: 250px;
         flex-direction: row;
         align-items: flex-start;
         gap: 10px;
         width: 100%;
-        margin-bottom: 290px;
+        margin-top: 290px;
+    }
+    .scg-wrap {
+        position: relative;
     }
 
     .cta-prime,
@@ -1590,10 +1613,12 @@ p {
     }
 }
 
-
+.breakcontent {
+    padding: 40px 40px 40px 40px;
+}
 
 /* ----- BREAK SECTION: place CTAs UNDER title, aligned right, side-by-side ----- */
-@media (max-width: 700px) {
+
 
   /* Make sure the heading takes full width so CTAs sit below it */
   .break1 .breakcontent h2,
@@ -1659,7 +1684,7 @@ p {
     text-align: left;
     padding-left: 0;
   }
-}
+
 
 
 /* OUTLINE */
@@ -1667,7 +1692,7 @@ p {
     border: #0033ff solid 1px;
 } */
 
-
+/* OVERRIDES */
 
 section.hero {
   padding-bottom: 80px; /* maintains gap below logo */
@@ -1680,7 +1705,7 @@ section.hero {
     align-content: center;
     justify-content: center;
   position: relative !important; /* required so `top` works, and to override other rules */
-  top: -20px !important;         /* raises the element 40px */
+  top: 10px !important;         /* raises the element 40px */
   z-index: 5 !important;         /* keep it above overlays if needed */
 }
 
@@ -1693,3 +1718,19 @@ section.hero {
   justify-content: center;
 }
 
+@media (max-width: 900px) { /* Adjust breakpoint as needed */
+  section#point-of-view {
+    height: auto; /* Allow the section to grow */
+    min-height: 100vh; /* Optional: ensure it's at least 100vh tall if content is short */
+  }
+
+  .manifesto-cards-wrapper {
+    flex-direction: column; /* Stack cards vertically */
+    align-items: center; /* Center cards if they don't take full width */
+  }
+
+  .manifesto-card { /* Assuming .manifesto-card is the class for individual cards */
+    max-width: 100%; /* Make cards take full available width */
+    width: 100%; /* Ensure width is flexible */
+  }
+}

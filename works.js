@@ -188,6 +188,7 @@ function updateMenuPosition() {
 hamburger.addEventListener("click", () => {
     updateMenuPosition();
     navLinks.classList.toggle("open");
+    hamburger.classList.toggle("open"); // <-- supports X animation
 
     const expanded = hamburger.getAttribute("aria-expanded") === "true";
     hamburger.setAttribute("aria-expanded", !expanded);
@@ -196,35 +197,63 @@ hamburger.addEventListener("click", () => {
 
 window.addEventListener("scroll", updateMenuPosition);
 
+
 // -----------------------------------------------
 // MOBILE PORTFOLIO NAV (NEW)
 // -----------------------------------------------
 if (window.innerWidth <= 768) { // only on mobile
-  // Clear default nav links
-  navLinks.innerHTML = '';
+    // Remove default nav links
+    navLinks.innerHTML = '';
 
-  // Grab project links from desktop project nav
-  const projectItems = document.querySelectorAll('.project-nav ul li a');
-  projectItems.forEach(link => {
-    const a = document.createElement('a');
-    a.href = link.href;
-    a.textContent = link.textContent;
-    navLinks.appendChild(a);
-  });
+    // Clone links from project-nav into mobile nav
+    const projectItems = document.querySelectorAll('.project-nav ul li a');
+    projectItems.forEach(link => {
+        const a = document.createElement('a');
+        a.href = link.getAttribute("href");
+        a.textContent = link.textContent;
+        navLinks.appendChild(a);
+    });
 
-  // Ensure mobile nav hidden initially
-  navLinks.style.display = 'none';
-  navLinks.style.flexDirection = 'column';
+    // Ensure mobile nav hidden initially
+    navLinks.style.display = 'none';
+    navLinks.style.flexDirection = 'column';
 
-  // Hamburger toggle for mobile menu
-  hamburger.addEventListener('click', () => {
-    if (navLinks.style.display === 'flex') {
-      navLinks.style.display = 'none';
-    } else {
-      navLinks.style.display = 'flex';
-    }
-  });
+    // Hamburger toggles menu visibility
+    hamburger.addEventListener('click', () => {
+        navLinks.style.display =
+            navLinks.style.display === 'flex' ? 'none' : 'flex';
+    });
 }
+
+
+// ----------------------------------------------------------
+// CLOSE MENU WHEN LINK IS CLICKED (mobile only)
+// ----------------------------------------------------------
+document.addEventListener("click", (e) => {
+    if (e.target.closest("#navLinks a")) {
+        navLinks.style.display = "none";
+        navLinks.classList.remove("open");
+        hamburger.classList.remove("open");
+        hamburger.setAttribute("aria-expanded", "false");
+    }
+});
+
+
+// ----------------------------------------------------------
+// ACTIVE PAGE HIGHLIGHTING
+// ----------------------------------------------------------
+document.addEventListener("DOMContentLoaded", () => {
+    const currentPage =
+        window.location.pathname.split("/").pop() || "index.html";
+
+    document.querySelectorAll("a[href]").forEach(link => {
+        const href = link.getAttribute("href");
+        if (href === currentPage) {
+            link.classList.add("active");
+        }
+    });
+});
+
 
 
 // -----------------------------------------------
@@ -328,3 +357,26 @@ function animate() {
 animate();
 
 
+
+//---------------------------------------------------------------------
+// ACTIVE PAGE HIGHLIGHT — works for both desktop & mobile menus
+//---------------------------------------------------------------------
+function highlightActivePage() {
+    const currentPage = window.location.pathname.split("/").pop() || "index.html";
+
+    document.querySelectorAll('a[href]').forEach(link => {
+        const href = link.getAttribute('href');
+        if (href === currentPage) {
+            link.classList.add("active");
+        } else {
+            link.classList.remove("active");
+        }
+    });
+}
+
+// Run after DOM loaded
+document.addEventListener("DOMContentLoaded", highlightActivePage);
+
+// Run again after mobile nav is rebuilt
+requestAnimationFrame(highlightActivePage);
+requestAnimationFrame(highlightActivePage); // ensures execution after all layout
