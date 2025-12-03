@@ -459,6 +459,7 @@ padding-left: 0px;  }
     .logo-stack {
       right: 20px;
       left: 0px;
+      max-height: 50vh;
   }}
 
 /* Logo inside the box */
@@ -466,7 +467,7 @@ padding-left: 0px;  }
   position: relative; /* not absolute */
   display: block;
   margin: 0 auto;
-  max-width: 95vw;
+  max-width: 80vw;
   height: auto;
   pointer-events: auto;
   z-index: 1;
@@ -1416,7 +1417,9 @@ p {
 }
 
 
-
+  .hero {
+    min-height: 100vh;
+  }
 
   .hero-wrapper h2 {
     font-size: 8vw;
@@ -1610,7 +1613,7 @@ p {
 
     .cta-wrapper {
         position: absolute;
-        bottom: 43vh;
+        bottom: 42vh;
         flex-direction: row;
         align-items: flex-start;
         gap: 10px;
