@@ -46,6 +46,20 @@ body{
   color: var(--color-background-2);
 }
 
+.hero::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  z-index: 0;
+  pointer-events: none;
+
+  background-image:
+    linear-gradient(to right, rgba(195, 255, 0, 0.15) 1px, transparent 1px),
+    linear-gradient(to bottom, rgba(195, 255, 0, 0.15) 1px, transparent 1px);
+
+  background-size: 40px 40px;
+}
+
 
 
 
@@ -509,6 +523,7 @@ padding-left: 0px;  }
     display: flex;
     flex-direction: row;
     justify-content: space-between;
+
 
 }
 
@@ -1692,9 +1707,6 @@ p {
 
 /* OVERRIDES */
 
-section.hero {
-  padding-bottom: 80px; /* maintains gap below logo */
-}
 
 /* override to visually lift the works button 40px without breaking its transform animation */
 .works-btn {
@@ -1777,10 +1789,13 @@ footer.footer {
   }
 }
 
+
+
 #portfolio {
     scroll-margin-top: 0vh;
 
 }
+
 
 
 #about,
@@ -1789,6 +1804,19 @@ footer.footer {
   scroll-margin-top: 5vh;
 }
 
+.portfolio-left::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  z-index: 0;
+  pointer-events: none;
+
+  background-image:
+    linear-gradient(to right, rgba(195, 255, 0, 0.15) 1px, transparent 1px),
+    linear-gradient(to bottom, rgba(195, 255, 0, 0.15) 1px, transparent 1px);
+
+  background-size: 40px 40px;
+}
 
 /* Whole section */
 .portfolio-section {
@@ -1941,3 +1969,5 @@ footer.footer {
     height: auto;
   }
 }
+
+

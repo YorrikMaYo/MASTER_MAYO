@@ -77,8 +77,16 @@
     bottom: 20px;   /* keep same bottom spacing */
     max-height: calc(100vh - 40px - 20px);
   }
-}
 
+  .work-block.two-img{
+    max-height: 70vh;
+  }
+
+  .work-block.full-image{
+    max-height: 70vh;
+    margin-top: 0px;
+  }
+}
 
 .works-logo-wrapper img {
   width: 100%;
@@ -91,7 +99,7 @@
   font-size: 8vh;
   font-weight: 200;
   color: white;
-  margin-bottom: 40px;
+  margin-bottom: 20px;
   line-height: 1;
 }
 
@@ -120,6 +128,13 @@
   background: var(--color-background);
 }
 
+/* Mobile: disable hover zoom to prevent layout jumps */
+@media (max-width: 900px) {
+  .two-img-row {
+    height: 80vh;
+  }
+}
+
 
 
 /* Shared hover animation for all work images */
@@ -136,13 +151,58 @@
   filter: saturate(1.15);
 }
 
-/* Mobile: disable hover zoom to prevent layout jumps */
+/* MOBILE FIXES */
 @media (max-width: 900px) {
-  .work-block img:hover {
-    transform: none;
-    filter: none;
+
+  /* Logo scaling + repositioning */
+  #logo-MAYO-works {
+    width: 45vw;        /* smaller logo */
+    top: 10px;          /* closer to the top */
+    right: 10px;        /* tucked into the corner */
+    opacity: 0.15;      /* optional: softer presence */
+    pointer-events: none; /* prevent interference */
+  }
+
+  /* Prevent logo overlap with text */
+  .works-hero,
+  .work-text {
+    padding-top: 15vh;   /* creates space to avoid collision */
+  }
+
+  /* Images */
+  .two-img-row {
+    flex-direction: column;
+    gap: 10px;
+  }
+
+  .two-img-row img,
+  .full-image img {
+    width: 100%;
+    height: auto;
+    max-height: 60vh;    /* prevent massive images on mobile */
+    object-fit: contain;
+  }
+
+  /* Allow paragraphs to shrink better */
+  .work-text p {
+    font-size: 1rem;
   }
 }
+/* MOBILE ONLY: move titles above the images */
+@media (max-width: 900px) {
+  .work-block.two-images {
+    display: flex;
+    flex-direction: column-reverse; /* flips order */
+    gap: 20px;
+  }
+
+    .work-block.full-image {
+    display: flex;
+    flex-direction: column-reverse; /* flips order */
+    gap: 20px;
+  }
+}
+
 
 
 .two-img-row {
@@ -276,10 +336,13 @@
 
   .two-img-row {
     flex-direction: column;
+    
   }
   .two-img-row img {
     width: 100%;
+
   }
+
 }
 
 /* MOBILE PROJECT MENU */
@@ -440,7 +503,6 @@
 section{ 
     scroll-snap-align: start;
     scroll-margin-top: 8vh;
-    min-height: calc(100vh - 8vh);
 
 }
 
@@ -471,3 +533,67 @@ section{
 }
 
 
+
+
+/* -------------------------------------------------- */
+/* MOBILE SPACING FIX (global) */
+/* -------------------------------------------------- */
+@media (max-width: 900px) {
+
+  /* Reduce global section padding */
+  .work-block {
+    padding: 24px 20px;
+    gap: 24px; /* tighter vertical spacing */
+    min-height: auto; /* don't force 100vh on mobile */
+  }
+
+  /* Reduce spacing between image and text block after reverse */
+  .work-block.two-images {
+    gap: 16px !important;
+  }
+
+  /* Fix images being too tall or getting cut off */
+  .two-img-row img,
+  .full-image img {
+    height: auto !important;
+    max-height: 55vh;  /* safe height for all phones */
+    width: 100%;
+    object-fit: contain;
+  }
+
+  /* Stack images cleanly, no overflow */
+  .two-img-row {
+    flex-direction: column;
+    gap: 12px;
+    height: auto !important;
+  }
+
+  /* Title spacing */
+  .work-text h2 {
+    margin-top: 0;
+    margin-bottom: 4px;
+    font-size: 2rem; /* better mobile scale */
+  }
+
+  /* Paragraph spacing */
+  .work-text p {
+    margin-bottom: 0;
+    font-size: 1rem;
+    line-height: 1.35;
+  }
+
+  /* Reduce section gap between projects */
+  .work-block {
+    padding-bottom: 32px;
+  }
+
+
+
+
+
+
+
+
+  /* Logo on mobile — safer sizing + spacing */
+
+}
