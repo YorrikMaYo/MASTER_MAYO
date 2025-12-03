@@ -1712,6 +1712,13 @@ section.hero {
   justify-content: center;
 }
 
+@media (max-width: 900px) { 
+.works-btn {
+  top: 0px !important;
+}
+}
+
+
 @media (max-width: 900px) { /* Adjust breakpoint as needed */
   section#point-of-view {
     height: auto; /* Allow the section to grow */
@@ -1770,5 +1777,5 @@ footer.footer {
 #about,
 #point-of-view,
 #contact {
-  scroll-margin-top: 8vh;
+  scroll-margin-top: vh;
 }
