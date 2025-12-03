@@ -1418,7 +1418,7 @@ p {
 
 
   .hero {
-    min-height: 100vh;
+    min-height: 110vh;
   }
 
   .hero-wrapper h2 {
@@ -1613,7 +1613,7 @@ p {
 
     .cta-wrapper {
         position: absolute;
-        bottom: 42vh;
+        bottom: 40vh;
         flex-direction: row;
         align-items: flex-start;
         gap: 10px;
@@ -1861,6 +1861,7 @@ footer.footer {
   box-shadow: 0 15px 30px rgba(0,0,0,0.15);
   min-width: 250px;
 }
+
 
 .portfolio-btn {
   white-space: nowrap;       /* prevents wrapping */
