@@ -1,17 +1,6 @@
-
 body{
     overflow-x: hidden;
 }
-
-
- /* .hero {
-  background-color: black;
-  background-image:
-    linear-gradient(#ecfdfd 0.1px, transparent 1px),
-    linear-gradient(90deg, #ecfdfd 0.px, transparent 1px);
-  background-size: 40px 40px; 
-  background-position: center;
-} */
 
 /* Global selection (light background sections) */
 ::selection {
@@ -31,37 +20,25 @@ body{
   color: var(--color-primary-dark);
 }
 
-/* --------------------------------------------- */
-/* Override selection ONLY inside dark sections  */
-/* --------------------------------------------- */
 
-/* Dark-section selection override */
-.hero-content , .break *::selection {
-  background: blueviolet;
-  color: wheat;
+/* Dark-mode selection override ONLY inside hero */
+.hero, .break, .break1 *::selection,
+.hero::selection {
+  background: var(--color-background-2);
+  color: var(--color-accent);
 }
 
-.hero, .break *::-moz-selection {
+.hero, .break, .break1 *::-moz-selection,
+.hero::-moz-selection {
   background: var(--color-primary);
   color: var(--color-background-2);
 }
 
-.hero::before {
-  content: "";
-  position: absolute;
-  inset: 0;
-  z-index: 0;
-  pointer-events: none;
-
-  background-image:
-    linear-gradient(to right, rgba(195, 255, 0, 0.15) 1px, transparent 1px),
-    linear-gradient(to bottom, rgba(195, 255, 0, 0.15) 1px, transparent 1px);
-
-  background-size: 40px 40px;
+.hero, .break, .break1 *::-webkit-selection,
+.hero::-webkit-selection {
+  background: var(--color-primary);
+  color: var(--color-background-2);
 }
-
-
-
 
 .cursor {
     position: fixed;
@@ -80,7 +57,6 @@ body{
     overflow: hidden;
     transition: transform 0.2s ease;
 }
-
 .pupil {
     width: 6px;
     height: 6px;
@@ -1715,12 +1691,7 @@ p {
 
 
 
-/* OUTLINE */
-/* * {
-    border: #0033ff solid 1px;
-} */
 
-/* OVERRIDES */
 
 
 /* override to visually lift the works button 40px without breaking its transform animation */
