@@ -1985,3 +1985,6 @@ footer.footer {
   }
 }
 
+html, body, * {
+  cursor: none !important;
+}
