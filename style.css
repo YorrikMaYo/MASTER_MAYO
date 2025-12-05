@@ -1,6 +1,17 @@
+
 body{
     overflow-x: hidden;
 }
+
+
+ /* .hero {
+  background-color: black;
+  background-image:
+    linear-gradient(#ecfdfd 0.1px, transparent 1px),
+    linear-gradient(90deg, #ecfdfd 0.px, transparent 1px);
+  background-size: 40px 40px; 
+  background-position: center;
+} */
 
 /* Global selection (light background sections) */
 ::selection {
@@ -20,25 +31,37 @@ body{
   color: var(--color-primary-dark);
 }
 
+/* --------------------------------------------- */
+/* Override selection ONLY inside dark sections  */
+/* --------------------------------------------- */
 
-/* Dark-mode selection override ONLY inside hero */
-.hero, .break, .break1 *::selection,
-.hero::selection {
-  background: var(--color-background-2);
-  color: var(--color-accent);
+/* Dark-section selection override */
+.hero-content , .break *::selection {
+  background: blueviolet;
+  color: wheat;
 }
 
-.hero, .break, .break1 *::-moz-selection,
-.hero::-moz-selection {
+.hero, .break *::-moz-selection {
   background: var(--color-primary);
   color: var(--color-background-2);
 }
 
-.hero, .break, .break1 *::-webkit-selection,
-.hero::-webkit-selection {
-  background: var(--color-primary);
-  color: var(--color-background-2);
+.hero::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  z-index: 0;
+  pointer-events: none;
+
+  background-image:
+    linear-gradient(to right, rgba(195, 255, 0, 0.15) 1px, transparent 1px),
+    linear-gradient(to bottom, rgba(195, 255, 0, 0.15) 1px, transparent 1px);
+
+  background-size: 40px 40px;
 }
+
+
+
 
 .cursor {
     position: fixed;
@@ -49,7 +72,7 @@ body{
     border-radius: 50%;
     pointer-events: none;
     transform: translate(-50%, -50%);
-    z-index: 9999;
+    z-index: 13000;
     display: flex;
     align-items: center;
     justify-content: center;
@@ -57,6 +80,7 @@ body{
     overflow: hidden;
     transition: transform 0.2s ease;
 }
+
 .pupil {
     width: 6px;
     height: 6px;
@@ -203,7 +227,7 @@ body{
 
     --color-primary: #0a120c;
     --color-secondary: #ff6600;
-    --color-accent: #00ffa2;
+    --color-accent: oklch(95% 0.35 159);
     --color-primary-dark: #05050c;
     --color-background: #eefdff;
     --color-background-2: #ecfdfd;
@@ -249,7 +273,7 @@ body, html {
         border-radius: 50%;
         pointer-events: none;
         transform: translate(-50%, -50%);
-        z-index: 9999;
+        z-index: 13000;
         display: flex;
         align-items: center;
         justify-content: center;
@@ -286,10 +310,14 @@ html, body {
 
 section {
     scroll-snap-align: start;
-    min-height: calc(100vh - 8vh);
+}
+
+section.break{
+  padding-top: 20px;
 
 }
 
+.breakcontent.first {}
 
 
 
@@ -312,8 +340,8 @@ nav {
     top: 0;
     height: 60px;
     background-color: var(--color-background-2);
-    z-index: 1000;
-    border-bottom: #0b0b0b solid 1px;
+    z-index: 11000;
+    border-bottom: var(--color-primary) solid 1px;
     display: flex;
     align-items: center;
 }
@@ -496,7 +524,7 @@ padding-left: 0px;  }
     position: sticky;
     top: 0;
     width: 100%;
-    height: 94vh;
+    height: 92vh;
     background-color: var(--color-primary-dark);
     color: var(--color-background-2);
     z-index: 1;       
@@ -1176,6 +1204,8 @@ section:not(.hero) {
 .breakcontent.first {
   display: flex;
   justify-content: space-between;
+  padding-bottom: 70px;
+  padding-right: 40px;
 }
 
 .two{
@@ -1231,9 +1261,7 @@ p {
     position: relative;
 }
 
-.break h2 {
-    padding: 20px;
-}
+
 
 
 
@@ -1691,7 +1719,12 @@ p {
 
 
 
+/* OUTLINE */
+/* * {
+    border: #0033ff solid 1px;
+} */
 
+/* OVERRIDES */
 
 
 /* override to visually lift the works button 40px without breaking its transform animation */
@@ -1958,4 +1991,485 @@ footer.footer {
 
 html, body, * {
   cursor: none !important;
+}
+
+/* ================================================================
+   SCOPED WIREFRAME — FIXED PADDING, CORRECT ARROWS
+   ================================================================ */
+
+#about-wireframe {
+  width: 100%;
+  height: 100vh;
+                 /* smaller */
+  background: var(--color-accent);
+  display: block;  justify-content: space-between;
+  flex-direction: column;
+  box-sizing: border-box;
+}
+
+#about-wireframe,
+#about-wireframe * {
+  color: var(--color-background-2) !important;
+  stroke: var(--color-background-2) !important; /* for arrow lines */
+  
+}
+
+/* Make the arrow buttons visually identical to the old cells */
+#about-wireframe .arrow-btn {
+  background: transparent;
+  border: none;
+  padding: 0;
+  margin: 0;
+  cursor: pointer;
+}
+
+/* optional: no default focus outline box, your custom cursor handles focus */
+#about-wireframe .arrow-btn:focus {
+  outline: none;
+}
+
+/* Make MA + YO shapes off-white */
+#about-wireframe svg polygon,
+#about-wireframe svg path {
+  fill: var(--color-background-2) !important;
+}
+
+/* Keep arrow lines off-white too (optional, more explicit) */
+#about-wireframe svg line,
+#about-wireframe svg polyline {
+  stroke: var(--color-background) !important;
+}
+
+
+/* ROWS */
+#about-wireframe .row {
+  display: grid;
+  /* border: 4px solid #1a00ff; */
+  padding: 0px;               /* reduced */
+  gap: 0px;                  /* reduced */
+}
+
+#about-wireframe .row-top {
+    grid-template-columns: 1.3fr 1fr 1fr;
+    margin-top: 10vh;
+    margin-left: 40px;
+    margin-right: 40px;
+    align-items: start;
+}
+
+#about-wireframe .row-middle {
+  grid-template-columns: 1fr 2fr 1fr;
+      margin-left: 40px;
+    margin-right: 40px;
+    transform: translateY(6vh);
+}
+
+#about-wireframe .row-bottom {
+  grid-template-columns: 1fr 0.6fr 1fr;
+      margin-left: 40px;
+    margin-right: 40px;
+
+
+}
+
+
+/* CELLS */
+#about-wireframe .cell {
+  /* border: 4px solid #1a00ff; */
+  padding: 10px;               /* reduced */
+}
+
+#about-wireframe .cell-about {
+  display: flex;
+  justify-content: flex-start;
+  align-items: flex-start;
+  margin-top: 0;
+  padding-top: 0;
+  transform: translateY(-10px);
+
+}
+
+
+
+/* TYPOGRAPHY */
+#about-wireframe h1 {
+  font-size: 9rem;           /* smaller HEADLINE */
+  margin: 0;
+  font-variation-settings: "wght" 700, "opsz" 12 ;
+  letter-spacing: -8px;
+  transform: translateY(-15px);
+
+}
+
+#about-wireframe h2 {
+  font-size: 4.5rem;
+  margin: 0;
+  padding: 0;
+  text-align: center;
+  transform: translateY(-15px) scale(1.7); /* adjust this number */
+  font-variation-settings: "wght" 800 ;
+  color: var(--color-primary-dark);
+
+}
+
+#about-wireframe p {
+  margin: 0;
+  font-size: 1.2rem;           /* smaller */
+  line-height: 1.35;
+  font-variation-settings: "wght" 400, "opsz" 12 ;
+
+}
+
+/* -----------------------------------------------------------
+   ARROW SVG
+----------------------------------------------------------- */
+#about-wireframe .arrow-svg {
+  width: 80px;
+  height: auto;
+  display: block;
+}
+
+/* LEFT ARROW — align left, flip ONLY the SVG */
+#about-wireframe .cell-arrow-left {
+  display: flex;
+  justify-content: flex-start; /* stay on the left side */
+  align-items: center;
+}
+
+#about-wireframe .arrow-left {
+  transform: scaleX(-1); /* flip just the arrow graphic */
+}
+
+
+#about-wireframe .cell-arrow-left {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+}
+
+#about-wireframe .cell-arrow-left h2 {
+  text-indent: 0 !important;
+  transform: none;        /* remove scale warping for names */
+}
+
+/* RIGHT ARROW — align right (corrected selector name!) */
+#about-wireframe .cell-arrow-right {
+  display: flex;
+  justify-content: flex-end; /* stay on the right side */
+  align-items: center;
+}
+
+#about-wireframe .arrow-right {
+  transform: none; /* make sure it is not flipped */
+}
+
+#about-wireframe .cell-arrow-right {
+  display: flex;
+  flex-direction: column-reverse;
+  align-items: flex-end;
+}
+
+#about-wireframe .cell-arrow-right h2 {
+  text-indent: 0 !important;
+  transform: none;      
+}
+
+
+/* -----------------------------------------------------------
+   MA / YO / AMPERSAND
+----------------------------------------------------------- */
+#about-wireframe .name-svg {
+  width: 100%;
+  height: auto;
+  display: block;
+}
+
+#about-wireframe .cell-ampersand {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  overflow: visible; /* important: allows scaling outside box */
+}
+
+#about-wireframe .cell-ampersand span {
+  font-size: 15rem; /* base size */
+  transform: scale(1.7); /* adjust this number */
+  transform-origin: center;
+  display: block;
+  line-height: 1;
+  font-variation-settings: "wght" 100, "opsz" 100 ;
+
+}
+
+@media (min-width: 1500px) {
+  #about-wireframe .cell-ampersand span {
+  font-size: 24rem; /* base size */
+  transform: scale(1.5); /* adjust this number */
+  }
+}
+
+
+#about-wireframe .cell-arrow-left h2 {
+    font-variation-settings: "wght" 200 ;
+    font-size: 1.8rem;
+    transform: translateY(10px);
+
+}
+
+#about-wireframe .cell-arrow-right h2 {
+      font-variation-settings: "wght" 200 ;
+      font-size: 1.8rem;
+          transform: translateY(10px);
+
+
+
+}
+
+
+
+
+
+/* -----------------------------------------------------------
+   MAIN CONTENT SHIFT
+----------------------------------------------------------- */
+#about-content-wrapper {
+  position: relative;
+  transition: transform 0.6s ease;
+  will-change: transform;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  box-sizing: border-box;
+  height: 100%;
+  padding-bottom: 0px;
+}
+
+/* Arrow rotation styling */
+.arrow-btn {
+  transition: transform 0.4s ease;
+  background: none !important;
+  border: none !important;
+  padding: 0 !important;
+  box-shadow: none !important;
+  outline: none !important;
+}
+
+.arrow-btn.active {
+  transform: rotate(180deg);
+}
+
+/* ============================================================
+   MAIN ABOUT ARROWS — STROKE-WIDTH HOVER MATCHING PANEL ARROWS
+============================================================ */
+
+.arrow-btn svg line,
+.arrow-btn svg polyline {
+  transition: stroke-width 0.25s ease-out, stroke 0.25s ease-out;
+}
+
+/* Hover: thicker stroke + accent color */
+.arrow-btn:hover svg line,
+.arrow-btn:hover svg polyline {
+  stroke-width: 26; /* was 20 */
+  stroke: var(--color-accent);
+}
+
+
+/* -----------------------------------------------------------
+   SIDE PANELS (updated to 80vw)
+----------------------------------------------------------- */
+.side-panel {
+  position: fixed;
+  top: 0;
+  width: 100vw;
+  height: 100vh;
+  background: var(--color-accent) !important;
+  overflow: hidden !important; /* Panel should NOT scroll */
+  transition: transform 0.6s ease;
+  z-index: 9000;
+  box-sizing: border-box;
+}
+
+
+
+
+body.no-scroll {
+  overflow: hidden !important;
+  height: auto;
+}
+
+
+/* Left panel (hidden by default) */
+#panel-left {
+  left: 0;
+  transform: translateX(-100%);
+}
+
+/* Right panel (hidden by default) */
+#panel-right {
+  right: 0;
+  transform: translateX(100%);
+}
+
+/* When opened */
+#panel-left.open-panel {
+  transform: translateX(0);
+}
+
+#panel-right.open-panel {
+  transform: translateX(0);
+}
+
+/* PANEL INNER LAYOUT */
+.about-panel {
+  width: 100%;
+  height: 100%;
+  padding: 4rem;
+  padding-top: 6rem;
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-start;
+}
+
+/* TOP BIO ROW: IMAGE + 2 TEXT BLOCKS */
+.panel-bio-row {
+  display: grid;
+  grid-template-columns: 220px 1fr 1fr;
+  gap: 2rem;
+  align-items: start;
+  margin-bottom: 0rem;
+}
+
+/* Reverse for Yorrik */
+.panel-bio-row.reverse {
+  grid-template-columns: 1fr 1fr 220px;
+}
+
+/* PHOTOS */
+.panel-photo {
+  width: 220px;
+  height: auto;
+  border-radius: 15px;
+  object-fit: cover;
+  margin-top: 10px;
+}
+
+.panel-photo.right {
+  justify-self: end;
+}
+
+/* BIO TEXT */
+.panel-bio-text p {
+  font-size: 1.6rem;
+  line-height: 1.35;
+  color: var(--color-text) !important;
+}
+
+/* SURNAME TITLE */
+.panel-surname {
+  font-size: 5rem;
+  font-weight: 600;
+  margin: 0rem 0 0.5rem ;
+  color: #eefdff;
+  transform: translateY(30%);
+}
+
+@media (min-width: 1400px) {
+  .panel-surname {
+    transform: translateY(30px);
+  }
+
+}
+
+.panel-surname.right {
+  text-align: right;
+}
+
+/* LARGE NAME SVG */
+.panel-name-svg img {
+  width: 100%;
+  height: auto;
+  display: block;
+  transform: translateY(7%);
+}
+
+
+
+/*TYPOGRAPHY COLOR */
+.about-panel,
+.about-panel p,
+.about-panel h1,
+.about-panel h2 {
+  color: var(--color-background-2) !important; /* your off-white color */
+}
+
+/* ============================================
+   PANEL CLOSE BUTTONS — vertically centered
+============================================ */
+
+.panel-close {
+  position: absolute;
+  top: 50%;                      /* center vertically */
+  transform: translateY(-50%);   /* perfect vertical centering */
+  width: 70px;
+  height: 70px;
+  background: none;
+  border: none;
+  cursor: pointer;
+  padding: 0;
+  z-index: 99999;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: transform 0.25s ease-out;
+}
+
+.panel-close svg {
+  width: 60px;
+  height: 60px;
+  stroke: var(--color-background-2, #e2fcff);
+  transition: transform 0.3s ease;
+  transition: transform 0.25s ease-out
+              stroke 0.25s ease-out;
+}
+
+
+
+/* LEFT PANEL CLOSE BUTTON = on the RIGHT side, arrow pointing outward */
+.panel-close-left {
+  right: 40px;
+}
+.panel-close-left svg {
+  transform: none;
+
+}
+
+/* RIGHT PANEL CLOSE BUTTON = on the LEFT side */
+.panel-close-right {
+  left: 40px;
+}
+.panel-close-right svg {
+    transform: scaleX(-1);
+}
+
+
+
+/* =============================================
+   CLOSE ARROW — SIMPLE STROKE-WIDTH HOVER
+============================================= */
+
+.panel-close svg line,
+.panel-close svg polyline {
+  transition: stroke-width 0.25s ease-out, stroke 0.25s ease-out;
+}
+
+/* Hover: thicker stroke + green tint */
+.panel-close:hover svg line,
+.panel-close:hover svg polyline {
+  stroke-width: 26; /* adjust: original is 20 */
+  stroke: var(--color-background-2, #e2fcff); /* your neon green */
+}
+
+#break {
+  scroll-margin: 30px;
 }
