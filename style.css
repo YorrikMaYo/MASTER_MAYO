@@ -4,19 +4,18 @@ body{
 }
 
 
- /* .hero {
-  background-color: black;
+ .hero {
   background-image:
-    linear-gradient(#ecfdfd 0.1px, transparent 1px),
+    linear-gradient(  0.1px, transparent 1px),
     linear-gradient(90deg, #ecfdfd 0.px, transparent 1px);
   background-size: 40px 40px; 
   background-position: center;
-} */
+}
 
 /* Global selection (light background sections) */
 ::selection {
-  background: var(--color-accent);
-  color: var(--color-primary-dark);
+  background: var(--color-accent-light);
+  color: var(--color-accent);
 }
 
 /* Firefox */
@@ -36,14 +35,20 @@ body{
 /* --------------------------------------------- */
 
 /* Dark-section selection override */
-.hero-content , .break *::selection {
-  background: blueviolet;
-  color: wheat;
+.hero-content .break .about *::selection {
+  background: var(--color-secondary);
+  color: var(--color-accent);
 }
 
-.hero, .break *::-moz-selection {
-  background: var(--color-primary);
-  color: var(--color-background-2);
+.hero, .break , .break1 *::-moz-selection {
+  background: var(--color-background);
+  color: var(--color-accent);
+}
+
+/* WebKit */
+::-webkit-selection {
+  background: var(--color-accent);
+  color: var(--color-primary-dark);
 }
 
 .hero::before {
@@ -54,8 +59,8 @@ body{
   pointer-events: none;
 
   background-image:
-    linear-gradient(to right, rgba(195, 255, 0, 0.15) 1px, transparent 1px),
-    linear-gradient(to bottom, rgba(195, 255, 0, 0.15) 1px, transparent 1px);
+    linear-gradient(to right, oklch(95.404% 0.02235 254.48) 0.01px, transparent 0.4px),
+    linear-gradient(to bottom, oklch(95.404% 0.02235 15) 0.01px, transparent 0.4px);
 
   background-size: 40px 40px;
 }
@@ -211,7 +216,7 @@ body{
 
 
 
-
+/*  */
 
 
 
@@ -225,13 +230,14 @@ body{
     --font-nav: var(--font-family-bricolage);
     --font-sans: var(--font-family-bricolage);
 
-    --color-primary: #0a120c;
-    --color-secondary: #ff6600;
-    --color-accent: oklch(95% 0.35 159);
-    --color-primary-dark: #05050c;
+    --color-primary:   oklch(17.919% 0.03155 83.628);
+    --color-accent: oklch(60.895% 0.21355 258.065);
+    --color-accent-2: oklch(88.653% 0.22901 144.708);
+    --color-primary-dark:  oklch(17.919% 0.03155 83.628);
     --color-background: #eefdff;
-    --color-background-2: #ecfdfd;
+    --color-accent-light: #ecfdfd;
     --color-inverse: #fff;
+    --color-accent-light: oklch(95.404% 0.02235 254.48);
 
       --shadow-soft: 0 15px 30px rgba(0,0,0,0.05);
 
@@ -312,10 +318,7 @@ section {
     scroll-snap-align: start;
 }
 
-section.break{
-  padding-top: 20px;
 
-}
 
 
 
@@ -338,7 +341,7 @@ nav {
     position: sticky;
     top: 0;
     height: 60px;
-    background-color: var(--color-background-2);
+    background-color: var(--color-accent-light);
     z-index: 11000;
     border-bottom: var(--color-primary) solid 1px;
     display: flex;
@@ -525,7 +528,7 @@ padding-left: 0px;  }
     width: 100%;
     height: 92vh;
     background-color: var(--color-primary-dark);
-    color: var(--color-background-2);
+    color: var(--color-accent-light);
     z-index: 1;       
 }
 
@@ -640,7 +643,7 @@ font-variation-settings: "wght" 400 "opsz" 30;
 
 .cta-sec:hover {
   color: var(--color-accent);
-  background: var(--color-primary-dark);
+
   border-color: var(--color-accent);
 }
 
@@ -671,7 +674,7 @@ font-variation-settings: "wght" 400 "opsz" 30;
 .cta-prime:hover {
   color: var(--color-primary-dark);
   background: var(--color-accent);
-  border-color: black;
+  border-color: var(--color-primary);
 }
 
 .cta-prime:hover::after {
@@ -838,7 +841,7 @@ section:not(.hero) {
 
 .mission {
     padding: 40px 40px;
-    background: var(--color-background-2);
+    background: var(--color-accent-light);
     display: flex;
     flex-direction: column;
     align-items: left;
@@ -911,7 +914,7 @@ section:not(.hero) {
 .about {
   width: 100%;
   min-height: 100vh;
-  background: var(--color-background-2);
+  background: var(--color-accent-light);
   display: flex;
   flex-direction: column;
 }
@@ -928,8 +931,8 @@ section:not(.hero) {
     width: 40px;
     height: 40px;
     background-color: var(--color-primary-dark);
-    border: var(--color-background-2) solid 1px;
-    color: var(--color-background-2);
+    border: var(--color-accent-light) solid 1px;
+    color: var(--color-accent-light);
     border-radius: 50%;
     text-decoration: none;
     transition: transform 0.3s ease, background-color 0.3s ease;
@@ -1016,7 +1019,7 @@ section:not(.hero) {
 
 .contact {
     height: 94vh;
-    background-color: var(--color-background-2); 
+    background-color: var(--color-accent-light); 
     font-size: 3rem;
     padding-left: 40px;
     padding-top: 40px;
@@ -1247,7 +1250,7 @@ p {
     position: absolute;
     width: 25px;               
     height: 25px;
-    background: var(--color-background-2);
+    background: var(--color-accent-light);
     border-radius: 50%;
     top: 50%;
     left: 50%;
@@ -1305,7 +1308,7 @@ p {
         left: 0;
         width: 100%;
         height: 60px;
-        background-color: var(--color-background-2);
+        background-color: var(--color-accent-light);
         z-index: 9999;
         border-bottom: 1px solid #0b0b0b;
     }
@@ -1323,7 +1326,7 @@ p {
         width: 100%;
         flex-direction: column;
         gap: 20px;
-        background: var(--color-background-2);
+        background: var(--color-accent-light);
         padding: 20px 0;
 
         
@@ -1482,7 +1485,7 @@ p {
 
 
 .manifesto-cards {
-    background: var(--color-background-2);
+    background: var(--color-accent-light);
     padding: 80px 40px;
     display: flex;
     flex-direction: column;
@@ -1839,7 +1842,7 @@ footer.footer {
 /* Whole section */
 .portfolio-section {
   padding: 100px 5vw;
-  background-color: var(--color-background-2);
+  background-color: var(--color-accent-light);
 }
 
 /* Two-column layout */
@@ -1853,11 +1856,11 @@ footer.footer {
 .portfolio-left {
   flex: 1;
   background-color: var(--color-primary) !important;
-  color: var(--color-background-2);
+  color: var(--color-accent-light);
   font-variation-settings: "wght" 500 "opsz"72;
   padding: 3rem;
   border-radius: 15px;
-  border: var(--color-background-2) solid 1px;
+  border: var(--color-accent-light) solid 1px;
   display: flex;
   flex-direction: column;
   justify-content: center;
@@ -1998,9 +2001,9 @@ html, body, * {
 
 #about-wireframe {
   width: 100%;
-  height: 100vh;
+  min-height: 100vh;
                  /* smaller */
-  background: var(--color-accent);
+  background: var(--color-primary);
   display: block;  justify-content: space-between;
   flex-direction: column;
   box-sizing: border-box;
@@ -2008,8 +2011,8 @@ html, body, * {
 
 #about-wireframe,
 #about-wireframe * {
-  color: var(--color-background-2) !important;
-  stroke: var(--color-background-2) !important; /* for arrow lines */
+  color: var(--color-accent-light) !important;
+  stroke: var(--color-accent-light) !important; /* for arrow lines */
   
 }
 
@@ -2030,7 +2033,8 @@ html, body, * {
 /* Make MA + YO shapes off-white */
 #about-wireframe svg polygon,
 #about-wireframe svg path {
-  fill: var(--color-background-2) !important;
+  fill: var(--color-accent-light) !important;
+  stroke: var(--color-accent-light)
 }
 
 /* Keep arrow lines off-white too (optional, more explicit) */
@@ -2040,12 +2044,14 @@ html, body, * {
 }
 
 
+
+
 /* ROWS */
-#about-wireframe .row {
+/* #about-wireframe .row {
   display: grid;
-  /* border: 4px solid #1a00ff; */
-  padding: 0px;               /* reduced */
-  gap: 0px;                  /* reduced */
+
+  padding: 0px;               
+  gap: 0px;                 
 }
 
 #about-wireframe .row-top {
@@ -2060,16 +2066,58 @@ html, body, * {
   grid-template-columns: 1fr 2fr 1fr;
       margin-left: 40px;
     margin-right: 40px;
-    transform: translateY(6vh);
 }
 
 #about-wireframe .row-bottom {
   grid-template-columns: 1fr 0.6fr 1fr;
       margin-left: 40px;
     margin-right: 40px;
+} */
 
-
+/* ROWS_V2 */
+/* Make wrapper control vertical spacing */
+#about-content-wrapper {
+  display: flex;
+  flex-direction: column;
+  min-height: 100vh; /* full screen height */
+  padding-top: 10vh;
+  justify-content: space-between;
 }
+
+#about-wireframe .row-bottom {
+  margin-bottom: 40px;
+}
+
+/* Remove margins from rows (wrapper handles spacing) */
+#about-wireframe .row {
+  margin: 0;
+}
+
+
+
+/* Keep your grid layouts */
+#about-wireframe .row-top {
+  display: grid;
+  grid-template-columns: 1.3fr 1fr 1fr;
+  margin-left: 40px;
+  margin-right: 40px;
+}
+
+#about-wireframe .row-middle {
+  display: grid;
+  grid-template-columns: 1fr 2fr 1fr;
+  margin-left: 40px;
+  margin-right: 40px;
+  margin-top: 6vh;
+}
+
+#about-wireframe .row-bottom {
+  display: grid;
+  grid-template-columns: 1fr 0.6fr 1fr;
+  margin-left: 40px;
+  margin-right: 40px;
+}
+
 
 
 /* CELLS */
@@ -2097,6 +2145,7 @@ html, body, * {
   font-variation-settings: "wght" 700, "opsz" 12 ;
   letter-spacing: -8px;
   transform: translateY(-15px);
+  color: var(--color-accent-light);
 
 }
 
@@ -2107,7 +2156,8 @@ html, body, * {
   text-align: center;
   transform: translateY(-20px) scale(1.7); /* adjust this number */
   font-variation-settings: "wght" 800 ;
-  color: var(--color-primary-dark);
+    color: var(--color-accent-light);
+
 
 }
 
@@ -2211,6 +2261,7 @@ transform: translateY(-30px);
   line-height: 1;
   font-variation-settings: "wght" 100, "opsz" 100 ;
 
+
 }
 
 @media (min-width: 1500px) {
@@ -2269,7 +2320,7 @@ html[lang="nl"] #about-wireframe .cell-about h1 {
   justify-content: space-between;
   box-sizing: border-box;
   height: 100%;
-  padding-bottom: 0px;
+  padding-bottom: 20px;
 }
 
 /* Arrow rotation styling */
@@ -2311,7 +2362,7 @@ html[lang="nl"] #about-wireframe .cell-about h1 {
   top: 0;
   width: 100vw;
   height: 100vh;
-  background: var(--color-accent) !important;
+  background: var(--color-accent);
   overflow: hidden !important; /* Panel should NOT scroll */
   transition: transform 0.6s ease;
   z-index: 9000;
@@ -2346,6 +2397,7 @@ body.no-scroll {
 
 #panel-right.open-panel {
   transform: translateX(0);
+  
 }
 
 /* PANEL INNER LAYOUT */
@@ -2390,7 +2442,6 @@ body.no-scroll {
 .panel-bio-text p {
   font-size: 1.6rem;
   line-height: 1.35;
-  color: var(--color-text) !important;
 }
 
 /* SURNAME TITLE */
@@ -2398,7 +2449,6 @@ body.no-scroll {
   font-size: 5rem;
   font-weight: 600;
   margin: 0rem 0 0.5rem ;
-  color: #eefdff;
   transform: translateY(30%);
 }
 
@@ -2428,9 +2478,17 @@ body.no-scroll {
 .about-panel p,
 .about-panel h1,
 .about-panel h2 {
-  color: var(--color-background-2) !important; /* your off-white color */
+  color: var(--color-accent-light); /* your off-white color */
 }
 
+
+#panel-left {
+  background: var(--color-accent);  /* deep wraith blue/black */
+}
+
+#panel-right {
+  background: var(--color-accent);   /* warm dark brown */
+}
 /* ============================================
    PANEL CLOSE BUTTONS — vertically centered
 ============================================ */
@@ -2455,7 +2513,7 @@ body.no-scroll {
 .panel-close svg {
   width: 60px;
   height: 60px;
-  stroke: var(--color-background-2, #e2fcff);
+  stroke: var(--color-accent-light);
   transition: transform 0.3s ease;
   transition: transform 0.25s ease-out
               stroke 0.25s ease-out;
@@ -2495,9 +2553,9 @@ body.no-scroll {
 .panel-close:hover svg line,
 .panel-close:hover svg polyline {
   stroke-width: 26; /* adjust: original is 20 */
-  stroke: var(--color-background-2, #e2fcff); /* your neon green */
 }
 
 #break {
   scroll-margin: 30px;
 }
+
