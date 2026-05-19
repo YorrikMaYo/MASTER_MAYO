@@ -1,0 +1,1244 @@
+/* ====================================
+ROOT — CSS VARIABLES -- CONTROL CENTRE  
+======================================= */
+@font-face {
+    font-family: 'Bricolage Grotesk';
+    src: url('bricolage.ttf') format('truetype');
+    font-weight: 200 800;
+    font-style: normal;
+}
+:root {
+    --primary-color: oklch(0.7 0.22 35);
+    --secondary-color: oklch(53.5% 0.28 274);
+    --off-white: oklch(83.58% 0.003 284.0);
+    --on-white: oklch(96.78% 0.002 284.0);
+    --black: oklch(14.5% 0.002 284.0);
+    --black-text: oklch(14.5% 0.002 284.0);
+
+    /*FONTS*/    
+    --main-font: 'Bricolage Grotesk', sans-serif;
+    --sub-font: 'Hepta Slab', serif;
+
+    /* FONT-SIZES */
+    --fs-hero-title: clamp(3.5rem, 1.5rem + 6vw, 6rem);
+    --fs-h2: clamp(1.8rem, 1.2rem + 1vw, 2.5rem);
+    --fs-body: clamp(0.7rem, 0.9rem + 1vw, 1.2rem);
+    --fs-body-member: clamp(0.4rem, 0.5rem + 0.8vw, 0.9rem);
+    --fs-link: clamp(0.6rem, 0.8rem + 0.7vw, 1.1rem);
+    --fs-link-hero: clamp(1rem, 1.2rem + 1vw, 1.5rem);
+    --fs-nav: clamp(0.8rem, 1rem + 1vw, 1.8rem);
+
+    /* LINEHEIGHTS */
+    --lh-body: 1.5;
+
+    /* FONT WEIGHTS */
+    --fw-body: 200;
+    --fw-link: 400;
+    --fw-h2: 300;
+}
+
+html {
+    scroll-behavior: smooth;
+    scroll-padding-top: 80px;
+}
+
+
+
+/* ========================
+    ANIMATION FADE-IN'S
+=========================== */
+/* 1. The hidden state */
+.reveal {
+  opacity: 0;
+  transform: translateY(20px);
+  transition: opacity 1s cubic-bezier(0.2, 0.8, 0.2, 1), 
+              transform 1s cubic-bezier(0.2, 0.8, 0.2, 1);
+  /* Ensures the browser knows to prep these for motion */
+  will-change: opacity, transform;
+}
+
+/* 2. The trigger state (JS will add this) */
+.reveal.active {
+  opacity: 1;
+  transform: translateY(0);
+}
+
+/* The Staggering: Adds delay based on the order of elements */
+.reveal:nth-child(1) { transition-delay: 0.1s; }
+.reveal:nth-child(2) { transition-delay: 0.3s; }
+.reveal:nth-child(3) { transition-delay: 0.5s; }
+.reveal:nth-child(4) { transition-delay: 0.7s; }
+.reveal:nth-child(5) { transition-delay: 0.9s; }
+
+
+
+/* ========================
+RESET
+=========================== */
+
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+body {
+    font-family: var(--main-font);
+    color: var(--off-white);
+    background-color: var(--black);
+}
+
+img {
+    width: 100%;
+    display: block;
+}
+
+ a {
+    text-decoration: none;
+    color: inherit;
+    font-family: var(--sub-font);
+}
+
+h2 {
+    font-size: var(--fs-h2);
+    margin-bottom: 1rem;
+    font-weight: var(--fw-h2);
+}
+
+/* ========================
+   NAVIGATION
+=========================== */
+.navbar {
+  height: 80px;
+
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+
+  padding: 0 2vw; /* Uses vw to keep horizontal alignment consistent with your grid layout */
+
+  /* MODERN GLASS REFACTOR:
+     Uses alpha-transparency combined with backdrop blur so it never strictly 
+     clashes with underlying page content as you scroll. */
+  background: color-mix(in oklch, var(--on-white) 75%, transparent);
+  backdrop-filter: blur(12px);
+  -webkit-backdrop-filter: blur(12px); /* Safari support */
+  
+  position: sticky;
+  top: 0;
+  z-index: 1000;
+  
+  /* Optional: a subtle border matching your grid line aesthetic */
+  border-bottom: 1px solid color-mix(in oklch, var(--off-white) 30%, transparent);
+}
+
+.nav-logo svg {
+  width: 180px;
+  height: auto;
+  display: block;
+}
+
+.navbar-logo path {
+  fill: var(--black);
+}
+
+.nav {
+  display: flex;
+  gap: 15px; /* Tighter gap to let the button pills breathe naturally */
+  align-items: center;
+}
+
+.nav a {
+  text-decoration: none;
+  color: var(--black-text);
+  font-size: var(--fs-nav);
+  font-family: var(--main-font);
+  font-weight: 500;
+  
+  /* Creates the structural footprint for the pill backgrounds */
+  padding: 8px 20px;
+  border-radius: 100px;
+  
+  /* Border baseline set to transparent so layout doesn't shift on hover */
+  border: 2px solid transparent; 
+  
+  transition: background-color 0.2s ease, border-color 0.2s ease, color 0.2s ease;
+}
+
+/* INTERACTION STATES */
+
+/* 1. HOVER STATE: Transparent center with a sharp brand outline */
+.nav a:hover {
+  border-color: var(--secondary-color); /* Saturated digital purple outline */
+  color: var(--secondary-color);
+  background-color: transparent;
+}
+
+/* 2. ACTIVE STATE: Solid color fill */
+/* Note: Apply the .active class via HTML to the current page link */
+.nav a.active {
+  background-color: var(--secondary-color); 
+  color: var(--on-white);
+  border-color: var(--secondary-color);
+}
+
+/* Dynamic safeguard: If the active link is hovered, keep it solid but alter slightly */
+.nav a.active:hover {
+  background-color: color-mix(in oklch, var(--secondary-color) 85%, var(--black));
+  border-color: color-mix(in oklch, var(--secondary-color) 85%, var(--black));
+  color: var(--on-white);
+}
+
+/* =========================
+   CTA LINKS
+========================= */
+
+.cta {
+    font-family: var(--sub-font);
+}
+
+.hero-link {
+    text-decoration: underline 2px;
+    text-underline-offset: 4px;
+    font-size: var(--fs-link-hero);
+    margin-bottom: 4px;
+    transition: color 0.3s ease;
+    color: var(--off-white);
+}
+
+.hero-link:hover {
+    color: var(--secondary-color);
+    transition: color 0.3s ease;
+}
+
+/* WORK SIDEBAR LINK LEFT */
+.sidebar-link {
+    color: var(--off-white);
+    text-decoration: underline;
+    font-size: var(--fs-link);
+    font-weight: var(--fw-link);
+    justify-self: start;
+    text-underline-offset: 4px;
+    text-decoration-thickness: 2px;
+    text-decoration-skip-ink: all;
+    transition: color 0.2s ease;
+    display: none;
+}
+
+.sidebar-link:hover {
+    color: var(--primary-color);
+    transition: color 0.2s ease;
+}
+
+
+/* =========================
+   HERO
+========================= */
+
+.hero {
+    min-height: calc(100vh - 80px);
+    display: grid;
+    background-color: var(--primary-color);
+}
+
+.hero-content {
+    display: grid;
+    grid-template-rows: auto auto; 
+    align-content: end; 
+    row-gap: 0;
+    padding: 2rem; 
+    box-sizing: border-box;
+}
+
+.hero-top-row {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    align-items: end;
+}
+
+.hero-right-content {
+    justify-self: end;
+    text-align: right;
+    
+}
+
+.hero-logo svg {
+    width: 100%;
+    height: auto;
+    display: block;
+    color: var(--off-white);
+}
+
+/* LOGO—COLOR ANIMATION */
+.mayo-logo path, 
+.mayo-logo polygon {
+    fill: var(--off-white);
+    transition: fill 0.5s ease;
+}
+
+/* 2. HOVER STATE PER GLYPH */
+.mayo-logo .m:hover {
+    fill: var(--secondary-color)
+}
+
+.mayo-logo .a:hover {
+    fill: var(--secondary-color); 
+}
+
+.mayo-logo .y:hover {
+    fill: var(--secondary-color); 
+}
+
+.mayo-logo .o:hover {
+    fill: var(--secondary-color); 
+}
+
+
+
+
+
+p.hero-small-text {
+    font-size: var(--fs-hero-title);
+    color: var(--off-white);
+}
+
+
+
+/* =========================
+    WORK SECTION
+========================= */
+
+/* MAIN CONTAINER: TWO-COLUMN GRID LAYOUT */
+.work-section {
+    min-height: calc(100vh - 40px); /* Full viewport height minus navbar */
+    display: grid;
+    /* Left panel is a hard 320px layout, right panel stretches dynamically */
+    grid-template-columns: 30vw 1fr;
+    background-color: var(--black);
+}
+
+/* =====================================
+   LEFT SIDEBAR
+   ===================================== */
+
+.work-sidebar {
+    background-color: var(--black);
+    color: var(--on-white);
+    padding: 3.5vw 3vw 3.5rem;
+    display: grid;
+    /* Top bar gets auto, body description stretches, link goes to floor */
+    grid-template-rows: auto 1fr auto;
+    gap: 4rem;
+    font-family: var(--main-font);
+}
+
+/* SIDEBAR TOP */
+.sidebar-top {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.icon-asterisk {
+    width: auto;
+    height: 2.5rem; 
+    display: block;
+}
+
+.sidebar-nav {
+    display: flex;
+    gap: 1.5rem;
+    font-size: 5rem;
+}
+
+/* SIDEBAR BODY */
+
+.sidebar-body p {
+    font-size: var(--fs-body);
+    line-height: var(--lh-body);
+    font-weight: var(--fw-body);
+    white-space: pre-line; /* Preserves line breaks in your text */
+}
+
+
+
+/* ==========================================================================
+   RIGHT SIDEBAR: PURPLE IMAGE SHOWCASE
+   ========================================================================== */
+
+.project-showcase {
+    background-color: var(--secondary-color);
+    color: var(--on-white);
+    padding: 3rem 0rem 3.5rem 3.5rem;
+    display: grid;
+    grid-template-rows: auto 1fr;
+    gap: 2.5rem;
+}
+
+.project-title {
+    font-family: var(--main-font);
+    font-size: var(--fs-hero-title);
+    font-weight: 800;
+    text-transform: uppercase;
+    line-height: 1.05;
+    letter-spacing: -0.02em;
+}
+
+/* Flexible context boundaries for your magazine spread mockup */
+.project-image-wrapper {
+    width: 100%;
+    height: 100%;
+    display: flex;
+    align-items: end; /* Flex centers the book layout vertically inside grid track */
+    justify-content: center;
+    margin-bottom: -2rem;
+}
+
+.project-image-wrapper img {
+    width: 100%;
+    height: auto;
+    max-height: 60vh; /* Hard limits the mockup height to prevent unwanted vertical scrolling */
+    object-fit: contain;
+}
+
+/* ==========================================================================
+   ANIMATION FOR PROJECT SWITCH: FADES IN NEW IMAGES SMOOTHLY
+   ========================================================================== */
+/* Animation Keyframes */
+@keyframes slideInRight {
+    from { opacity: 0; transform: translateX(20px); }
+    to { opacity: 1; transform: translateX(0); }
+}
+
+.slide-in {
+    animation: slideInRight 0.6s cubic-bezier(0.22, 1, 0.36, 1) forwards;
+}
+
+/* Ensure the sidebar paragraph respects your line breaks */
+.sidebar-body p {
+    white-space: pre-line;
+}
+
+/* Arrow Hover/Click Effects */
+.sidebar-nav span {
+    cursor: pointer;
+    display: inline-block;
+    transition: transform 0.3s ease, color 0.3s ease, opacity 0.3s ease;
+    user-select: none;
+}
+
+.sidebar-nav span:hover {
+    transform: scale(1.2);
+    opacity: 0.7;
+    color: var(--secondary-color);
+}
+
+.sidebar-nav span:active {
+    transform: scale(0.9);
+}
+/* ==========================================================================
+   INTRO SECTION: TWO SQUARES + DYNAMIC FILL
+   ========================================================================== */
+.intro-section {
+    height: 30vw; 
+    display: grid;
+    grid-template-columns: 30vw 30vw 1fr; 
+    background-color: var(--black);
+    box-sizing: border-box;
+    overflow: hidden; 
+}
+
+/* INDIVIDUAL PANEL SETTINGS */
+.intro-card {
+    padding: 1rem 2rem; 
+    display: grid;
+    grid-template-rows: 65% 35%;
+    gap: 2rem;
+    box-sizing: border-box;
+    height: 100%;
+}
+
+.intro-body {
+    display: flex;
+    flex-direction: column;
+    margin-top: -20px;
+    justify-content: flex-end;
+    height: 100%;
+}
+
+.intro-body p {
+    font-size: 1.4vw;
+    margin-bottom: 1vh;
+    font-weight: var(--fw-body);
+}
+
+.intro-body a {
+    font-size: 1.2vw;
+    margin-bottom: 1vh;
+    transition: color 0.2s ease;
+}
+
+.intro-body a:hover {
+    color: var(--secondary-color);
+    transition: color 0.3s ease;
+
+}
+
+
+.intro-heading {
+    font-size: 4.5vw;    
+    font-weight: 600;
+    line-height: 0.9;
+    letter-spacing: -0.03em;
+    margin: 0px;
+    white-space: nowrap;
+}
+
+.manifesto-card {
+    background-color: var(--on-white);
+    color: var(--black-text);
+}
+
+
+
+/* THE PERFECT SQUARE BLACK GRAPHIC PANEL */
+.graphic-card {
+    background-color: var(--black);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 2rem; 
+    box-sizing: border-box;
+    height: 100%;
+    width: 100%;
+}
+
+/* THE STRETCHY YELLOW PANEL */
+.services-card {
+    background-color: var(--primary-color);
+    color: var(--black-text);
+    justify-items: end;
+    padding-right: 2vw;
+    
+}
+
+.services-card .intro-heading {
+    text-align: right;
+}
+
+.services-card .intro-body {
+    text-align: right;
+    align-items: end;
+}
+
+
+/* THE ASTERISK CONTROL */
+.center-asterisk {
+    width: 100%;
+    height: 100%;
+    max-height: 380px; 
+    object-fit: contain;
+}
+
+.center-asterisk path {
+    fill: var(--off-white, var(--off-white)); 
+}
+
+/* ==========================================================================
+   PHILOSOPHY SECTION: THE 30vw MULTI-COLUMN CANVAS
+   ========================================================================== */
+
+.philosophy-section {
+    /* 1. Sets your exact layout window height */
+    height: calc(100vh - 80px); 
+    display: grid;
+    
+    /* 2. THE BRAND AXIS: Left column links to the 30vw vertical line, 
+          right column grabs everything else */
+    grid-template-columns: 30vw 1fr; 
+    
+    background-color: var(--on-white); /* Crisp off-white background */
+    box-sizing: border-box;
+    overflow: hidden;
+}
+
+/* ==========================================================================
+   LEFT SIDEBAR (THE PURPLE PANEL)
+   ========================================================================== */
+.philo-sidebar {
+    background-color: var(--secondary-color); /* Vibrant purple mask */
+    color: var(--on-white);
+    padding: 3.5vw 3vw; /* Aligned padding ratio with sections above */
+    display: grid;
+    grid-template-rows: auto 1fr;
+    box-sizing: border-box;
+    height: 100%;
+}
+
+.philo-sidebar-title {
+    font-size: clamp(2.5rem, 1.5rem + 3.5vw, 4.5rem);
+    font-weight: 600;
+    line-height: 0.9;
+    margin: 0;
+}
+
+.philo-contact-details {
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-end; /* Pins links flush to the floor padding */
+    align-items: flex-end; /* Right aligns text to the sidebar edge */
+    gap: 0.6rem;
+}
+
+.philo-contact-details a {
+    color: var(--on-white);
+    text-decoration: none;
+    font-size: clamp(1rem, 0.8rem + 0.8vw, 1.35rem);
+    font-weight: 500;
+    transition: opacity 0.2s ease;
+}
+
+.philo-contact-details a:hover {
+    opacity: 0.8;
+}
+
+/* ==========================================================================
+   RIGHT CONTENT REGION (THE NARRATIVE CORRIDOR)
+   ========================================================================== */
+.philo-content {
+    color: var(--black-text);
+    padding: 3.5vw 5vw 4vw 4vw; /* Generous right side padding layout */
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between; /* Headings stay up, columns stay down */
+    box-sizing: border-box;
+    height: 100%;
+}
+
+.philo-main-title {
+    font-size: clamp(2.5rem, 1.5rem + 3.5vw, 4.5rem);
+    font-weight: 600;
+    line-height: 0.9;
+    margin: 0;
+    letter-spacing: -0.02em;
+}
+
+/* THE TWO NARRATIVE PARAGRAPH COLUMNS */
+.philo-text-grid {
+    display: grid;
+    /* Two symmetrical text columns, split with a healthy gap buffer */
+    grid-template-columns: 1fr 1fr; 
+    gap: 4vw; 
+    max-width: 900px; /* Prevents text lines from getting too wide to read */
+}
+
+.philo-text-col p {
+    font-size: var(--fs-body);
+    font-weight: var(--fw-body);
+    line-height: 1.45;
+    margin: 0;
+    text-align: left; /* Keeps editorial block edges looking incredibly clean */
+}
+
+/* ==========================================================================
+   TEAM SHOWCASE BLOCK: INTEGRATED SYSTEM CONTROL
+   ========================================================================== */
+
+.team-section {
+    /* Hard-locked 30vw matrix height keeps the outer blocks perfectly square */
+    height: 30vw; 
+    display: grid;
+    
+    /* 30vw Square | Dynamic Center Space | 30vw Square */
+    grid-template-columns: 30vw 1fr 30vw; 
+    
+    background-color: var(--black);
+    box-sizing: border-box;
+    overflow: hidden;
+}
+
+/* BASE BLOCK SETTINGS */
+.team-card {
+    box-sizing: border-box;
+    height: 100%;
+    width: 100%;
+}
+
+/* ==========================================================================
+   THE OUTER SQUARE PHOTO CARDS
+   ========================================================================== */
+.photo-card {
+    position: relative;
+    overflow: hidden;
+    background-color: var(--black); 
+}
+
+.team-image {
+    width: 100%;
+    height: 100%;
+    object-fit: cover; 
+    display: block;
+}
+
+/* ==========================================================================
+   THE MIDDLE YELLOW BIO BLOCK
+   ========================================================================== */
+.bio-card {
+    background-color: var(--primary-color); /* Controlled by root yellow token */
+    color: var(--black-text); /* Controlled by root black text token */
+    padding: 3vw 3.5vw; 
+    display: grid;
+    grid-template-rows: auto 1fr;
+    gap: 0vh;
+}
+
+/* THE CONTAINER TITLE */
+.team-main-title {
+    font-family: var(--main-font);
+    font-size: 4.2vw; /* Dynamically fills out the center canvas field width */
+    font-weight: 600;
+    line-height: 0.9;
+    text-transform: uppercase;
+    margin: 0;
+    letter-spacing: -0.02em;
+    text-align: center;
+}
+
+/* THE BIO SUB-GRID */
+.bio-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr; 
+    gap: 3.5vw;
+    align-self: end; /* Magnet pins text rows neatly to the bottom layout boundary */
+}
+
+.member-name {
+    font-family: var(--main-font);
+    font-size: 2.8vw;
+    font-weight: 600;
+    margin: 0 0 0.8vw 0; 
+    line-height: 1;
+    text-align: center;
+    align-self: center;
+}
+
+.member-text {
+    font-family: var(--main-font);
+    font-size: var(--fs-body-member);    /* Controlled by root body font-size token */
+    font-weight: var(--fw-body);    /* Controlled by root font-weight token */
+    line-height: var(--lh-body);    /* Controlled by root line-height token */
+    margin: 0;
+    overflow-wrap: break-word;
+    word-wrap: break-word;
+    hyphens: auto; /* Nicely breaks words at the end of lines */
+}
+
+/* ==========================================================================
+   REFACTORED STRUCTURAL FOOTER
+   ========================================================================== */
+
+.main-footer {
+    background-color: var(--black);
+    color: var(--on-white);
+    padding: 5vw 4vw 4vw 4vw;
+    
+    /* Swap Flexbox for Grid to lock down positions explicitly */
+    display: grid;
+    grid-template-rows: auto auto;
+    gap: 5vw; 
+    
+    box-sizing: border-box;
+    width: 100%;
+    height: calc(100vh - 80px);
+}
+
+/* THE LOGO CONTAINER */
+.footer-logo-wrapper {
+    grid-row: 1;
+    width: 100%;
+    display: block;
+}
+
+.footer-brand-svg {
+    width: 100%;
+    height: auto;
+    display: block;
+}
+
+/* Force the SVG elements to pull from your color tokens directly */
+.footer-logo {
+  color: var(--on-white);
+}
+
+/* ==========================================================================
+   THE 5-COLUMN LINK DIRECTORY GRID
+   ========================================================================== */
+.footer-metadata-grid {
+    grid-row: 2;
+    display: grid;
+    /* Strict fractional grid columns */
+    grid-template-columns: 1.5fr 1fr 1.2fr 1fr 1.2fr;
+    gap: 2vw;
+    align-items: start;
+    width: 100%;
+}
+
+.footer-col {
+    display: flex;
+    flex-direction: column;
+    gap: 1.2rem;
+}
+
+.meta-col-title {
+    font-family: var(--main-font);
+    font-size: var(--fs-body);
+    font-weight: 600;
+    color: var(--on-white);
+    margin: 0;
+}
+
+/* TEXT AND ACTION LINKS CONTAINER */
+.meta-link-list, 
+.meta-info-list {
+    display: flex;
+    flex-direction: column;
+    gap: 0.5rem;
+}
+
+.meta-link-list a,
+.meta-info-list a,
+.meta-info-list span,
+.meta-tagline-text p {
+    font-family: var(--main-font);
+    font-size: var(--fs-link);
+    font-weight: var(--fw-body); /* 200 light weight from your root */
+    color: var(--on-white);
+    text-decoration: none;
+    line-height: 1.4;
+    margin: 0;
+}
+
+/* Hover Accent color */
+.meta-link-list a:hover,
+.meta-info-list a:hover {
+    color: var(--primary-color);
+}
+
+/* COL 1 LOGOMARK SYSTEM ARRANGEMENT */
+.brand-meta-desc {
+    flex-direction: row;
+    align-items: flex-start;
+    gap: 1.2rem;
+}
+
+.footer-mini-asterisk-wrapper {
+    width: 2.2rem;
+    height: auto;
+    flex-shrink: 0;
+    display: block;
+    margin-top: 0.2rem; /* Minor nudge to line up with paragraph baseline */
+}
+
+.footer-mini-asterisk-svg {
+    width: 100%;
+    height: auto;
+    display: block;
+}
+
+.footer-mini-asterisk-svg path {
+    fill: var(--on-white); /* Keeps the emblem unified with your column text copy */
+}
+
+/* COL 5 RIGHT EDGE FLUSH */
+.legal-meta-col {
+    align-items: flex-end;
+    text-align: right;
+}
+
+.legal-meta-col .meta-info-list {
+    align-items: flex-end;
+}
+
+.copyright-tag {
+    margin-top: 0.8rem;
+    opacity: 0.4;
+}
+
+
+/* =========================
+   HAMBURGER
+========================= */
+
+.hamburger {
+    display: none;
+    background: none;
+    border: none;
+    cursor: pointer;
+    z-index: 2000;
+    position: relative;
+}
+
+.hamburger span {
+    display: block;
+    width: 28px;
+    height: 2px;
+    background: var(--black);
+    margin: 6px 0;
+    transition: 0.3s ease;
+}
+
+.nav-open .nav {
+    transform: translateX(0);
+}
+
+/* =========================
+   HAMBURGER ACTIVE STATE
+========================= */
+
+.nav-open .hamburger span:nth-child(1) {
+    transform: rotate(45deg) translate(6px, 6px);
+}
+
+.nav-open .hamburger span:nth-child(2) {
+    opacity: 0;
+}
+
+.nav-open .hamburger span:nth-child(3) {
+    transform: rotate(-45deg) translate(5px, -5px);
+}
+
+
+
+
+
+        /* =========================================
+        TABLET
+        ========================================= */
+
+        @media screen and (max-width: 1024px) {
+
+            :root {
+                --fs-hero-title: clamp(3rem, 6vw, 5rem);
+                --fs-h2: clamp(1.8rem, 3vw, 2.4rem);
+                --fs-body: 1rem;
+                --fs-nav: 1rem;
+            }
+
+            .hero {
+                min-height: auto;
+                padding: 4rem 0;
+            }
+
+            .hero-top-row {
+                grid-template-columns: 1fr;
+                gap: 2rem;
+            }
+
+            .hero-right-content {
+                justify-self: start;
+                text-align: left;
+            }
+
+            /* STACK ALL MAJOR GRID SECTIONS */
+
+            .work-section,
+            .intro-section,
+            .philosophy-section,
+            .team-section {
+                grid-template-columns: 1fr;
+                height: auto;
+            }
+
+            .intro-section {
+                grid-template-columns: 1fr;
+            }
+
+            .intro-card {
+                min-height: 420px;
+            }
+
+            .work-sidebar,
+            .project-showcase,
+            .philo-sidebar,
+            .philo-content,
+            .bio-card {
+                padding: 3rem;
+            }
+
+            .project-showcase {
+                padding-left: 3rem;
+            }
+
+            .project-title {
+                font-size: clamp(3rem, 8vw, 5rem);
+            }
+
+            .project-image-wrapper img {
+                max-height: none;
+            }
+
+            .philo-text-grid {
+                grid-template-columns: 1fr;
+                gap: 2rem;
+            }
+
+            .bio-grid {
+                grid-template-columns: 1fr;
+                gap: 2rem;
+            }
+
+            .team-main-title {
+                font-size: 4rem;
+            }
+
+            .member-name {
+                font-size: 2rem;
+            }
+
+            .member-text {
+                font-size: 1rem;
+            }
+
+            .main-footer {
+                height: auto;
+                gap: 4rem;
+                margin-top: 5vh;
+            }
+
+            .footer-metadata-grid {
+                grid-template-columns: 1fr 1fr;
+                gap: 3rem;
+                text-align: center;
+            }
+
+            .meta-tagline-text{
+                text-align: center;
+                align-self: center;
+            }
+
+            .footer-mini-asterisk-wrapper {
+                align-self: center;
+            }
+
+            .legal-meta-col {
+                align-items: center;
+                text-align: center;
+            }
+        }
+
+        /* =========================================
+        MOBILE
+        ========================================= */
+
+        @media screen and (max-width: 768px) {
+
+            :root {
+                --fs-hero-title: clamp(2.5rem, 10vw, 4rem);
+                --fs-h2: 1.8rem;
+                --fs-body: 1rem;
+                --fs-link: 0.95rem;
+                --fs-nav: 1.2rem;
+            }
+
+
+            body {
+                overflow-x: hidden;
+            }
+
+            .navbar {
+                padding: 0 1.5rem;
+            }
+
+            .nav-logo svg {
+                width: 140px;
+            }
+
+            /* SHOW HAMBURGER */
+            .hamburger {
+                display: block;
+            }
+
+            /* MOBILE NAV */
+            .nav {
+                position: fixed;
+                top: 0;
+                right: 0;
+
+                width: 100%;
+                height: 100vh;
+
+                background: var(--on-white);
+
+                flex-direction: column;
+                justify-content: center;
+                align-items: center;
+
+                gap: 2rem;
+
+                transform: translateX(100%);
+                transition: transform 0.4s ease;
+
+                z-index: 1500;
+            }
+
+            .worklink {
+                display: none;
+            }
+
+            .nav a {
+                font-size: 2rem;
+            }
+
+        /* =========================
+        MOBILE HERO LAYOUT
+        ========================= */
+
+        .work-section{
+            display: none;
+        }
+
+        .hero-top-row {
+            display: flex;
+            flex-direction: column;
+            gap: -5rem;
+        }
+
+        .hero-right-content {
+            display: flex;
+            flex-direction: column;
+
+            align-items: flex-end;
+            text-align: right;
+
+            gap: 1rem;
+        }
+
+        .hero-link {
+            margin-bottom: 0;
+        }
+
+        .hero-small-text {
+            align-self: flex-start;
+
+            font-size: 3rem;
+            line-height: 1;
+            margin-top: 8vh;
+
+            margin-bottom: -2rem;
+        }
+
+        p.hero-small-text {
+            font-size: 5rem;
+            line-height: 2;
+        }
+
+        .hero{
+            height: 100vh;
+        }
+
+            /* SECTIONS */
+
+            .philo-contact-details {
+                min-height: 50vh;
+            }
+
+            .philo-sidebar-title h2 {
+                font-size: 3rem;
+            }
+
+            .philo-contact-details a {
+                font-size: 1.3rem;
+            }
+
+            .work-sidebar,
+            .project-showcase,
+            .philo-sidebar,
+            .philo-content,
+            .bio-card,
+            .intro-card {
+                padding: 2rem 1.5rem;
+            }
+
+            .philo-content {
+                gap: 6rem
+            }
+
+            .project-title,
+            .team-main-title,
+            .intro-heading,
+            .philo-main-title {
+                font-size: 2.5rem;
+                line-height: 0.95;
+            }
+
+            .intro-heading {
+                white-space: normal;
+            }
+
+            .intro-body p,
+            .member-text,
+            .philo-text-col p {
+                font-size: 1rem;
+            }
+
+            .intro-body a {
+                font-size: 1rem;
+            }
+
+            .intro-card {
+                min-height: auto;
+                gap: 3rem;
+            }
+
+            .graphic-card {
+                min-height: 300px;
+            }
+
+            .sidebar-top {
+                flex-direction: column;
+                align-items: flex-start;
+                gap: 2rem;
+            }
+
+            .sidebar-nav {
+                font-size: 3rem;
+            }
+
+            .project-image-wrapper {
+                margin-bottom: 0;
+            }
+
+            .bio-grid {
+                gap: 3rem;
+            }
+
+            .team-image {
+                height: 400px;
+            }
+
+            /* FOOTER */
+
+            .footer-metadata-grid {
+                grid-template-columns: 1fr;
+                gap: 2.5rem;
+            }
+
+            .legal-meta-col {
+                align-items: center;
+                text-align: center;
+            }
+
+            .legal-meta-col .meta-info-list {
+                align-items: center;
+                margin-bottom: 10vh;
+            }
+
+            .brand-meta-desc {
+                flex-direction: column;
+            }
+
+            .footer-logo-wrapper {
+                padding-bottom: 2rem;
+            }
+
+        }
